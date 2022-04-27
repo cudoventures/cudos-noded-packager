@@ -111,9 +111,13 @@ then
 fi
 
 #
-# Pass control to rpmbuild and the rpm spec file
+# Pass control to rpmbuild and the rpm spec files
 #
+# noded binary
 rpmbuild --define "_topdir $( pwd )" --define "_versiontag ${cudos_version}" --define "_releasetag ${BUILD_NUMBER}" -ba $( pwd )/SPECS/cudos-noded.spec
+
+# Network definition packages
+rpmbuild --define "_topdir $( pwd )" --define "_versiontag ${cudos_version}" --define "_releasetag ${BUILD_NUMBER}" -ba $( pwd )/SPECS/cudos-network-dressrehearsal.spec
 
 #
 # Feed the rpm binaries into "Alien" to be converted

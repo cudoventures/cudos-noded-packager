@@ -115,8 +115,8 @@ apt install cudos-noded
 This can either be done by hand, the cudos-noded-src package can be installed and the
 information can taken directly from the sources
 
-Or by downloading a "Cudos Network Definition" package, which is another rpm/deb package
-that contains the relevant genesis and node addresses files for the given network.
+Or by installing a "Cudos Network Definition" package, which is another rpm/deb package
+that contains the relevant genesis and node address files for the given network.
 
 The CUDOS_HOME variable is preset to /var/lib/cudos/cudos-data, which is owned by the
 user "cudos" who's home directory is /var/lib/cudos.

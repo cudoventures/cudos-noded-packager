@@ -45,7 +45,6 @@ wget "https://github.com/CudoVentures/cudos-builders/blob/v0.6.0/docker/config/s
 wget "https://github.com/CudoVentures/cudos-builders/blob/v0.6.0/docker/config/state-sync-rpc-servers.dressrehearsal.config?raw=true" -O state-sync-rpc-servers.config
 
 %build
-echo -e "\n\n=== build section ===\n\n"
 
 %install
 echo -e "\n\n=== install section ===\n\n"

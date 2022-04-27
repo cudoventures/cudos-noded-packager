@@ -1,4 +1,4 @@
-## Cudos Daemon binary packaging
+# Cudos Daemon binary packaging
 
 Packages are produced by the code in this repository and published
 on a "Proof of Concept" basis for public download. Please see the following
@@ -93,7 +93,7 @@ Installed:
 Complete!
 ```
 
-## Configure the daemon
+# Configure the daemon
 
 This can either be done by hand, the cudos-noded-src package can be installed and the
 information can taken directly from the sources
@@ -107,7 +107,7 @@ user "cudos" who's home directory is /var/lib/cudos.
 It is advised that all configuration editing operations be done as user "cudos" in
 order to avoid permissions issues. Everything under /var/lib/cudos should be owned by user "cudos"
 
-## Enable and start the daemon
+# Enable and start the daemon
 
 ```bash
 systemctl enable --now cudos-noded
@@ -119,7 +119,7 @@ The output should look like
 Created symlink /etc/systemd/system/multi-user.target.wants/cudos-noded.service → /usr/lib/systemd/system/cudos-noded.service.
 ```
 
-## Logs
+# Logs
 
 As this daemon is controlled by systemd, the logs will natural flow to journald and can be watched using
 

@@ -38,6 +38,7 @@ Cudos Dress Rehearsal Network Definition Files
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
+mkdir -p SOURCES
 wget "https://github.com/CudoVentures/cudos-builders/blob/v0.6.0/docker/config/genesis.dressrehearsal.json?raw=true"                  -O SOURCES/genesis.json
 wget "https://github.com/CudoVentures/cudos-builders/blob/v0.6.0/docker/config/persistent-peers.dressrehearsal.config?raw=true"       -O SOURCES/persistent-peers.config
 wget "https://github.com/CudoVentures/cudos-builders/blob/v0.6.0/docker/config/seeds.dressrehearsal.config?raw=true"                  -O SOURCES/seeds.config

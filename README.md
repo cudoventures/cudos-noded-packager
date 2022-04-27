@@ -98,13 +98,17 @@ Complete!
 
 ## Configure the daemon
 
-This can either be done by hand, or by downloading a "Cudos Network Definition" package,
-which is another rpm/deb package that contains the relevant genesis and node addresses
-for that gioven network, or the cudos-noded-src package can be installed and the
-information taken directly from the source tree.
+This can either be done by hand, the cudos-noded-src package can be installed and the
+information can taken directly from the sources
 
-The CUDOS_HOME variable is preset to /var/lib/cudos/cudos-data and is owned by the
+Or by downloading a "Cudos Network Definition" package, which is another rpm/deb package
+that contains the relevant genesis and node addresses files for the given network.
+
+The CUDOS_HOME variable is preset to /var/lib/cudos/cudos-data, which is owned by the
 user "cudos" who's home directory is /var/lib/cudos.
+
+It is advised that all configuration editing operations be done as user "cudos" in
+order to avoid permissions issues. Everything under /var/lib/cudos should be owned by user "cudos"
 
 ## Enable and start the daemon
 

@@ -95,6 +95,21 @@ Installed:
 Complete!
 ```
 
+## Debian and Ubuntu
+
+### Set up the repo  file
+
+```bash
+echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/0.6.0/debian stable main' > /etc/apt/sources.list.d/cudos.list
+```
+
+### Install the cudos-noded package
+
+```bash
+apt update
+apt install cudos-noded
+```
+
 # Configure the daemon
 
 This can either be done by hand, the cudos-noded-src package can be installed and the

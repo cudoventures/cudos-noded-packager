@@ -13,29 +13,26 @@ the license conditions under which this software is released.
 
 ## Red Hat family (RHEL, CentOS & Fedora)
 
-```bash
-wget http://jenkins.gcp.service.cudo.org/cudos/cudos.repo -O /etc/yum.repos.d/cudos.repo
-```
+NB Every Cudos Node major version has its own repository to maintain separation while
+still allowing security and utility upgrades to older versions.
 
-Should look something like
-
-```
---2022-02-21 21:56:15--  http://jenkins.gcp.service.cudo.org/svcteam-cudos-testnet-packager-latest/svcteam-cudos-testnet-packager-latest.repo
-Resolving jenkins.gcp.service.cudo.org (jenkins.gcp.service.cudo.org)... 35.246.48.197
-Connecting to jenkins.gcp.service.cudo.org (jenkins.gcp.service.cudo.org)|35.246.48.197|:80... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 211
-Saving to: ‘/etc/yum.repos.d/cudos.repo’
-
-/etc/yum.repos.d/cudos.repo 100%[====================================================================>]     211  --.-KB/s    in 0s      
-
-2022-02-21 21:56:15 (51.0 MB/s) - ‘/etc/yum.repos.d/cudos.repo’ saved [211/211]
-```
-
-## Check to ensure it has taken
+The following is correct for version 0.6.0.
 
 ```bash
-dnf repolist
+yum-config-manager --add-repo http://jenkins.gcp.service.cudo.org/cudos/0.6.0/cudos.repo
+yum-config-manager --enable cudos-0.6.0
+```
+
+If the system doesn't recognise "yum-config-manager" it can be installed using
+
+```bash
+dnf install -y yum-utils
+```
+
+## Check to ensure the repository can be seen
+
+```bash
+dnf repolist --refresh
 ```
 
 Should look something like
@@ -55,7 +52,7 @@ cudos-0.5                                                        CentOS Stream 8
 ## Install the cudos-noded package
 
 ```bash
-dnf install cudos-gex cudos-monitoring-docker
+dnf install cudos-noded
 ```
 
 Should look something like

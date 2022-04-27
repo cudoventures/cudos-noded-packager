@@ -38,11 +38,10 @@ Cudos Dress Rehearsal Network Definition Files
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
-mkdir -p SOURCES
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.6.0/docker/config/genesis.dressrehearsal.json?raw=true"                  -O genesis.json
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.6.0/docker/config/persistent-peers.dressrehearsal.config?raw=true"       -O persistent-peers.config
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.6.0/docker/config/seeds.dressrehearsal.config?raw=true"                  -O seeds.config
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.6.0/docker/config/state-sync-rpc-servers.dressrehearsal.config?raw=true" -O state-sync-rpc-servers.config
+wget "https://github.com/CudoVentures/cudos-builders/blob/v0.6.0/docker/config/genesis.dressrehearsal.json?raw=true"                  -O ${RPM_SOURCE_DIR}/genesis.json
+wget "https://github.com/CudoVentures/cudos-builders/blob/v0.6.0/docker/config/persistent-peers.dressrehearsal.config?raw=true"       -O ${RPM_SOURCE_DIR}/persistent-peers.config
+wget "https://github.com/CudoVentures/cudos-builders/blob/v0.6.0/docker/config/seeds.dressrehearsal.config?raw=true"                  -O ${RPM_SOURCE_DIR}/seeds.config
+wget "https://github.com/CudoVentures/cudos-builders/blob/v0.6.0/docker/config/state-sync-rpc-servers.dressrehearsal.config?raw=true" -O ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config
 
 %build
 
@@ -53,10 +52,10 @@ echo -e "\n\n=== install section ===\n\n"
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config
 
 # Install the cudos-data/config files
-cp ${RPM_BUILD_DIR}/genesis.json                   ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
-cp ${RPM_BUILD_DIR}/persistent-peers.config        ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
-cp ${RPM_BUILD_DIR}/seeds.config                   ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
-cp ${RPM_BUILD_DIR}/state-sync-rpc-servers.config  ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+cp -v ${RPM_SOURCE_DIR}/genesis.json                   ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+cp -v ${RPM_SOURCE_DIR}/persistent-peers.config        ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+cp -v ${RPM_SOURCE_DIR}/seeds.config                   ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+cp -v ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config  ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
 
 %clean
 # rm -rf $RPM_BUILD_ROOT

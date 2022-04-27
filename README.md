@@ -1,8 +1,13 @@
 ## Cudos Daemon binary packaging
 
 Packages are produced by the code in this repository and published
-on a "Proof of Concept" basis for public download. Pleae see the following
-details on how to install a Cudos node daemon on a Linux system.
+on a "Proof of Concept" basis for public download. Please see the following
+details on how to install a Cudos node daemon using these binary packages, on a Linux system.
+
+Please be aware that this service is being offered on a "Proof of Concept" basis.
+
+Please see https://github.com/CudoVentures/cudos-noded-packager/blob/main/LICENSE for
+the license conditions under which this software is released. 
 
 # Install the repository
 

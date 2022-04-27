@@ -9,9 +9,11 @@ Please be aware that this service is being offered on a "Proof of Concept" basis
 Please see https://github.com/CudoVentures/cudos-noded-packager/blob/main/LICENSE for
 the license conditions under which this software is released. 
 
-# Install the repository
+# Install from the repository
 
 ## Red Hat family (RHEL, CentOS & Fedora)
+
+### Install the repo config file
 
 NB Every Cudos Node major version has its own repository to maintain separation while
 still allowing security and utility upgrades to older versions.
@@ -29,7 +31,7 @@ If the system doesn't recognise "yum-config-manager" it can be installed using
 dnf install -y yum-utils
 ```
 
-## Check to ensure the repository can be seen
+### Check to ensure the repository can be seen
 
 ```bash
 dnf repolist --refresh
@@ -49,7 +51,7 @@ extras                                                           CentOS Stream 8
 cudos-0.5                                                        CentOS Stream 8 - Cudo Cudos 0.5 Packages
 ```
 
-## Install the cudos-noded package
+### Install the cudos-noded package
 
 ```bash
 dnf install cudos-noded

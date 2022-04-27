@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Contains the Network definition files for the Cudos Dress Rehearsal network
+# Contains the Network definition files for the Cudos Public Testnet network
 #
 
 Name:         cudos-network-public-testnet
@@ -31,17 +31,17 @@ Source1:      seeds.config
 Source2:      persistent-peers.config
 Source3:      state-sync-rpc-servers.config
 
-Requires:     cudos-noded = 0.6.0
+Requires:     cudos-noded = 0.4
 
 %description
 Cudos Dress Rehearsal Network Definition Files
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.4/docker/config/genesis.public.testnet.json?raw=true"                  -O ${RPM_SOURCE_DIR}/genesis.json
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.4/docker/config/persistent-peers.public.testnet.config?raw=true"       -O ${RPM_SOURCE_DIR}/persistent-peers.config
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.4/docker/config/seeds.public.testnet.config?raw=true"                  -O ${RPM_SOURCE_DIR}/seeds.config
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.4/docker/config/state-sync-rpc-servers.public.testnet.config?raw=true" -O ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config
+wget "https://github.com/CudoVentures/cudos-builders/blob/v0.3.3/docker/config/genesis.public.testnet.json?raw=true"                  -O ${RPM_SOURCE_DIR}/genesis.json
+wget "https://github.com/CudoVentures/cudos-builders/blob/v0.3.3/docker/config/persistent-peers.public.testnet.config?raw=true"       -O ${RPM_SOURCE_DIR}/persistent-peers.config
+wget "https://github.com/CudoVentures/cudos-builders/blob/v0.3.3/docker/config/seeds.public.testnet.config?raw=true"                  -O ${RPM_SOURCE_DIR}/seeds.config
+wget "https://github.com/CudoVentures/cudos-builders/blob/v0.3.3/docker/config/state-sync-rpc-servers.public.testnet.config?raw=true" -O ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config
 
 %build
 

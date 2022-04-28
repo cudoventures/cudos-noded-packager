@@ -16,12 +16,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+##
+#
+# NB This script is intended to be run from a CI/CD environment like Jenkins.
+# It builds the rpm and deb packages relevant for specific Cudos Node code
+# release version tags, generally the ones that have active chains.
+# 
 
 #
 # The cudos_version variable needs to be set in the environment
 #
-# It is used to
-# - select the networks based on the relevant Cudos Node version
+# It is used:
+# - To select the networks based on the relevant Cudos Node version
+# - As the version embedded in the cudos-noded binary by passing it
+#   through to the rpmbuild process.
 #
 
 if [ "$cudos_version" = "" ]
@@ -37,8 +45,8 @@ fi
 # If unset, tag it with the hostname and datestamp
 #
 # This is used as
-# - The "release_tag" in the rpm packaging
-# - The minor release embeded in the cudos-noded binary
+# - The "_releasetag" in the rpm packaging
+# - The minor release embedded in the cudos-noded binary
 #
 if [ "$BUILD_NUMBER" = "" ]
 then
@@ -49,21 +57,37 @@ fi
 # Execute the network pack builds relevant for this cudos_version
 #
 
-case $cudos_version in
-
-0\.4)
-  rpmbuild --define "_topdir $( pwd )" --define "_versiontag ${cudos_version}" --define "_releasetag ${BUILD_NUMBER}" -ba $( pwd )/SPECS/cudos-network-public-testnet.spec
-  ;;
-
-0\.6\.0)
-  rpmbuild --define "_topdir $( pwd )" --define "_versiontag ${cudos_version}" --define "_releasetag ${BUILD_NUMBER}" -ba $( pwd )/SPECS/cudos-network-dressrehearsal.spec
-  ;;
-
-*)
-  echo "Unsupported Version '$cudos_version'"
-  exit 1
-  ;;
+# Define a utiity function
+run_rpmbuild()
+{
+  VER=$1
+  RLS=$2
+  PACK_NAME=$3
   
+  rpmbuild \
+     --define "_topdir $( pwd )" \
+     --define "_versiontag ${VER}" \
+     --define "_releasetag ${RLS}" \
+     -ba $( pwd )/SPECS/cudos-network-${PACK_NAME}.spec
+}
+
+case $cudos_version in
+  0\.4)
+    run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" "public-testnet"
+    ;;
+
+  0\.6\.0)
+    run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" "dressrehearsal"
+    ;;
+
+  0\.7\.0)
+    run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" "private-testnet"
+    ;;
+
+  *)
+    echo "Unsupported Version '$cudos_version'"
+    exit 1
+    ;;
 esac
 
 #

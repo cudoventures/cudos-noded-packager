@@ -59,14 +59,10 @@ tar xzvf %{SOURCE0}
 %build
 echo -e "\n\n=== build section ===\n\n"
 
+export VERSION="%{version}"
+export COMMIT=%{release}
 cd CudosNode
-
-export BUILD_FLAGS="-X github.com/cosmos/cosmos-sdk/version.Name=cudos-node -X github.com/cosmos/cosmos-sdk/version.ServerName=cudos-noded -X github.com/cosmos/cosmos-sdk/version.Version=%{version} -X github.com/cosmos/cosmos-sdk/version.Commit=%{release}"
-export GOPATH="${RPM_BUILD_DIR}/go"
-
-echo -e "\n\n=== Build and install cudos-noded ===\n\n"
-
-go install -v -mod=readonly -ldflags "${BUILD_FLAGS}" ./cmd/cudos-noded
+make
 
 %install
 echo -e "\n\n=== install section ===\n\n"
@@ -82,10 +78,10 @@ mkdir -p ${RPM_BUILD_ROOT}/lib64
 # Copy the sources to /var/lib/cudos
 cp -rv ${RPM_BUILD_DIR}/Cudos*                         ${RPM_BUILD_ROOT}/var/lib/cudos/
 
-# Copy the newly built binaries into /usr/bin and /lib64
-cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded              ${RPM_BUILD_ROOT}/usr/bin/cudos-noded
-cp -v ${RPM_BUILD_DIR}'/go/pkg/mod/github.com/!cosm!wasm/wasmvm@v0.16.0/api/libwasmvm.so' ${RPM_BUILD_ROOT}/lib64/
-chmod 644 ${RPM_BUILD_ROOT}/lib64/*.so
+# Copy the newly built binaries into /usr/bin and /usr/lib
+cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded                                         ${RPM_BUILD_ROOT}/usr/bin/
+cp -v ${RPM_BUILD_DIR}'/go/pkg/mod/github.com/!cosm!wasm/wasmvm/api/libwasmvm.so' ${RPM_BUILD_ROOT}/usr/lib/
+chmod 644                                                                         ${RPM_BUILD_ROOT}/usr/lib/*.so
 
 # Install environment setup files
 cp ${RPM_SOURCE_DIR}/etc_default_cudos-noded           ${RPM_BUILD_ROOT}/etc/default/cudos-noded
@@ -111,7 +107,7 @@ fi
 /etc/profile.d/*
 /usr/bin/cudos-noded
 /usr/lib/systemd/system/cudos-noded.service
-/lib64/*
+/usr/lib/*
 %doc
 
 %files -n cudos-node-src

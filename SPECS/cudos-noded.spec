@@ -80,9 +80,9 @@ mkdir -p ${RPM_BUILD_ROOT}/lib64
 cp -rv ${RPM_BUILD_DIR}/Cudos*                         ${RPM_BUILD_ROOT}/var/lib/cudos/
 
 # Copy the newly built binaries into /usr/bin and /usr/lib
-cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded                                           ${RPM_BUILD_ROOT}/usr/bin/
-cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm.so' ${RPM_BUILD_ROOT}/usr/lib/
-chmod 644                                                                           ${RPM_BUILD_ROOT}/usr/lib/*.so
+cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded                                          ${RPM_BUILD_ROOT}/usr/bin/
+cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm.so ${RPM_BUILD_ROOT}/usr/lib/
+chmod 644                                                                          ${RPM_BUILD_ROOT}/usr/lib/*.so
 
 # Install environment setup files
 cp ${RPM_SOURCE_DIR}/etc_default_cudos-noded           ${RPM_BUILD_ROOT}/etc/default/cudos-noded

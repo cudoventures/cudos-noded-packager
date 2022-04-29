@@ -42,8 +42,6 @@ fi
 # It is intended for use as a step in a CI/CD chain to solidify the sources into a tarball in
 # the conventional location in the rpmbuild tree structure ie ./SOURCES/
 #
-# NB All version control files are removed
-#
 
 case $cudos_version in
 
@@ -87,7 +85,7 @@ esac
 
 mkdir -p SOURCES
 
-tar czvf SOURCES/cudos-noded-${cudos_version}.tar.gz --exclude-vcs Cudos*
+tar czvf SOURCES/cudos-noded-${cudos_version}.tar.gz Cudos*
 rm -rf Cudos*
 
 #

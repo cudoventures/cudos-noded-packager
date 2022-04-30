@@ -60,8 +60,6 @@ tar xzvf %{SOURCE0}
 %build
 echo -e "\n\n=== build section ===\n\n"
 
-export VERSION="%{version}"
-export COMMIT=%{release}
 export GOPATH="${RPM_BUILD_DIR}/go"
 cd CudosNode
 make

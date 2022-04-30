@@ -80,7 +80,7 @@ cp -rv ${RPM_BUILD_DIR}/Cudos*                         ${RPM_BUILD_ROOT}/var/lib
 
 # Copy the newly built binaries into /usr/bin and /usr/lib
 cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded                                          ${RPM_BUILD_ROOT}/usr/bin/
-cp -v ${RPM_SOURCE_DIR}/cudos-node-init.sh                                         ${RPM_BUILD_ROOT}/usr/bin/
+cp -v ${RPM_SOURCE_DIR}/cudos-init-node.sh                                         ${RPM_BUILD_ROOT}/usr/bin/
 cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm.so ${RPM_BUILD_ROOT}/usr/lib/
 chmod 644                                                                          ${RPM_BUILD_ROOT}/usr/lib/*.so
 chmod 755                                                                          ${RPM_BUILD_ROOT}/usr/bin/*.sh
@@ -108,7 +108,7 @@ fi
 /etc/default/*
 /etc/profile.d/*
 /usr/bin/cudos-noded
-/usr/bin/cudos-node-init.sh
+/usr/bin/cudos-init-node.sh
 /usr/lib/systemd/system/cudos-noded.service
 /usr/lib/*
 %doc

@@ -26,6 +26,7 @@ After=network.target
 Type=simple
 User=cudos
 EnvironmentFile=/etc/default/cudos-noded
+ExecStartPre=/usr/bin/cudos-init-node.sh
 ExecStart=/usr/bin/cudos-noded start ${CUDOS_NODED_ARGS}
 Restart=always
 RestartSec=3

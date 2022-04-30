@@ -30,6 +30,7 @@ Source0:      cudos-noded-%{version}.tar.gz
 Source1:      cudos-noded.service
 Source2:      etc_default_cudos-noded
 Source3:      etc_profiled_cudos-noded.sh
+Source4:      cudos-init-node.sh
 
 Provides:     libwasmvm.so()(64bit)
 
@@ -81,8 +82,10 @@ cp -rv ${RPM_BUILD_DIR}/Cudos*                         ${RPM_BUILD_ROOT}/var/lib
 
 # Copy the newly built binaries into /usr/bin and /usr/lib
 cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded                                          ${RPM_BUILD_ROOT}/usr/bin/
+cp -v ${RPM_SOURCE_DIR}/cudos-node-init.sh                                         ${RPM_BUILD_ROOT}/usr/bin/
 cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm.so ${RPM_BUILD_ROOT}/usr/lib/
 chmod 644                                                                          ${RPM_BUILD_ROOT}/usr/lib/*.so
+chmod 755                                                                          ${RPM_BUILD_ROOT}/usr/bin/*.sh
 
 # Install environment setup files
 cp ${RPM_SOURCE_DIR}/etc_default_cudos-noded           ${RPM_BUILD_ROOT}/etc/default/cudos-noded

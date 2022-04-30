@@ -34,7 +34,7 @@
 # The script is intended for use as a systemd service PreExec for
 # the systemd cudos-noded.service
 #
-#####################
+######################
 
 export TYPE_NAME="$1"
 

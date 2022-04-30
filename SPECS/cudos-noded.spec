@@ -108,6 +108,7 @@ fi
 /etc/default/*
 /etc/profile.d/*
 /usr/bin/cudos-noded
+/usr/bin/cudos-node-init.sh
 /usr/lib/systemd/system/cudos-noded.service
 /usr/lib/*
 %doc

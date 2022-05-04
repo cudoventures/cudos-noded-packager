@@ -86,7 +86,10 @@ The cudos-noded binary is installed in the standard system binary location "/usr
 The libarary is installed in /usr/lib
 These binaries are built using the "make" command in the cudos-builders repo in the same way as the docker install.
 
-### shell environment files to fix CUDOS_HOME
+### Systemd integration
+The service can be stopped and started under systemd, integrating it seamlessly into the overall OS.
+
+### Shell environment files to fix CUDOS_HOME
 The Daemon user "cudos" is a machine account, so the LFHS suggests their data should be located under /var/lib. To this end the Cudos Node home area is fixed as the cudos-data subdirectory of the Cudos User's home directory "/var/lib/cudos".
 
 ## The "cudos-network-???" packages

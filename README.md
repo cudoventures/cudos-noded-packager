@@ -31,11 +31,11 @@ Please be aware that this code and the repo service is being offered on a "Proof
 Please see https://github.com/CudoVentures/cudos-noded-packager/blob/main/LICENSE for
 the license conditions under which this software is released. 
 
-# Install from the repository
+## Install from the repository
 
 The following is correct for public-testnet
 
-## Red Hat family (RHEL, CentOS & Fedora)
+### Red Hat family (RHEL, CentOS & Fedora)
 
 ```bash
 dnf install -y yum-utils
@@ -44,7 +44,7 @@ yum-config-manager --enable cudos-0.4
 dnf install cudos-network-public-testnet
 ```
 
-## Debian and Ubuntu
+### Debian and Ubuntu
 
 ```bash
 echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/0.4/debian stable main' > /etc/apt/sources.list.d/cudos.list
@@ -52,7 +52,7 @@ apt update
 apt install cudos-network-public-testnet
 ```
 
-# Configure the daemon
+## Configure the daemon
 
 The underlying network (in the above example, testnet) has already been configured
 by the network pack, the only thing left is to set up the neighbour information.
@@ -61,13 +61,13 @@ This is done directy in the config.toml and app.toml files.
 Tools are being developed to easily manage the neighbourhood connections and
 perform other routine tasks and generic layouts.
 
-# Enable and start the daemon
+## Enable and start the daemon
 
 ```bash
 systemctl enable --now cudos-noded
 ```
 
-# Logs
+## Logs
 
 As this daemon is controlled by systemd, the logs will naturally flow to journald 
 and can be watched using the standard operating system tools .. eg:
@@ -75,3 +75,31 @@ and can be watched using the standard operating system tools .. eg:
 ```bash
 journalctl -f -t cudos-noded
 ```
+
+# Anatomy of a binary install
+
+## The "cudos-noded" package
+
+### cudos-noded binary and library
+
+### shell environment files to fix CUDOS_HOME
+
+### Specific upgrade scripts
+
+## The "cudos-network-???" packages
+
+### Genesis File
+
+### Public Seed and Sentry Nodes
+
+## The "cudos-gex" package
+
+## The "cudos-monitoring" package
+
+### CheckMK monitoring
+
+### Chronocollector
+
+# Status
+
+Please be aware that none of the above is currently supported by Cudo Ventures in any way and is offered purely as a "Proof of Concept" and a working demonstration of a possible alternative way of installing Cudos Nodes in the future.

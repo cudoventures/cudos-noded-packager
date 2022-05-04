@@ -79,26 +79,39 @@ journalctl -f -t cudos-noded
 # Anatomy of a binary install
 
 ## The "cudos-noded" package
+Containing
 
 ### cudos-noded binary and library
+The cudos-noded binary is installed in the standard system binary location "/usr/bin" and is owned by root.
+The libarary is installed in /usr/lib
+These binaries are built using the "make" command in the cudos-builders repo in the same way as the docker install.
 
 ### shell environment files to fix CUDOS_HOME
-
-### Specific upgrade scripts
+The Daemon user "cudos" is a machine account, so the LFHS suggests their data should be located under /var/lib. To this end the Cudos Node home area is fixed as the cudos-data subdirectory of the Cudos User's home directory "/var/lib/cudos".
 
 ## The "cudos-network-???" packages
+These packs are mutually exclusive becuase they all supply the same set of files.
 
 ### Genesis File
+The file "/usr/cudos/cudos-data/config/genesis.json" is the core configuration file of the network on which this node is intended to operate. All nodes on the same netwprk should be using this exact genesis file.
 
 ### Public Seed and Sentry Nodes
+File containing lists of seeds and sentries and other useful nodenames. These are offered as "bootstrap files" to get the node conected to the rest of the nodes in the intneded network.
+
+### Specific upgrade scripts
+Additional steps might be needed for specific updates of the software or chain-id. These will be delivered in the network package.
 
 ## The "cudos-gex" package
+The "Cosmos Gex" tool is a really useful console app to run on a node for debug purposes. It displays some basic information about the current state of the node. This package is supplied prebuilt as a utility only and is built directly from the Cosmos repository.
 
 ## The "cudos-monitoring" package
+Those running system, OS and hardware monitoring systems like OMD/CHeckMK/Nagios or Prometheus/Grafana can install this package and gain access to package metrics, states and alerts to add to the OS and hardware metrics, states and alerts.
 
 ### CheckMK monitoring
+The probes are installed as additional executable scripts in the ".../local/" plugins directory. The next full scan after the package has been installed on a running Cudos Node, the CUdos metrics for that node will become visible.
 
 ### Chronocollector
+The cudos-noded daemon produces a considerable number of strategic metrics, which can be harvested and sent to prometheus front-ends using this package.
 
 # Status
 

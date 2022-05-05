@@ -31,6 +31,7 @@ Source1:      cudos-noded.service
 Source2:      etc_default_cudos-noded
 Source3:      etc_profiled_cudos-noded.sh
 Source4:      cudos-init-node.sh
+Source5:      cudos-noded-ctl.sh
 
 Provides:     libwasmvm.so()(64bit)
 
@@ -92,6 +93,10 @@ cp ${RPM_SOURCE_DIR}/etc_profiled_cudos-noded.sh       ${RPM_BUILD_ROOT}/etc/pro
 # Install systemd service file
 cp ${RPM_SOURCE_DIR}/*.service                         ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
 
+# Install /usr/bin scripts
+cp ${RPM_SOURCE_DIR}/cudos-noded-ctl.sh                ${RPM_BUILD_ROOT}/usr/bin/cudos-noded-ctl
+chmod 755                                              ${RPM_BUILD_ROOT}/usr/bin/cudos-noded-ctl
+
 %clean
 # rm -rf $RPM_BUILD_ROOT
 
@@ -108,6 +113,7 @@ fi
 /etc/default/*
 /etc/profile.d/*
 /usr/bin/cudos-noded
+/usr/bin/cudos-noded-ctl
 /usr/bin/cudos-init-node.sh
 /usr/lib/systemd/system/cudos-noded.service
 /usr/lib/*

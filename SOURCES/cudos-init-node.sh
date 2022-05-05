@@ -87,51 +87,6 @@ fi
 mv -fv "$TMPFN" "$CUDOS_HOME"/config/genesis.json
 
 #
-# set_config functions
-#
-set_config_seeds()
-{
-	FARG="` cat $1 `"
-	sed -i -e'1,$s'"/^seeds =.*/seeds = \"$FARG\"/" "$CUDOS_HOME/config/config.toml"
-}
-
-set_config_persistent_peers()
-{
-	FARG="` cat $1 `"
-	sed -i -e'1,$s'"/^persistent_peers =.*/persistent_peers = \"$FARG\"/" "$CUDOS_HOME/config/config.toml"
-}
-
-set_config_private_peers()
-{
-	FARG="` cat $1 `"
-	sed -i -e'1,$s'"/^private_peers =.*/private_peers = \"$FARG\"/" "$CUDOS_HOME/config/config.toml"
-}
-
-set_config_unconditional_peers()
-{
-	FARG="` cat $1 `"
-	sed -i -e'1,$s'"/^unconditional_peers =.*/unconditional_peers = \"$FARG\"/" "$CUDOS_HOME/config/config.toml"
-}
-
-set_config_pex()
-{
-	FARG="$1"
-	sed -i -e'1,$s'"/^pex =.*/pex = $FARG/" "$CUDOS_HOME/config/config.toml"
-}
-
-set_config_unsafe()
-{
-	FARG="$1"
-	sed -i -e'1,$s'"/^unsafe =.*/unsafe = $FARG/" "$CUDOS_HOME/config/config.toml"
-}
-
-set_config_prometheus()
-{
-	FARG="$1"
-	sed -i -e'1,$s'"/^prometheus =.*/prometheus = $FARG/" "$CUDOS_HOME/config/config.toml"
-}
-
-#
 # Select behaviour based on the node type name given
 #
 if [[ "$TYPE_NAME" == "" ]]
@@ -142,17 +97,54 @@ export TYPE_NAME
 
 case $TYPE_NAME in
 	full-node)
-		set_config_seeds "$CUDOS_HOME"/config/seeds.config
-		set_config_persistent_peers "$CUDOS_HOME"/config/persistent-peers.config
-		set_config_private_peers "$CUDOS_HOME"/config/private-peers.config
-		set_config_unconditional_peers "$CUDOS_HOME"/config/unconditional-peers.config
-		set_config_pex true
-		set_config_unsafe true
-		set_config_prometheus true
+		cudos-noded-ctl set seeds "$CUDOS_HOME"/config/seeds.config
+		cudos-noded-ctl set seeds "$CUDOS_HOME"/config/seeds.config
+		cudos-noded-ctl set persistent_peers "$CUDOS_HOME"/config/persistent-peers.config
+		cudos-noded-ctl set private_peers "$CUDOS_HOME"/config/private-peers.config
+		cudos-noded-ctl set unconditional_peers "$CUDOS_HOME"/config/unconditional-peers.config
+		cudos-noded-ctl set pex true
+		cudos-noded-ctl set unsafe true
+		cudos-noded-ctl set prometheus true
+		cudos-noded-ctl set seed_mode false
+		;;
+
+	clustered-node)
+		cudos-noded-ctl addrbook_clear
+
+		cudos-noded-ctl set seeds ""
+		cudos-noded-ctl set persistent_peers "$CUDOS_HOME"/config/persistent-peers.config
+		cudos-noded-ctl set private_peers "$CUDOS_HOME"/config/private-peers.config
+		cudos-noded-ctl set unconditional_peers "$CUDOS_HOME"/config/unconditional-peers.config
+		cudos-noded-ctl set pex false
+		cudos-noded-ctl set unsafe false
+		cudos-noded-ctl set prometheus true
+		cudos-noded-ctl set seed_mode false
+		;;
+
+	seed-node)
+		cudos-noded-ctl set seeds "$CUDOS_HOME"/config/seeds.config
+		cudos-noded-ctl set persistent_peers "$CUDOS_HOME"/config/persistent-peers.config
+		cudos-noded-ctl set private_peers "$CUDOS_HOME"/config/private-peers.config
+		cudos-noded-ctl set unconditional_peers "$CUDOS_HOME"/config/unconditional-peers.config
+		cudos-noded-ctl set pex true
+		cudos-noded-ctl set unsafe true
+		cudos-noded-ctl set prometheus true
+		cudos-noded-ctl set seed_mode true
+		;;
+
+	sentry-node)
+		cudos-noded-ctl set seeds "$CUDOS_HOME"/config/seeds.config
+		cudos-noded-ctl set persistent_peers "$CUDOS_HOME"/config/persistent-peers.config
+		cudos-noded-ctl set private_peers "$CUDOS_HOME"/config/private-peers.config
+		cudos-noded-ctl set unconditional_peers "$CUDOS_HOME"/config/unconditional-peers.config
+		cudos-noded-ctl set pex true
+		cudos-noded-ctl set unsafe true
+		cudos-noded-ctl set prometheus true
+		cudos-noded-ctl set seed_mode false
 		;;
 
 	*)
-		echo -ne "Error: cudos-noded init failed\n\n"
+		echo -ne "Error: Unsupported Node Type: $TYPE_NAME\n\n"
 		exit 1
 esac
 

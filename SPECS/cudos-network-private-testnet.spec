@@ -70,7 +70,7 @@ fi
 
 %files
 %defattr(-,cudos,cudos,-)
-/var/lib/cudos/cudos-data
+%dir /var/lib/cudos/cudos-data
+%dir /var/lib/cudos/cudos-data/config
+/var/lib/cudos/cudos-data/config
 %doc
-
-%changelog

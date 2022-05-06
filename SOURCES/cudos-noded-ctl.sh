@@ -125,9 +125,6 @@ config_set()
   shift
   CONF_VAL="$*"
 
-  echo "CONF_NAME $CONF_NAME"
-  echo "CONF_VAL $CONF_VAL"
-
   case $CONF_NAME in
     seeds)               set_config_seeds "$CONF_VAL" ;;
     persistent_peers)    set_config_persistent_peers "$CONF_VAL" ;;
@@ -137,8 +134,9 @@ config_set()
     unsafe)              set_config_unsafe "$CONF_VAL" ;;
     prometheus)          set_config_prometheus "$CONF_VAL" ;;
 
-    *) echo "Unknown Command: $CONF_NAME"; exit;;
-esac
+    *) echo "Unknown Node Config Name: $CONF_NAME"; exit;;
+  esac
+}
 
 #
 # Parse and execute the command line
@@ -153,7 +151,7 @@ do
 done
 
 export IP_COMMAND="$1"
-echo " - Command: $IP_COMMAND"
+shift
 
 case $IP_COMMAND in
   set)
@@ -163,7 +161,7 @@ case $IP_COMMAND in
     addrbook_clear
     ;;
   *)
-    echo "Unknown command: $*"
+    echo "Unknown command: $IP_COMMAND $*"
     ;;
 esac
 

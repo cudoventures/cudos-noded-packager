@@ -4,143 +4,118 @@ Packages are produced by the code in this repository and published
 on a "Proof of Concept" basis for public download. Please see the following
 details on how to install a Cudos node daemon using these binary packages, on a Linux system.
 
-Please be aware that this service is being offered on a "Proof of Concept" basis.
+Every Cudos Node major version has its own repository to maintain separation while
+still allowing security and utility upgrades to older versions.
+
+The correct mix of package names and versions can be set up by install a "Cudos Network
+Definition" package, which is another rpm/deb package that contains the relevant genesis
+and node address files for the given network.
+
+In order to allow easier integration of the various components the directory locations
+for the daemon have been fixed and should remain at those locations. The CUDOS_HOME variable
+is preset to /var/lib/cudos/cudos-data, which is owned by the user "cudos" who's home
+directory is /var/lib/cudos.
+
+It is advised that all configuration editing operations be done as user "cudos" in
+order to avoid permissions issues. Everything under /var/lib/cudos should be owned
+by user "cudos"
+
+The only operations that need root involvement are installin, upgrading and removing
+the software packages. It is advised that all other operations are performed as either
+user "cudos" or as another non-priveledged user and specifically *not* as root. Doing 
+so would leave files in the "cudos-data" area that the user running the daemon (cudos)
+cannot update.
+
+Please be aware that this code and the repo service is being offered on a "Proof of Concept" basis.
 
 Please see https://github.com/CudoVentures/cudos-noded-packager/blob/main/LICENSE for
 the license conditions under which this software is released. 
 
-# Install from the repository
+## Install from the repository
 
-## Red Hat family (RHEL, CentOS & Fedora)
+The following is correct for public-testnet
 
-### Install the repo config file
-
-NB Every Cudos Node major version has its own repository to maintain separation while
-still allowing security and utility upgrades to older versions.
-
-The following is correct for version 0.6.0.
-
-```bash
-yum-config-manager --add-repo http://jenkins.gcp.service.cudo.org/cudos/0.6.0/cudos.repo
-yum-config-manager --enable cudos-0.6.0
-```
-
-If the system doesn't recognise "yum-config-manager" it can be installed using
+### Red Hat family (RHEL, CentOS & Fedora)
 
 ```bash
 dnf install -y yum-utils
+yum-config-manager --add-repo http://jenkins.gcp.service.cudo.org/cudos/cudos.repo
+yum-config-manager --enable cudos-0.4
+dnf install cudos-network-public-testnet
 ```
 
-### Check to ensure the repository can be seen
+### Debian and Ubuntu
 
 ```bash
-dnf repolist --refresh
-```
-
-Should look something like
-
-```
-repo id                                                          repo name
-appstream                                                        CentOS Stream 8 - AppStream
-baseos                                                           CentOS Stream 8 - BaseOS
-docker-ce-stable                                                 Docker CE Stable - x86_64
-epel                                                             Extra Packages for Enterprise Linux 8 - x86_64
-epel-modular                                                     Extra Packages for Enterprise Linux Modular 8 - x86_64
-epel-next                                                        Extra Packages for Enterprise Linux 8 - Next - x86_64
-extras                                                           CentOS Stream 8 - Extras
-cudos-0.5                                                        CentOS Stream 8 - Cudo Cudos 0.5 Packages
-```
-
-### Install the cudos-noded package
-
-```bash
-dnf install cudos-noded
-```
-
-Should look something like
-
-```
-CentOS Stream 8 - Cudo Service Team Testnet Packager                                                              249 kB/s | 9.3 kB     00:00    
-Dependencies resolved.
-==================================================================================================================================================
- Package                               Architecture         Version                     Repository                                           Size
-==================================================================================================================================================
-Installing:
- cudos-noded                           x86_64               0.4-1724.el8                cudos-0.5               2.2 M
-
-Transaction Summary
-==================================================================================================================================================
-Install  2 Packages
-
-Total download size: 17 M
-Installed size: 86 M
-Is this ok [y/N]: y
-Downloading Packages:
-(1/2): cudos-noded-0.5-123.el8.x86_64.rpm                                                             82 MB/s |  15 MB     00:00    
---------------------------------------------------------------------------------------------------------------------------------------------------
-Total                                                                                                              81 MB/s |  17 MB     00:00     
-Running transaction check
-Transaction check succeeded.
-Running transaction test
-Transaction test succeeded.
-Running transaction
-  Preparing        :                                                                                                                          1/1 
-  Installing       : cudos-noded-0.5-123.el8.x86_64                                                                                            2/2 
-  Running scriptlet: cudos-noded-0.5-123.el8.x86_64                                                                                            2/2 
-  Verifying        : cudos-noded-0.5-123.el8.x86_64                                                                                            1/2 
-  
-Installed:
-  cudos-noded-0.5-123.el8.x86_64                                   
-
-Complete!
-```
-
-## Debian and Ubuntu
-
-### Set up the repo  file
-
-```bash
-echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/0.6.0/debian stable main' > /etc/apt/sources.list.d/cudos.list
-```
-
-### Install the cudos-noded package
-
-```bash
+echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/0.4/debian stable main' > /etc/apt/sources.list.d/cudos.list
 apt update
-apt install cudos-noded
+apt install cudos-network-public-testnet
 ```
 
-# Configure the daemon
+## Configure the daemon
 
-This can either be done by hand, the cudos-noded-src package can be installed and the
-information can taken directly from the sources
+The underlying network (in the above example, testnet) has already been configured
+by the network pack, the only thing left is to set up the neighbour information.
+This is done directy in the config.toml and app.toml files.
 
-Or by installing a "Cudos Network Definition" package, which is another rpm/deb package
-that contains the relevant genesis and node address files for the given network.
+Tools are being developed to easily manage the neighbourhood connections and
+perform other routine tasks and generic layouts.
 
-The CUDOS_HOME variable is preset to /var/lib/cudos/cudos-data, which is owned by the
-user "cudos" who's home directory is /var/lib/cudos.
-
-It is advised that all configuration editing operations be done as user "cudos" in
-order to avoid permissions issues. Everything under /var/lib/cudos should be owned by user "cudos"
-
-# Enable and start the daemon
+## Enable and start the daemon
 
 ```bash
 systemctl enable --now cudos-noded
 ```
 
-The output should look like
+## Logs
 
-```
-Created symlink /etc/systemd/system/multi-user.target.wants/cudos-noded.service → /usr/lib/systemd/system/cudos-noded.service.
-```
-
-# Logs
-
-As this daemon is controlled by systemd, the logs will natural flow to journald and can be watched using
+As this daemon is controlled by systemd, the logs will naturally flow to journald 
+and can be watched using the standard operating system tools .. eg:
 
 ```bash
 journalctl -f -t cudos-noded
 ```
 
+# Anatomy of a binary install
+
+## The "cudos-noded" package
+Containing
+
+### cudos-noded binary and library
+The cudos-noded binary is installed in the standard system binary location "/usr/bin" and is owned by root.
+The libarary is installed in /usr/lib
+These binaries are built using the "make" command in the cudos-builders repo in the same way as the docker install.
+
+### Systemd integration
+The service can be stopped and started under systemd, integrating it seamlessly into the overall OS.
+
+### Shell environment files to fix CUDOS_HOME
+The Daemon user "cudos" is a machine account, so the LFHS suggests their data should be located under /var/lib. To this end the Cudos Node home area is fixed as the cudos-data subdirectory of the Cudos User's home directory "/var/lib/cudos".
+
+## The "cudos-network-???" packages
+These packs are mutually exclusive becuase they all supply the same set of files.
+
+### Genesis File
+The file "/usr/cudos/cudos-data/config/genesis.json" is the core configuration file of the network on which this node is intended to operate. All nodes on the same netwprk should be using this exact genesis file.
+
+### Public Seed and Sentry Nodes
+File containing lists of seeds and sentries and other useful nodenames. These are offered as "bootstrap files" to get the node conected to the rest of the nodes in the intneded network.
+
+### Specific upgrade scripts
+Additional steps might be needed for specific updates of the software or chain-id. These will be delivered in the network package.
+
+## The "cudos-gex" package
+The "Cosmos Gex" tool is a really useful console app to run on a node for debug purposes. It displays some basic information about the current state of the node. This package is supplied prebuilt as a utility only and is built directly from the Cosmos repository.
+
+## The "cudos-monitoring" package
+Those running system, OS and hardware monitoring systems like OMD/CHeckMK/Nagios or Prometheus/Grafana can install this package and gain access to package metrics, states and alerts to add to the OS and hardware metrics, states and alerts.
+
+### CheckMK monitoring
+The probes are installed as additional executable scripts in the ".../local/" plugins directory. The next full scan after the package has been installed on a running Cudos Node, the CUdos metrics for that node will become visible.
+
+### Chronocollector
+The cudos-noded daemon produces a considerable number of strategic metrics, which can be harvested and sent to prometheus front-ends using this package.
+
+# Status
+
+Please be aware that none of the above is currently supported by Cudo Ventures in any way and is offered purely as a "Proof of Concept" and a working demonstration of a possible alternative way of installing Cudos Nodes in the future.

@@ -2,9 +2,6 @@
 
 ## Notes
 
-* [Package File List](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-noded-0.6.0-67.el8.x86_64.rpm-lst.txt)
-* [Package RPM Headers](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-noded-0.6.0-67.el8.x86_64.rpm.txt)
-
 The binary packages are produced by the scripting in this git repository, directly from
 the code in the original git repositories and published on a "Proof of Concept" basis
 for public download from yum/apt repositories.
@@ -88,9 +85,9 @@ journalctl -f -t cudos-noded
 # Anatomy of a binary install
 
 ## The "cudos-noded" package
-
-* (detailed package content list)[http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-noded-0.6.0-67.el8.x86_64.rpm-lst.txt]
-* (Package Header)[http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-noded-0.6.0-67.el8.x86_64.rpm.txt]
+* [Package File List](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-noded-0.6.0-67.el8.x86_64.rpm-lst.txt)
+* [Package RPM Headers](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-noded-0.6.0-67.el8.x86_64.rpm.txt)
+* [Spec File][http://jenkins.gcp.service.cudo.org/cudos/0.6.0/SPECS/cudos-noded.spec]
 
 ### cudos-noded binary and library
 The cudos-noded binary is installed in the standard system binary location "/usr/bin" and is owned by root.
@@ -103,19 +100,35 @@ The service can be stopped and started under systemd, integrating it seamlessly 
 ### Shell environment files to fix CUDOS_HOME
 The Daemon user "cudos" is a machine account, so the LFHS suggests their data should be located under /var/lib. To this end the Cudos Node home area is fixed as the cudos-data subdirectory of the Cudos User's home directory "/var/lib/cudos".
 
-## The "cudos-network-???" packages
-These packs are mutually exclusive becuase they all supply the same set of files.
+## The Cudos Network Packs
+* mainnet
+  * [Package File List](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-network-mainnet-0.6.0-30.el8.x86_64.rpm-lst.txt)
+  * [Package RPM Headers](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-network-mainnet-0.6.0-30.el8.x86_64.rpm.txt)
+  * [Spec File](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/SPECS/cudos-network-mainnet.spec)
+* public-testnet
+  * [Package File List](http://jenkins.gcp.service.cudo.org/cudos/0.4/RPMS/x86_64/cudos-network-public-testnet-0.4-13.el8.x86_64.rpm-lst.txt)
+  * [Package RPM Headers](http://jenkins.gcp.service.cudo.org/cudos/0.4/RPMS/x86_64/cudos-network-public-testnet-0.4-13.el8.x86_64.rpm.txt)
+  * [Spec File](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/SPECS/cudos-network-public-testnet.spec)
+* dressrehearsal
+  * [Package File List](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-network-dressrehearsal-0.6.0-45.el8.x86_64.rpm-lst.txt)
+  * [Package RPM Headers](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-network-dressrehearsal-0.6.0-45.el8.x86_64.rpm.txt)
+  * [Spec File](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/SPECS/cudos-network-dressrehearsal.spec)
+   
+These packs are mutually exclusive because they all supply the same set of files.
 
-### Genesis File
+#### Genesis File
 The file "/usr/cudos/cudos-data/config/genesis.json" is the core configuration file of the network on which this node is intended to operate. All nodes on the same netwprk should be using this exact genesis file.
 
-### Public Seed and Sentry Nodes
+#### Public Seed and Sentry Nodes
 File containing lists of seeds and sentries and other useful nodenames. These are offered as "bootstrap files" to get the node conected to the rest of the nodes in the intneded network.
 
-### Specific upgrade scripts
+#### Specific upgrade scripts
 Additional steps might be needed for specific updates of the software or chain-id. These will be delivered in the network package.
 
 ## The "cudos-gex" package
+  * [Package File List](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-gex-0.6.0-30.el8.x86_64.rpm-lst.txt)
+  * [Package RPM Headers](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-gex-0.6.0-30.el8.x86_64.rpm.txt)
+
 The "Cosmos Gex" tool is a really useful console app to run on a node for debug purposes. It displays some basic information about the current state of the node. This package is supplied prebuilt as a utility only and is built directly from the Cosmos repository.
 
 ## The "cudos-monitoring" package
@@ -129,4 +142,5 @@ The cudos-noded daemon produces a considerable number of strategic metrics, whic
 
 # Status
 
-Please be aware that none of the above is currently supported by Cudo Ventures in any way and is offered purely as a "Proof of Concept" and a working demonstration of a possible alternative way of installing Cudos Nodes in the future.
+**Please be aware that none of the above is currently supported by Cudo Ventures in any way and is offered purely as a "Proof of Concept" and a working demonstration of a possible alternative way of installing Cudos Nodes in the future.**
+

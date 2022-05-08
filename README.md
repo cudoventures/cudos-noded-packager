@@ -1,14 +1,16 @@
 # Cudos Daemon binary packaging
 
-Packages are produced by the code in this repository and published
-on a "Proof of Concept" basis for public download. Please see the following
-details on how to install a Cudos node daemon using these binary packages, on a Linux system.
+## Notes
 
-Every Cudos Node major version has its own repository to maintain separation while
+The binary packages are produced by the scripting in this git repository, directly from
+the code in the original git repositories and published on a "Proof of Concept" basis
+for public download from yum/apt repositories.
+
+Every Cudos Node major version has its own yum/apt repository to maintain separation while
 still allowing security and utility upgrades to older versions.
 
-The correct mix of package names and versions can be set up by install a "Cudos Network
-Definition" package, which is another rpm/deb package that contains the relevant genesis
+The correct mix of package names and versions can be set up by installing a "Cudos Network
+Pack", which is another rpm/deb package that contains the relevant genesis
 and node address files for the given network.
 
 In order to allow easier integration of the various components the directory locations
@@ -31,11 +33,13 @@ Please be aware that this code and the repo service is being offered on a "Proof
 Please see https://github.com/CudoVentures/cudos-noded-packager/blob/main/LICENSE for
 the license conditions under which this software is released. 
 
-## Install from the repository
+Please see the following details on how to install a Cudos node daemon using these binary packages, on a Linux system.
+
+## Install direct from the package repository
 
 The following is correct for public-testnet
 
-### Red Hat family (RHEL, CentOS & Fedora)
+#### Red Hat family (RHEL, CentOS & Fedora)
 
 ```bash
 dnf install -y yum-utils
@@ -44,7 +48,7 @@ yum-config-manager --enable cudos-0.4
 dnf install cudos-network-public-testnet
 ```
 
-### Debian and Ubuntu
+#### Debian and Ubuntu
 
 ```bash
 echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/0.4/debian stable main' > /etc/apt/sources.list.d/cudos.list
@@ -60,6 +64,8 @@ This is done directy in the config.toml and app.toml files.
 
 Tools are being developed to easily manage the neighbourhood connections and
 perform other routine tasks and generic layouts.
+
+Please see [cudos-noded-ctl](docs/cudos-noded-ctl.md)
 
 ## Enable and start the daemon
 
@@ -79,7 +85,9 @@ journalctl -f -t cudos-noded
 # Anatomy of a binary install
 
 ## The "cudos-noded" package
-Containing
+
+* (detailed package content list)[http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-noded-0.6.0-67.el8.x86_64.rpm-lst.txt]
+* (Package Header)[http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-noded-0.6.0-67.el8.x86_64.rpm.txt]
 
 ### cudos-noded binary and library
 The cudos-noded binary is installed in the standard system binary location "/usr/bin" and is owned by root.

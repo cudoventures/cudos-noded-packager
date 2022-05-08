@@ -87,7 +87,7 @@ journalctl -f -t cudos-noded
 ## The "cudos-noded" package
 * [Package File List](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-noded-0.6.0-67.el8.x86_64.rpm-lst.txt)
 * [Package RPM Headers](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-noded-0.6.0-67.el8.x86_64.rpm.txt)
-* [Spec File][http://jenkins.gcp.service.cudo.org/cudos/0.6.0/SPECS/cudos-noded.spec]
+* [Spec File](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/SPECS/cudos-noded.spec)
 
 ### cudos-noded binary and library
 The cudos-noded binary is installed in the standard system binary location "/usr/bin" and is owned by root.

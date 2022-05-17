@@ -129,7 +129,7 @@ cp ${RPM_SOURCE_DIR}/cudos-noded-ctl.sh                ${RPM_BUILD_ROOT}/usr/bin
 chmod 755                                              ${RPM_BUILD_ROOT}/usr/bin/cudos-noded-ctl
 
 # Install chronocollector files
-cp ${RPM_SOURCE_DIR}/chronocollector-linux-amd64       ${RPM_BUILD_ROOT}/var/lib/chronoc/bin
+cp ${RPM_SOURCE_DIR}/chronocollector-linux-amd64.gz    ${RPM_BUILD_ROOT}/var/lib/chronoc/bin
 gunzip ${RPM_BUILD_ROOT}/var/lib/chronoc/bin/chronocollector-linux-amd64.gz
 cp ${RPM_SOURCE_DIR}/chronocollector-init.sh           ${RPM_BUILD_ROOT}/var/lib/chronoc/bin
 cp ${RPM_SOURCE_DIR}/config.yml-tmpl                   ${RPM_BUILD_ROOT}/var/lib/chronoc/

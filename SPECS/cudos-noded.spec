@@ -183,7 +183,7 @@ fi
 /usr/bin/cudos-noded-ctl
 /usr/bin/cudos-init-node.sh
 /usr/lib/systemd/system/cudos-noded.service
-/usr/lib/*
+/usr/lib/*.so
 %doc
 
 %files -n cudos-node-src

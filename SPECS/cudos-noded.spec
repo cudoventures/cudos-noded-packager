@@ -44,7 +44,7 @@ Source46:     check_cudos_consensus.sh
 Source51:     env.sh-tmpl
 Source52:     config.yml-tmpl
 Source53:     chronocollector-init.sh
-Source54:     chronocollector-linux-amd64
+Source54:     chronocollector-linux-amd64.gz
 
 Provides:     libwasmvm.so()(64bit)
 
@@ -130,6 +130,7 @@ chmod 755                                              ${RPM_BUILD_ROOT}/usr/bin
 
 # Install chronocollector files
 cp ${RPM_SOURCE_DIR}/chronocollector-linux-amd64       ${RPM_BUILD_ROOT}/var/lib/chronoc/bin
+gunzip ${RPM_BUILD_ROOT}/var/lib/chronoc/bin/chronocollector-linux-amd64.gz
 cp ${RPM_SOURCE_DIR}/chronocollector-init.sh           ${RPM_BUILD_ROOT}/var/lib/chronoc/bin
 cp ${RPM_SOURCE_DIR}/config.yml-tmpl                   ${RPM_BUILD_ROOT}/var/lib/chronoc/
 cp ${RPM_SOURCE_DIR}/env.sh-tmpl                       ${RPM_BUILD_ROOT}/var/lib/chronoc/

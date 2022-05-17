@@ -106,6 +106,8 @@ mkdir -p ${RPM_BUILD_ROOT}/etc/profile.d/
 mkdir -p ${RPM_BUILD_ROOT}/usr/bin/
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/systemd/system
 mkdir -p ${RPM_BUILD_ROOT}/lib64
+mkdir -p ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/chronoc/bin
 
 # Copy the sources to /var/lib/cudos
 cp -rv ${RPM_BUILD_DIR}/Cudos*                         ${RPM_BUILD_ROOT}/var/lib/cudos/

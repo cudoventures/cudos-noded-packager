@@ -33,6 +33,19 @@ Source3:      etc_profiled_cudos-noded.sh
 Source4:      cudos-init-node.sh
 Source5:      cudos-noded-ctl.sh
 
+Source40:     check_cudos_block_age.sh
+Source41:     check_cudos_block_data.sh
+Source42:     check_cudos_catching_up.sh
+Source43:     check_cudos_block_age_docker.sh
+Source44:     check_cudos_block_data_docker.sh
+Source45:     check_cudos_catching_up_docker.sh
+Source46:     check_cudos_consensus.sh
+
+Source51:     env.sh-tmpl
+Source52:     config.yml-tmpl
+Source53:     chronocollector-init.sh
+Source54:     chronocollector-linux-amd64
+
 Provides:     libwasmvm.so()(64bit)
 
 BuildRequires: golang
@@ -50,6 +63,24 @@ Summary: CUDOS Node Sources
 Requires: cudos-noded
 %description -n cudos-node-src
 CUDOS Node Sources
+
+%package -n cudos-monitoring
+Summary: Cudos Node Monitoring Agents
+Requires: bc jq
+%description -n cudos-monitoring
+CheckMK and ChronoSphere monitoring agents for Cudos Nodes
+%pre -n cudos-monitoring
+getent group chronoc >/dev/null || groupadd -r chronoc || :
+getent passwd chronoc >/dev/null || useradd -c "Cudos User" -g chronoc -s /bin/bash -r -m -d /var/lib/chronoc chronoc 2> /dev/null || :
+
+%package -n cudos-monitoring-docker
+Summary: Cudos Node Monitoring Agents
+Requires: bc jq
+%description -n cudos-monitoring-docker
+CheckMK and ChronoSphere monitoring agents for Cudos Nodes Using the Docker containers
+%pre -n cudos-monitoring-docker
+getent group chronoc >/dev/null || groupadd -r chronoc || :
+getent passwd chronoc >/dev/null || useradd -c "Cudos User" -g chronoc -s /bin/bash -r -m -d /var/lib/chronoc chronoc 2> /dev/null || :
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
@@ -97,6 +128,24 @@ cp ${RPM_SOURCE_DIR}/*.service                         ${RPM_BUILD_ROOT}/usr/lib
 cp ${RPM_SOURCE_DIR}/cudos-noded-ctl.sh                ${RPM_BUILD_ROOT}/usr/bin/cudos-noded-ctl
 chmod 755                                              ${RPM_BUILD_ROOT}/usr/bin/cudos-noded-ctl
 
+# Install chronocollector files
+cp ${RPM_SOURCE_DIR}/chronocollector-linux-amd64       ${RPM_BUILD_ROOT}/var/lib/chronoc/bin
+cp ${RPM_SOURCE_DIR}/chronocollector-init.sh           ${RPM_BUILD_ROOT}/var/lib/chronoc/bin
+cp ${RPM_SOURCE_DIR}/config.yml-tmpl                   ${RPM_BUILD_ROOT}/var/lib/chronoc/
+cp ${RPM_SOURCE_DIR}/env.sh-tmpl                       ${RPM_BUILD_ROOT}/var/lib/chronoc/
+chmod 755                                              ${RPM_BUILD_ROOT}/var/lib/chronoc/bin/*
+chmod 755                                              ${RPM_BUILD_ROOT}/var/lib/chronoc/env.sh-tmpl
+
+# Install check_mk files
+cp ${RPM_SOURCE_DIR}/check_cudos_block_age.sh          ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/
+cp ${RPM_SOURCE_DIR}/check_cudos_block_data.sh         ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/
+cp ${RPM_SOURCE_DIR}/check_cudos_catching_up.sh        ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/
+cp ${RPM_SOURCE_DIR}/check_cudos_block_age_docker.sh   ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/
+cp ${RPM_SOURCE_DIR}/check_cudos_block_data_docker.sh  ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/
+cp ${RPM_SOURCE_DIR}/check_cudos_catching_up_docker.sh ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/
+cp ${RPM_SOURCE_DIR}/check_cudos_consensus.sh          ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/
+chmod 755                                              ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/*
+
 %clean
 # rm -rf $RPM_BUILD_ROOT
 
@@ -122,5 +171,24 @@ fi
 %files -n cudos-node-src
 %defattr(-,cudos,cudos,-)
 /var/lib/cudos/Cudos*
+
+%files -n cudos-monitoring
+%defattr(-,root,root,-)
+/usr/bin/cudos-is-node-ready.sh
+/var/lib/chronoc
+/usr/lib/systemd/system/cudos-chronocollector.service
+/usr/lib/check_mk_agent/local/check_cudos_block_age.sh
+/usr/lib/check_mk_agent/local/check_cudos_block_data.sh
+/usr/lib/check_mk_agent/local/check_cudos_catching_up.sh
+/usr/lib/check_mk_agent/local/check_cudos_consensus.sh
+
+%files -n cudos-monitoring-docker
+%defattr(-,root,root,-)
+/usr/bin/cudos-is-node-ready.sh
+/var/lib/chronoc
+/usr/lib/systemd/system/cudos-chronocollector.service
+/usr/lib/check_mk_agent/local/check_cudos_block_age_docker.sh
+/usr/lib/check_mk_agent/local/check_cudos_block_data_docker.sh
+/usr/lib/check_mk_agent/local/check_cudos_catching_up_docker.sh
 
 %changelog

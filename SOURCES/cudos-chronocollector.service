@@ -1,0 +1,16 @@
+# 
+[Unit]
+Description=Cudos Node ChronoCollector Service
+After=network.target
+
+[Service]
+Type=simple
+User=chronoc
+EnvironmentFile=/var/lib/chronoc/env.sh
+ExecStartPre=/var/lib/chronoc/bin/chronocollector-init.sh
+ExecStart=/var/lib/chronoc/bin/chronocollector-linux-amd64 -f /var/lib/chronoc/config.yml
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

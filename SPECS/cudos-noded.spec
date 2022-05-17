@@ -32,6 +32,7 @@ Source2:      etc_default_cudos-noded
 Source3:      etc_profiled_cudos-noded.sh
 Source4:      cudos-init-node.sh
 Source5:      cudos-noded-ctl.sh
+Source6:      cudos-is-node-ready.sh
 
 Source40:     check_cudos_block_age.sh
 Source41:     check_cudos_block_data.sh
@@ -128,6 +129,10 @@ cp -v ${RPM_SOURCE_DIR}/cudos-init-node.sh                                      
 cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm.so ${RPM_BUILD_ROOT}/usr/lib/
 chmod 644                                                                          ${RPM_BUILD_ROOT}/usr/lib/*.so
 chmod 755                                                                          ${RPM_BUILD_ROOT}/usr/bin/*.sh
+
+# Install the shell scripts for /usr/bin
+cp ${RPM_SOURCE_DIR}/cudos-is-node-ready.sh            ${RPM_BUILD_ROOT}/usr/bin/
+chmod 755                                              ${RPM_BUILD_ROOT}/usr/bin/*
 
 # Install environment setup files
 cp ${RPM_SOURCE_DIR}/etc_default_cudos-noded           ${RPM_BUILD_ROOT}/etc/default/cudos-noded

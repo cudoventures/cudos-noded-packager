@@ -65,7 +65,14 @@ This is done directy in the config.toml and app.toml files.
 Tools are being developed to easily manage the neighbourhood connections and
 perform other routine tasks and generic layouts.
 
-Please see [cudos-noded-ctl](docs/cudos-noded-ctl.md)
+Please see
+  [cudos-noded-ctl](docs/cudos-noded-ctl.md)
+  and
+  [cudos-init-node.sh](SOURCES/cudos-init-node.sh)
+  
+If on a freshly installed node, the cudos-noded service is just started without any further configuration, the initialisation script [cudos-init-node.sh](SOURCES/cudos-init-node.sh) which is run by the systemd service file [cudos-noded.service](SOURCES/cudos-noded.service) will assume the `full-node` configuration.
+
+If another config is needed, the [cudos-init-node.sh](SOURCES/cudos-init-node.sh) can be run to initialise the node as other node types
 
 ## Enable and start the daemon
 

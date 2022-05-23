@@ -34,9 +34,21 @@ Please see [License](LICENSE) for the license conditions under which this softwa
 
 Please see the following details on how to install a Cudos node daemon using these binary packages, on a Linux system.
 
-## Install direct from the package repository
+## Install from the package repository
 
-The following is correct for public-testnet
+Install the Network Pack for the Cudos blockchain network you want this node to be on, in whatever capacity.
+The network pack contains the genesis.json file and the initial seed and RPC connection information needed to get the node connected.
+
+The packages used to install the different networks are:
+* cudos-network-dressrehearsal
+* cudos-network-mainnet
+* cudos-network-private-testnet
+* cudos-network-public-testnet
+
+NB The packs are mutually exclusive, they share the same filenames.
+Using this system of packaging, any given host can only be on one Cudos network at any one time.
+
+The following examples are correct for Cudos Public Testnet.
 
 #### Red Hat family (RHEL, CentOS & Fedora)
 
@@ -58,20 +70,44 @@ apt install cudos-network-public-testnet
 ## Configure the daemon
 
 The underlying network (in the above example, testnet) has already been configured
-by the network pack, the only thing left is to set up the neighbour information.
-This is done directy in the config.toml and app.toml files.
+by the Network Pack, the only thing left to get this node synchronized with
+the network is to set up the neighbour information.
+This is done directy in the config.toml and app.toml files by `cudos-noded-ctl`.
+Please see [cudos-noded-ctl](docs/cudos-noded-ctl.md)
 
-Tools are being developed to easily manage the neighbourhood connections and
-perform other routine tasks and generic layouts.
+For an example of how the `cudos-noded-ctl` command is to be used, please see
+[cudos-init-node.sh](SOURCES/cudos-init-node.sh)
 
-Please see
-  [cudos-noded-ctl](docs/cudos-noded-ctl.md)
-  and
-  [cudos-init-node.sh](SOURCES/cudos-init-node.sh)
-  
-If on a freshly installed node, the cudos-noded service is just started without any further configuration, the initialisation script [cudos-init-node.sh](SOURCES/cudos-init-node.sh) which is run by the systemd service file [cudos-noded.service](SOURCES/cudos-noded.service) will assume the `full-node` configuration.
+If you strart the cudos-noded service on a freshly installed node without any .toml configuration files, the initialisation script [cudos-init-node.sh](SOURCES/cudos-init-node.sh) which is run by the systemd service file [cudos-noded.service](SOURCES/cudos-noded.service) will assume the `full-node` configuration is required and configure `config.toml` and `app.toml` accordingly.
 
-If another config is needed, the [cudos-init-node.sh](SOURCES/cudos-init-node.sh) can be run to initialise the node as other node types
+If a node type other than `full-node` is needed, run [cudos-init-node.sh](SOURCES/cudos-init-node.sh) with an argument to initialise the node as another node type **before** the node is started for the first time.
+
+Node types available are:
+* `full-node`
+*	`clustered-node`
+* `seed-node`
+* `sentry-node`
+
+### Clustered Nodes
+
+If the intent is to build a Cudos Node Cluster for a Clustered Validator the `clustered-node` type is used for the validator.
+
+```bash
+cudos-init-node.sh clustered-node
+```
+The usual seed and sentry node types are used when building the cluster's seeds and sentries.
+
+Once the Clustered Node and its associated seeds and sentries have been configured, started and synchronized, the Clustered Node can then be staked as a Clustered Validator.
+
+NB If the node is intended to be a member of a cluster of Cudos Nodes, and as such requires specific seeds, sentries, private peers amd unconditional peers, it is important to also configure the peer files. Please see [cudos-noded-ctl](docs/cudos-noded-ctl.md) for further details.
+
+### Solo Nodes
+
+If a Solo Validator is needed, a basic `full-node` can be staked, much as a `clustered-node` was staked to create a Clustered Validator.
+
+If it is intended that the Validator, Full Node, Seed or Sentry is to sit on it's own with no specific peers, the default neighbour information can be used for any of the non-clustered node types.
+
+If a clustered-node is left to the default neighbour configuration it will not try and connect to any other node and will just stall indefinitely waiting for chain infomation. As soon as another node contacts it, the synchronisation process will being.
 
 ## Enable and start the daemon
 

@@ -30,8 +30,7 @@ cannot update.
 
 Please be aware that this code and the repo service is being offered on a "Proof of Concept" basis.
 
-Please see https://github.com/CudoVentures/cudos-noded-packager/blob/main/LICENSE for
-the license conditions under which this software is released. 
+Please see [License](LICENCE) for the license conditions under which this software is released. 
 
 Please see the following details on how to install a Cudos node daemon using these binary packages, on a Linux system.
 

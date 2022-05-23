@@ -6,6 +6,8 @@ manageing the cudos-noded daemon, configuration files and database. Any higher
 level scripts provided to execute system level events, upgrades and hard forks
 for example, should use the primitives in this script for all daemon control.
 
+For a working example see: https://github.com/CudoVentures/cudos-noded-packager/blob/main/SOURCES/cudos-init-node.sh
+
 ## Command Line
 
 #### Example

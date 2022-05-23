@@ -9,23 +9,23 @@ for public download from yum/apt repositories.
 Every Cudos Node major version has its own yum/apt repository to maintain separation while
 still allowing security and utility upgrades to older versions.
 
-The correct mix of package names and versions can be set up by installing a "Cudos Network
-Pack", which is another rpm/deb package that contains the relevant genesis
+The correct mix of package names and versions can be set up by installing a `Cudos Network
+Pack`, which is another rpm/deb package that contains the relevant genesis
 and node address files for the given network.
 
 In order to allow easier integration of the various components the directory locations
-for the daemon have been fixed and should remain at those locations. The CUDOS_HOME variable
-is preset to /var/lib/cudos/cudos-data, which is owned by the user "cudos" who's home
-directory is /var/lib/cudos.
+for the daemon have been fixed and should remain at those locations. The `$CUDOS_HOME` variable
+is preset to `/var/lib/cudos/cudos-data`, which is owned by the user `cudos` who's home
+directory is `/var/lib/cudos`.
 
-It is advised that all configuration editing operations be done as user "cudos" in
-order to avoid permissions issues. Everything under /var/lib/cudos should be owned
-by user "cudos"
+It is advised that all configuration editing operations be done as user `cudos` in
+order to avoid permissions issues. Everything under `/var/lib/cudos` should be owned
+by user `cudos`
 
-The only operations that need root involvement are installin, upgrading and removing
-the software packages. It is advised that all other operations are performed as either
-user "cudos" or as another non-priveledged user and specifically *not* as root. Doing 
-so would leave files in the "cudos-data" area that the user running the daemon (cudos)
+The only operations that need root involvement are installing, upgrading and removing
+the software packages and operations involing systemctl. It is advised that all other
+operations are performed as either user `cudos` or as another non-priveledged user and specifically *not* as `root`. Doing 
+so would leave files in the `$CUDOS_HOME` area that the user running the daemon (`cudos`)
 cannot update.
 
 Please be aware that this code and the repo service is being offered on a "Proof of Concept" basis.

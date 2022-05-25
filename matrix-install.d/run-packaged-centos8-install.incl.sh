@@ -28,7 +28,7 @@ run-packaged-centos8-install()
 	
 	sudo dnf install cudos-gex cudos-monitoring
 
-	export CUDOS_HOME=/var/lib/cudos/cudos-data
+	source /etc/profile.d/cudos-noded.sh
 
 	./SOURCES/cudos-init-node.sh $NODE_TYPE
 	

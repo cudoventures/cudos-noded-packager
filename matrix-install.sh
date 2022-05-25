@@ -26,7 +26,7 @@ run-docker-install()
 			run-docker-ubuntu2004-install $2 $3
 			;;
 		*) 
-			echo -ne "\nError: Bad install method $matrix_method\n\n"
+			echo -ne "\nError: Bad agent $1\n\n"
 			exit 1
 			;;
 	esac

@@ -35,10 +35,10 @@ run-docker-install()
 run-packaged-install()
 {
 	case $1 in
-		gce-centos8-packaged)
+		gce-centos8-docker)
 			run-packaged-centos8-install $2 $3
 			;;
-		gce-ubuntu2004-packaged)
+		gce-ubuntu2004-docker)
 			run-packaged-ubuntu2004-install $2 $3
 			;;
 		*) 

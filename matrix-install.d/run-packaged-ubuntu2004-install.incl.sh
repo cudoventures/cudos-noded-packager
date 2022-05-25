@@ -1,4 +1,4 @@
-run-packaged-centos8-install()
+run-packaged-ubuntu2004-install()
 {
         echo -ne "\nNot Yet Supported\n\n"
         exit 1

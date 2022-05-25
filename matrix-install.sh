@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 echo -ne "Install Method: $matrix_method\n"
 echo -ne "Agent:          $matrix_agent\n"

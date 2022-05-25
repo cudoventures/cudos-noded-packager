@@ -6,32 +6,12 @@ echo -ne "Node Type:      $matrix_node_type\n"
 echo -ne "Cudos Network:  $matrix_cudos_network\n"
 
 #
-# Low level install functions
+# Source low level install functions
 #
-
-run-docker-centos8-install()
-{
-	echo -ne "\nNot Yet Supported\n\n"
-	exit 1
-}
-
-run-docker-ubuntu2004-install()
-{
-	echo -ne "\nNot Yet Supported\n\n"
-	exit 1
-}
-
-run-packaged-centos8-install()
-{
-	echo -ne "\nNot Yet Supported\n\n"
-	exit 1
-}
-
-run-packaged-ubuntu2004-install()
-{
-	echo -ne "\nNot Yet Supported\n\n"
-	exit 1
-}
+for FNM in matrix-install.d/*.incl.sh
+do
+	source $FNM
+done
 
 #
 # Docker vs Packaged functions

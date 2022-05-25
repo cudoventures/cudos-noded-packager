@@ -25,6 +25,8 @@ run-packaged-centos8-install()
 			sudo dnf install -y cudos-network-private-testnet
 			;;
 	esac
+	
+	sudo dnf install cudos-gex cudos-monitoring
 
 	export CUDOS_HOME=/var/lib/cudos/cudos-data
 

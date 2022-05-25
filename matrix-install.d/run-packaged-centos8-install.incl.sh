@@ -26,7 +26,7 @@ run-packaged-centos8-install()
 			;;
 	esac
 	
-	sudo dnf install cudos-gex cudos-monitoring
+	sudo dnf install -y cudos-gex cudos-monitoring
 
 	source /etc/profile.d/cudos-noded.sh
 

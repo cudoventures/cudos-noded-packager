@@ -16,6 +16,10 @@ run-packaged-centos8-install()
 			sudo yum-config-manager --enable cudos-0.6.0
 			sudo dnf install -y cudos-network-mainnet
 			;;
+		dressrehearsal)
+			sudo yum-config-manager --enable cudos-0.6.0
+			sudo dnf install -y cudos-network-dressrehearsal
+			;;
 		public-testnet)
 			sudo yum-config-manager --enable cudos-0.4
 			sudo dnf install -y cudos-network-public-testnet

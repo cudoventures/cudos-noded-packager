@@ -56,7 +56,7 @@ case $matrix_method in
 		run-docker-install $matrix_agent $matrix_node_type $matrix_cudos_network
 		;;
 
-	packaged)
+	package)
 		run-packaged-install $matrix_agent $matrix_node_type $matrix_cudos_network
 		;;
 

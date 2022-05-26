@@ -48,10 +48,6 @@ gce-centos8-builder-install()
 			;;
 	esac
 	
-	rpm -qa | fgrep cudos
-	
-	ls -la /var/lib
-	
 	#
 	# Set the CUDOS_HOME variable using the profile
 	# just installed through the cudos-noded package
@@ -61,7 +57,7 @@ gce-centos8-builder-install()
 	#
 	# Initialise the node using the node type
 	#
-	if ! /usr/bin/cudos-init-node.sh $NODE_TYPE
+	if ! sudo -u cudos /usr/bin/cudos-init-node.sh $NODE_TYPE
 	then
 		echo -ne "\nError: cudos-init-node.sh returned an error\n\n"
 		exit 1

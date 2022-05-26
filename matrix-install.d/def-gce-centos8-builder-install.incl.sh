@@ -18,6 +18,8 @@
 
 gce-centos8-builder-install()
 {
+	set -x
+	
 	export CUDOS_NETWORK="$1"
 	export NODE_TYPE="$2"
 
@@ -49,7 +51,7 @@ gce-centos8-builder-install()
 	esac
 	
 	#
-	# Set the yum repository using the YUMREPO variable from above
+    # Set the yum repository to $YUMREPO
 	#
 	if ! sudo yum-config-manager --enable "${YUMREPO}"
 	then

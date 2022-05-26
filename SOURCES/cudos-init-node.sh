@@ -58,6 +58,7 @@ if ! touch "$TCHFILE"
 then
 	rm -f "$TCHFILE"
 	echo -ne "Error: Cannot write to directory '$CUDOS_HOME'\n\n"
+	ls -ld "${CUDOS_HOME}"
 	exit 1
 fi
 rm -f "$TCHFILE"

@@ -14,7 +14,7 @@ do
 done
 
 #
-# Docker vs Packaged functions
+# Docker vs Native install functions
 #
 run-docker-install()
 {
@@ -32,14 +32,14 @@ run-docker-install()
 	esac
 }
 
-run-packaged-install()
+run-install()
 {
 	case $1 in
 		gce-centos8-docker)
-			run-packaged-centos8-install $2 $3
+			run-centos8-install $2 $3
 			;;
 		gce-ubuntu2004-docker)
-			run-packaged-ubuntu2004-install $2 $3
+			run-ubuntu2004-install $2 $3
 			;;
 		*) 
 			echo -ne "\nError: Bad agent $1\n\n"
@@ -56,8 +56,8 @@ case $matrix_method in
 		run-docker-install $matrix_agent $matrix_node_type $matrix_cudos_network
 		;;
 
-	package)
-		run-packaged-install $matrix_agent $matrix_node_type $matrix_cudos_network
+	native)
+		run-install $matrix_agent $matrix_node_type $matrix_cudos_network
 		;;
 
 	*) 
@@ -65,3 +65,4 @@ case $matrix_method in
 		exit 1
 		;;
 esac
+

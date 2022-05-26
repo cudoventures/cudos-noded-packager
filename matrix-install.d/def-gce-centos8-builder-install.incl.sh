@@ -40,11 +40,11 @@ gce-centos8-builder-install()
 			;;
 		public-testnet)
 			YUMREPO=cudos-0.4
-			NETPACK=cudos-network-public-testnetyy
+			NETPACK=cudos-network-public-testnet
 			;;
 		private-testnet)
 			YUMREPO=cudos-0.8.0
-			NETPACK=cudos-network-private-testnetyy
+			NETPACK=cudos-network-private-testnet
 			;;
 	esac
 	

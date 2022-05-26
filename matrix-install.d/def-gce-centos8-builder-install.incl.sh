@@ -31,23 +31,41 @@ gce-centos8-builder-install()
 	#
 	case $CUDOS_NETWORK in
 		mainnet)
-			sudo yum-config-manager --enable cudos-0.6.0
-			sudo dnf install -y cudos-network-mainnet cudos-noded cudos-gex cudos-monitoring
+			YUMREPO=cudos-0.6.0
+			NETPACK=cudos-network-mainnet
 			;;
 		dressrehearsal)
-			sudo yum-config-manager --enable cudos-0.6.0
-			sudo dnf install -y cudos-network-dressrehearsal cudos-noded cudos-gex cudos-monitoring
+			YUMREPO=cudos-0.6.0
+			NETPACK=cudos-network-dressrehearsal
 			;;
 		public-testnet)
-			sudo yum-config-manager --enable cudos-0.4
-			sudo dnf install -y cudos-network-public-testnet cudos-noded cudos-gex cudos-monitoring
+			YUMREPO=cudos-0.4
+			NETPACK=cudos-network-public-testnetyy
 			;;
 		private-testnet)
-			sudo yum-config-manager --enable cudos-0.8.0
-			sudo dnf install -y cudos-network-private-testnet cudos-noded cudos-gex cudos-monitoring
+			YUMREPO=cudos-0.8.0
+			NETPACK=cudos-network-private-testnetyy
 			;;
 	esac
 	
+	#
+	# Set the yum repository using the YUMREPO variable from above
+	#
+	if ! sudo yum-config-manager --enable "${YUMREPO}"
+	then
+		echo -ne "\nError: Repository switch to ${YUMREPO} failed\n\n"
+		exit 1
+	fi
+		
+	#
+	# Install the packages
+	#
+	if ! sudo dnf install -y ${NETPACK} cudos-noded cudos-gex cudos-monitoring
+	then
+		echo -ne "\nError: dnf install failed\n\n"
+		exit 1
+	fi
+			
 	#
 	# Set the CUDOS_HOME variable using the profile
 	# just installed through the cudos-noded package

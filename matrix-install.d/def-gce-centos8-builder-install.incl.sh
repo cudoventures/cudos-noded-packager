@@ -24,7 +24,7 @@ gce-centos8-builder-install()
 	sudo dnf install -y yum-utils
 	sudo yum-config-manager --add-repo http://jenkins.gcp.service.cudo.org/cudos/cudos.repo
 
-        echo -ne "\n\nInstall a $NODE_TYPE on $CUDOS_NETWORK\n\n"
+    echo -ne "\n\n     Install a $NODE_TYPE on $CUDOS_NETWORK\n\n"
 
 	#
 	# Select repository and install the packages based on CUDOS_NETWORK
@@ -57,21 +57,34 @@ gce-centos8-builder-install()
 	#
 	# Initialise the node using the node type
 	#
-	/usr/bin/cudos-init-node.sh $NODE_TYPE
+	if ! /usr/bin/cudos-init-node.sh $NODE_TYPE
+	then
+		echo -ne "\nError: cudos-init-node.sh returned an error\n\n"
+		exit 1
+	fi
 	
 	#
 	# Enable and start the cudos-noded service
 	#
-	sudo systemctl enable --now cudos-noded
+	if ! sudo systemctl enable --now cudos-noded
+	then
+		echo -ne "\nError: Service enable failed\n\n"
+		exit 1
+	fi
+		
 
 	#
 	# Hang around a bit to let some logs build up
 	#
+	echo -ne "Sleeping for 120 seconds\n"
 	sleep 120
 
 	#
-	# Dump the log since boot for cudos-noded
+	# Dump the log since boot for cudos-noded both to the screen
+	# for the CI/CD job log, and to a logfile for export as an
+	# artifact
 	#
-	journalctl -b -t cudos-noded
+	journalctl -b -t cudos-noded | tee log-${CUDOS_NETWORK}_-_${NODE_TYPE}.txt
+	
 }
 

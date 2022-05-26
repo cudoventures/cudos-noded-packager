@@ -73,6 +73,7 @@ Gex console app
 
 %package -n cudos-p2p-scan
 Summary: cudos-p2p-scan
+Requires: jq
 %description -n cudos-p2p-scan
 Stand alone probe for examining PEX ports
 

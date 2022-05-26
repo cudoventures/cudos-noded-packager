@@ -35,6 +35,7 @@
 # the systemd cudos-noded.service
 #
 ######################
+set -x 
 
 export TYPE_NAME="$1"
 

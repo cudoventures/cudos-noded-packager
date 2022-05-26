@@ -70,6 +70,11 @@ Summary: Gex - Cosmos Node Monitor App
 %description -n cudos-gex
 Gex console app
 
+%package -n cudos-p2p-scan
+Summary: cudos-p2p-scan
+%description -n cudos-p2p-scan
+STand alone probe for examining PEX ports
+
 %package -n cudos-monitoring
 Summary: Cudos Node Monitoring Agents
 Requires: bc jq
@@ -106,6 +111,10 @@ echo -e "\n\n=== Build and install gex ===\n\n"
 
 go install -v github.com/cosmos/gex@latest
 
+echo -e "\n\n=== Build and install cudos-p2p-scan ===\n\n"
+
+go install github.com/CudoVentures/cudos-p2p-scan/apps/cudos-p2p-scan@latest
+
 %install
 echo -e "\n\n=== install section ===\n\n"
 
@@ -125,6 +134,7 @@ cp -rv ${RPM_BUILD_DIR}/Cudos*                         ${RPM_BUILD_ROOT}/var/lib
 # Copy the newly built binaries into /usr/bin and /usr/lib
 cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded                                          ${RPM_BUILD_ROOT}/usr/bin/
 cp -v ${RPM_BUILD_DIR}/go/bin/gex                                                  ${RPM_BUILD_ROOT}/usr/bin/cudos-gex
+cp -v ${RPM_BUILD_DIR}/go/bin/cudos-p2p-scan                                       ${RPM_BUILD_ROOT}/usr/bin/
 cp -v ${RPM_SOURCE_DIR}/cudos-init-node.sh                                         ${RPM_BUILD_ROOT}/usr/bin/
 cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm.so ${RPM_BUILD_ROOT}/usr/lib/
 chmod 644                                                                          ${RPM_BUILD_ROOT}/usr/lib/*.so
@@ -196,6 +206,10 @@ fi
 %files -n cudos-gex
 %defattr(-,root,root,-)
 /usr/bin/cudos-gex
+
+%files -n cudos-p2p-scan
+%defattr(-,root,root,-)
+/usr/bin/cudos-p2p-scan
 
 %files -n cudos-monitoring
 %defattr(-,root,root,-)

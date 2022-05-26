@@ -216,6 +216,7 @@ fi
 %files -n cudos-p2p-scan
 %defattr(-,root,root,-)
 /usr/bin/cudos-p2p-scan
+/usr/lib64/nagios/plugins/check_cudos_p2p
 
 %files -n cudos-monitoring
 %defattr(-,root,root,-)
@@ -226,7 +227,6 @@ fi
 /usr/lib/check_mk_agent/local/check_cudos_block_data.sh
 /usr/lib/check_mk_agent/local/check_cudos_catching_up.sh
 /usr/lib/check_mk_agent/local/check_cudos_consensus.sh
-/usr/lib64/nagios/plugins/check_cudos_p2p
 
 %files -n cudos-monitoring-docker
 %defattr(-,root,root,-)
@@ -236,6 +236,5 @@ fi
 /usr/lib/check_mk_agent/local/check_cudos_block_age_docker.sh
 /usr/lib/check_mk_agent/local/check_cudos_block_data_docker.sh
 /usr/lib/check_mk_agent/local/check_cudos_catching_up_docker.sh
-/usr/lib64/nagios/plugins/check_cudos_p2p
 
 %changelog

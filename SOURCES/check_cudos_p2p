@@ -4,7 +4,7 @@ export TMPFILE=/tmp/cudos-p2p-scan.$$.txt
 
 export TARGET="$1"
 
-cudos-p2p-scan "$TARGET" > $TMPFILE
+/usr/bin/cudos-p2p-scan "$TARGET" > $TMPFILE
 
 P2P_STATUS="` jq -M .Status < $TMPFILE | tr -d '"' `"
 P2P_ID="` jq -M .ID < $TMPFILE | tr -d '"' `"

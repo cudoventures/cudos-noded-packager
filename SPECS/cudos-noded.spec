@@ -74,11 +74,11 @@ Gex console app
 %package -n cudos-p2p-scan
 Summary: cudos-p2p-scan
 %description -n cudos-p2p-scan
-STand alone probe for examining PEX ports
+Stand alone probe for examining PEX ports
 
 %package -n cudos-monitoring
 Summary: Cudos Node Monitoring Agents
-Requires: bc jq
+Requires: bc jq cudos-p2p-scan
 %description -n cudos-monitoring
 CheckMK and ChronoSphere monitoring agents for Cudos Nodes
 %pre -n cudos-monitoring
@@ -87,7 +87,7 @@ getent passwd chronoc >/dev/null || useradd -c "Cudos User" -g chronoc -s /bin/b
 
 %package -n cudos-monitoring-docker
 Summary: Cudos Node Monitoring Agents
-Requires: bc jq
+Requires: bc jq cudos-p2p-scan
 %description -n cudos-monitoring-docker
 CheckMK and ChronoSphere monitoring agents for Cudos Nodes Using the Docker containers
 %pre -n cudos-monitoring-docker
@@ -128,6 +128,7 @@ mkdir -p ${RPM_BUILD_ROOT}/usr/lib/systemd/system
 mkdir -p ${RPM_BUILD_ROOT}/lib64
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/chronoc/bin
+mkdir -p ${RPM_BUILD_ROOT}/usr/lib64/nagios/plugins/
 
 # Copy the sources to /var/lib/cudos
 cp -rv ${RPM_BUILD_DIR}/Cudos*                         ${RPM_BUILD_ROOT}/var/lib/cudos/
@@ -143,8 +144,11 @@ chmod 755                                                                       
 
 # Install the shell scripts for /usr/bin
 cp ${RPM_SOURCE_DIR}/cudos-is-node-ready.sh            ${RPM_BUILD_ROOT}/usr/bin/
-cp ${RPM_SOURCE_DIR}/check_cudos_p2p                   ${RPM_BUILD_ROOT}/usr/bin/
 chmod 755                                              ${RPM_BUILD_ROOT}/usr/bin/*
+
+# Install the files for /usr/lib64/nagios/plugins/
+cp ${RPM_SOURCE_DIR}/check_cudos_p2p                   ${RPM_BUILD_ROOT}/usr/lib64/nagios/plugins/
+chmod 755                                              ${RPM_BUILD_ROOT}/usr/lib64/nagios/plugins/*
 
 # Install environment setup files
 cp ${RPM_SOURCE_DIR}/etc_default_cudos-noded           ${RPM_BUILD_ROOT}/etc/default/cudos-noded
@@ -222,7 +226,7 @@ fi
 /usr/lib/check_mk_agent/local/check_cudos_block_data.sh
 /usr/lib/check_mk_agent/local/check_cudos_catching_up.sh
 /usr/lib/check_mk_agent/local/check_cudos_consensus.sh
-/usr/bin/check_cudos_p2p
+/usr/lib64/nagios/plugins/check_cudos_p2p
 
 %files -n cudos-monitoring-docker
 %defattr(-,root,root,-)
@@ -232,6 +236,6 @@ fi
 /usr/lib/check_mk_agent/local/check_cudos_block_age_docker.sh
 /usr/lib/check_mk_agent/local/check_cudos_block_data_docker.sh
 /usr/lib/check_mk_agent/local/check_cudos_catching_up_docker.sh
-/usr/bin/check_cudos_p2p
+/usr/lib64/nagios/plugins/check_cudos_p2p
 
 %changelog

@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-centos8-docker-install()
+gce-centos8-docker-install()
 {
         echo -ne "\nNot Yet Supported\n\n"
         exit 1

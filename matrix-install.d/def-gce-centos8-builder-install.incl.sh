@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-centos8-builder-install()
+gce-centos8-builder-install()
 {
 	export NODE_TYPE="$1"
 	export CUDOS_NETWORK="$2"

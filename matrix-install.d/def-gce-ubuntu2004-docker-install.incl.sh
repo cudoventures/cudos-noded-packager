@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ubuntu2004-docker-install()
+gce-ubuntu2004-docker-install()
 {
         echo -ne "\nNot Yet Supported\n\n"
         exit 1

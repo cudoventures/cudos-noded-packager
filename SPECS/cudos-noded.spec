@@ -41,6 +41,7 @@ Source43:     check_cudos_block_age_docker.sh
 Source44:     check_cudos_block_data_docker.sh
 Source45:     check_cudos_catching_up_docker.sh
 Source46:     check_cudos_consensus.sh
+Source47:     check_cudos_p2p
 
 Source51:     env.sh-tmpl
 Source52:     config.yml-tmpl
@@ -142,6 +143,7 @@ chmod 755                                                                       
 
 # Install the shell scripts for /usr/bin
 cp ${RPM_SOURCE_DIR}/cudos-is-node-ready.sh            ${RPM_BUILD_ROOT}/usr/bin/
+cp ${RPM_SOURCE_DIR}/check_cudos_p2p                   ${RPM_BUILD_ROOT}/usr/bin/
 chmod 755                                              ${RPM_BUILD_ROOT}/usr/bin/*
 
 # Install environment setup files
@@ -220,6 +222,7 @@ fi
 /usr/lib/check_mk_agent/local/check_cudos_block_data.sh
 /usr/lib/check_mk_agent/local/check_cudos_catching_up.sh
 /usr/lib/check_mk_agent/local/check_cudos_consensus.sh
+/usr/bin/check_cudos_p2p
 
 %files -n cudos-monitoring-docker
 %defattr(-,root,root,-)
@@ -229,5 +232,6 @@ fi
 /usr/lib/check_mk_agent/local/check_cudos_block_age_docker.sh
 /usr/lib/check_mk_agent/local/check_cudos_block_data_docker.sh
 /usr/lib/check_mk_agent/local/check_cudos_catching_up_docker.sh
+/usr/bin/check_cudos_p2p
 
 %changelog

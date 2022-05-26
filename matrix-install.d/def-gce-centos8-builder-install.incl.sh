@@ -18,44 +18,60 @@
 
 gce-centos8-builder-install()
 {
-	export NODE_TYPE="$1"
-	export CUDOS_NETWORK="$2"
+	export CUDOS_NETWORK="$1"
+	export NODE_TYPE="$2"
 
 	sudo dnf install -y yum-utils
 	sudo yum-config-manager --add-repo http://jenkins.gcp.service.cudo.org/cudos/cudos.repo
 
-        echo -ne "Install a $NODE_TYPE on $CUDOS_NETWORK\n"
+        echo -ne "\n\nInstall a $NODE_TYPE on $CUDOS_NETWORK\n\n"
 
 	#
-	# Select repository based on network
+	# Select repository and install the packages based on CUDOS_NETWORK
 	#
 	case $CUDOS_NETWORK in
 		mainnet)
 			sudo yum-config-manager --enable cudos-0.6.0
-			sudo dnf install -y cudos-network-mainnet
+			sudo dnf install -y cudos-network-mainnet cudos-noded cudos-gex cudos-monitoring
 			;;
 		dressrehearsal)
 			sudo yum-config-manager --enable cudos-0.6.0
-			sudo dnf install -y cudos-network-dressrehearsal
+			sudo dnf install -y cudos-network-dressrehearsal cudos-noded cudos-gex cudos-monitoring
 			;;
 		public-testnet)
 			sudo yum-config-manager --enable cudos-0.4
-			sudo dnf install -y cudos-network-public-testnet
+			sudo dnf install -y cudos-network-public-testnet cudos-noded cudos-gex cudos-monitoring
 			;;
 		private-testnet)
 			sudo yum-config-manager --enable cudos-0.8.0
-			sudo dnf install -y cudos-network-private-testnet
+			sudo dnf install -y cudos-network-private-testnet cudos-noded cudos-gex cudos-monitoring
 			;;
 	esac
 	
+	#
+	# Set the CUDOS_HOME variable using the profile
+	# just installed through the cudos-noded package
+	#
 	source /etc/profile.d/cudos-noded.sh
 
-	./SOURCES/cudos-init-node.sh $NODE_TYPE
+	#
+	# Initialise the node using the node type
+	#
+	/usr/bin/cudos-init-node.sh $NODE_TYPE
 	
+	#
+	# Enable and start the cudos-noded service
+	#
 	sudo systemctl enable --now cudos-noded
 
+	#
+	# Hang around a bit to let some logs build up
+	#
 	sleep 120
 
+	#
+	# Dump the log since boot for cudos-noded
+	#
 	journalctl -b -t cudos-noded
 }
 

@@ -40,6 +40,11 @@ set -x
 export TYPE_NAME="$1"
 
 #
+# Set the CUDOS_HOME variable using the profile
+#
+source /etc/profile.d/cudos-noded.sh
+
+#
 # Check that the $CUDOS_HOME variable is set and pointing to a writeable directory
 #
 if [[ "$CUDOS_HOME" == "" ]]

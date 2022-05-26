@@ -1,4 +1,4 @@
-run-packaged-centos8-install()
+centos8-install()
 {
 	export NODE_TYPE="$1"
 	export CUDOS_NETWORK="$2"

@@ -28,6 +28,12 @@ baseurl=http://jenkins.gcp.service.cudo.org/cudos/0.8.0
 gpgcheck=0
 enabled=0
 
+[cudos-0.9.0]
+name=CentOS $releasever - Cudo Cudos 0.9.0 Packages
+baseurl=http://jenkins.gcp.service.cudo.org/cudos/0.9.0
+gpgcheck=0
+enabled=0
+
 [cudos-1.0.master]
 name=CentOS Stream $releasever - Cudo Cudos 1.0.master Packages
 baseurl=http://jenkins.gcp.service.cudo.org/cudos/1.0.master

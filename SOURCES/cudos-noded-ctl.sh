@@ -26,6 +26,15 @@
 #
 
 #
+# Check that this is being run as root
+#
+if [[ "$( id -u )" != "0" ]]
+then
+	echo -ne "Error: $0 must be run as root.\n\n"
+	exit 1
+fi
+
+#
 # Check that the $CUDOS_HOME variable is set and pointing to a writeable directory
 #
 if [[ "$CUDOS_HOME" == "" ]]
@@ -156,6 +165,12 @@ shift
 case $IP_COMMAND in
   set)
     config_set $*
+    ;;
+  genesis_md5)
+    md5sum /var//lib/cudos/cudos-data/config/genesis.json
+    ;;
+  genesis_dump)
+    cat /var//lib/cudos/cudos-data/config/genesis.json
     ;;
   addrbook_clear)
     addrbook_clear

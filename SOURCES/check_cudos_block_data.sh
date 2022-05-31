@@ -69,7 +69,7 @@ then
 	BLOCK_PROC="$( echo "scale=4; $BLOCK_PROC_SUM_BC / $BLOCK_PROC_COUNT_BC" | bc -l )"
 fi
 
-echo "P \"Cudos Node Block Processing Time\" block_proc=$BLOCK_PROC;4:30;0:300|sum=$BLOCK_PROC_SUM_BC|count=$BLOCK_PROC_COUNT_BC Block Processing Time: $BLOCK_PROC"
+echo "0 \"Cudos Node Block Processing Time\" block_proc=$BLOCK_PROC|sum=$BLOCK_PROC_SUM_BC|count=$BLOCK_PROC_COUNT_BC Block Processing Time: $BLOCK_PROC"
 
 #
 # Block Interval
@@ -84,7 +84,7 @@ BLOCK_INTERVAL_COUNT_BC=`printf "%.0f" $BLOCK_PROC_COUNT`
 if [ "${BLOCK_INTERVAL_SUM}" != "" ]
 then
 	BLOCK_INTERVAL="$( echo "scale=4; $BLOCK_INTERVAL_SUM_BC / $BLOCK_INTERVAL_COUNT_BC" | bc -l )"
-	echo "P \"Cudos Node Block Interval\" block_interval=$BLOCK_INTERVAL;4:30;0:300|sum=$BLOCK_INTERVAL_SUM_BC|count=$BLOCK_INTERVAL_COUNT_BC Block Interval: $BLOCK_INTERVAL"
+	echo "0 \"Cudos Node Block Interval\" block_interval=$BLOCK_INTERVAL|sum=$BLOCK_INTERVAL_SUM_BC|count=$BLOCK_INTERVAL_COUNT_BC Block Interval: $BLOCK_INTERVAL"
 else
 	echo "0 \"Cudos Node Block Interval\" - Parameter not present in prometheus data"
 

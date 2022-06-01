@@ -72,17 +72,13 @@ run_rpmbuild()
 }
 
 case $cudos_version in
-   0\.6\.0)
-    run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" "dressrehearsal"
-    run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" "mainnet"
-    ;;
-
   0\.8\.0)
     run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" "private-testnet"
     ;;
 
   0\.9\.0)
     run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" "public-testnet"
+    run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" "mainnet"
     ;;
 
   *)

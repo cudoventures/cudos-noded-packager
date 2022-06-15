@@ -93,7 +93,7 @@ esac
 #
 # Feed the rpm binaries into "Alien" to be converted
 # to Debian packages
-#
+# 
 mkdir -p debian
 cd debian
 for FNM in ../RPMS/*/*.rpm

@@ -78,6 +78,9 @@ case $cudos_version in
 
   0\.9\.0)
     run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" "public-testnet"
+    ;;
+    
+  1\.0\.0)
     run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" "mainnet"
     ;;
 

@@ -115,7 +115,7 @@ go install -v github.com/cosmos/gex@latest
 
 echo -e "\n\n=== Build and install cudos-p2p-scan ===\n\n"
 
-go install github.com/CudoVentures/cudos-p2p-scan@latest
+go install -v github.com/CudoVentures/cudos-p2p-scan@latest
 
 %install
 echo -e "\n\n=== install section ===\n\n"

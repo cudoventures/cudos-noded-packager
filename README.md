@@ -40,10 +40,9 @@ Install the Network Pack for the Cudos blockchain network you want this node to 
 The network pack contains the genesis.json file and the initial seed and RPC connection information needed to get the node connected.
 
 The packages used to install the different networks are:
-* cudos-network-dressrehearsal
 * cudos-network-mainnet
-* cudos-network-private-testnet
 * cudos-network-public-testnet
+* cudos-network-private-testnet
 
 NB The packs are mutually exclusive, they share the same filenames.
 Using this system of packaging, any given host can only be on one Cudos network at any one time.
@@ -64,7 +63,7 @@ dnf install cudos-network-mainnet
 ```bash
 echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/1.0.0/debian stable main' > /etc/apt/sources.list.d/cudos.list
 apt update
-apt install cudos-network-public-mainnet
+apt install cudos-network-mainnet
 ```
 
 ## Configure the daemon
@@ -84,7 +83,7 @@ If a node type other than `full-node` is needed, run [cudos-init-node.sh](SOURCE
 
 Node types available are:
 * `full-node`
-*	`clustered-node`
+* `clustered-node`
 * `seed-node`
 * `sentry-node`
 

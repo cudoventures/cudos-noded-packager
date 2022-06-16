@@ -48,7 +48,7 @@ The packages used to install the different networks are:
 NB The packs are mutually exclusive, they share the same filenames.
 Using this system of packaging, any given host can only be on one Cudos network at any one time.
 
-The following examples are correct for Cudos Public Testnet.
+The following examples are correct for Cudos Mainnet.
 
 #### Red Hat family (RHEL, CentOS & Fedora)
 
@@ -56,7 +56,7 @@ The following examples are correct for Cudos Public Testnet.
 dnf install -y yum-utils
 yum-config-manager --add-repo http://jenkins.gcp.service.cudo.org/cudos/cudos.repo
 yum-config-manager --enable cudos-1.0.0
-dnf install cudos-network-public-testnet
+dnf install cudos-network-mainnet
 ```
 
 #### Debian and Ubuntu
@@ -64,12 +64,12 @@ dnf install cudos-network-public-testnet
 ```bash
 echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/1.0.0/debian stable main' > /etc/apt/sources.list.d/cudos.list
 apt update
-apt install cudos-network-public-testnet
+apt install cudos-network-public-mainnet
 ```
 
 ## Configure the daemon
 
-The underlying network (in the above example, testnet) has already been configured
+The underlying network (in the above example, mainnet) has already been configured
 by the Network Pack, the only thing left to get this node synchronized with
 the network is to set up the neighbour information.
 This is done directy in the config.toml and app.toml files by `cudos-noded-ctl`.

@@ -55,14 +55,14 @@ The following examples are correct for Cudos Public Testnet.
 ```bash
 dnf install -y yum-utils
 yum-config-manager --add-repo http://jenkins.gcp.service.cudo.org/cudos/cudos.repo
-yum-config-manager --enable cudos-0.9.0
+yum-config-manager --enable cudos-1.0.0
 dnf install cudos-network-public-testnet
 ```
 
 #### Debian and Ubuntu
 
 ```bash
-echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/0.9.0/debian stable main' > /etc/apt/sources.list.d/cudos.list
+echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/1.0.0/debian stable main' > /etc/apt/sources.list.d/cudos.list
 apt update
 apt install cudos-network-public-testnet
 ```

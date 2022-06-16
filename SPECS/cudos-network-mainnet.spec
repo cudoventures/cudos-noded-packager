@@ -31,7 +31,7 @@ Source1:      seeds.config
 Source2:      persistent-peers.config
 Source3:      state-sync-rpc-servers.config
 
-Requires:     cudos-noded = 0.9.0
+Requires:     cudos-noded = 1.0.0
 
 %description
 Cudos Dress Rehearsal Network Definition Files

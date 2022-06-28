@@ -26,11 +26,11 @@
 #
 
 #
-# Check that this is being run as root
+# Check that this is being run as user cudos
 #
-if [[ "$( id -u )" != "0" ]]
+if [[ "$( whoami )" != "cudos" ]]
 then
-	echo -ne "Error: $0 must be run as root.\n\n"
+	echo -ne "Error: $0 must be run as user cudos.\n\n"
 	exit 1
 fi
 

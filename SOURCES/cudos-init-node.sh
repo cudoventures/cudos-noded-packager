@@ -105,7 +105,6 @@ export TYPE_NAME
 case $TYPE_NAME in
 	full-node)
 		cudos-noded-ctl set seeds "$CUDOS_HOME"/config/seeds.config
-		cudos-noded-ctl set seeds "$CUDOS_HOME"/config/seeds.config
 		cudos-noded-ctl set persistent_peers "$CUDOS_HOME"/config/persistent-peers.config
 		cudos-noded-ctl set private_peers "$CUDOS_HOME"/config/private-peers.config
 		cudos-noded-ctl set unconditional_peers "$CUDOS_HOME"/config/unconditional-peers.config

@@ -167,10 +167,10 @@ case $IP_COMMAND in
     config_set $*
     ;;
   genesis_md5)
-    md5sum /var//lib/cudos/cudos-data/config/genesis.json
+    md5sum /var/lib/cudos/cudos-data/config/genesis.json
     ;;
   genesis_dump)
-    cat /var//lib/cudos/cudos-data/config/genesis.json
+    cat /var/lib/cudos/cudos-data/config/genesis.json
     ;;
   addrbook_clear)
     addrbook_clear

@@ -43,6 +43,7 @@ wget "https://github.com/CudoVentures/cudos-builders/blob/v0.9.0/docker/config/p
 wget "https://github.com/CudoVentures/cudos-builders/blob/v0.9.0/docker/config/seeds.testnet.public.config?raw=true"                  -O ${RPM_SOURCE_DIR}/seeds.config
 wget "https://github.com/CudoVentures/cudos-builders/blob/v0.9.0/docker/config/state-sync-rpc-servers.testnet.public.config?raw=true" -O ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config
 touch unconditional-peers.config
+touch private-peers.config
 %build
 
 %install

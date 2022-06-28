@@ -125,6 +125,18 @@ set_config_prometheus()
 	sed -i -e'1,$s'"/^prometheus =.*/prometheus = $FARG/" "$CUDOS_HOME/config/config.toml"
 }
 
+set_config_seed_mode()
+{
+	FARG="$1"
+	sed -i -e'1,$s'"/^seed_mode =.*/seed_mode = $FARG/" "$CUDOS_HOME/config/config.toml"
+}
+
+set_config_minimum-gas-prices()
+{
+	FARG="$1"
+	sed -i -e'1,$s'"/^minimum-gas-prices =.*/minimum-gas-prices = $FARG/" "$CUDOS_HOME/config/app.toml"
+}
+
 #
 # Function to set configuration values in cudos-noded config.toml and app.toml
 #
@@ -142,6 +154,8 @@ config_set()
     pex)                 set_config_pex "$CONF_VAL" ;;
     unsafe)              set_config_unsafe "$CONF_VAL" ;;
     prometheus)          set_config_prometheus "$CONF_VAL" ;;
+    seed_mode)           set_config_seed_mode "$CONF_VAL" ;;
+    minimum-gas-prices)  set_config_minimum-gas-prices "$CONF_VAL" ;;
 
     *) echo "Unknown Node Config Name: $CONF_NAME"; exit;;
   esac

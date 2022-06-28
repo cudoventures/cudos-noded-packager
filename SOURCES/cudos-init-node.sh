@@ -112,6 +112,7 @@ case $TYPE_NAME in
 		cudos-noded-ctl set unsafe true
 		cudos-noded-ctl set prometheus true
 		cudos-noded-ctl set seed_mode false
+		cudos-noded-ctl set minimum-gas-prices "5000000000000acudos"
 		;;
 
 	clustered-node)
@@ -125,6 +126,7 @@ case $TYPE_NAME in
 		cudos-noded-ctl set unsafe false
 		cudos-noded-ctl set prometheus true
 		cudos-noded-ctl set seed_mode false
+		cudos-noded-ctl set minimum-gas-prices "5000000000000acudos"
 		;;
 
 	seed-node)
@@ -136,6 +138,7 @@ case $TYPE_NAME in
 		cudos-noded-ctl set unsafe true
 		cudos-noded-ctl set prometheus true
 		cudos-noded-ctl set seed_mode true
+		cudos-noded-ctl set minimum-gas-prices "5000000000000acudos"
 		;;
 
 	sentry-node)
@@ -147,6 +150,7 @@ case $TYPE_NAME in
 		cudos-noded-ctl set unsafe true
 		cudos-noded-ctl set prometheus true
 		cudos-noded-ctl set seed_mode false
+		cudos-noded-ctl set minimum-gas-prices "5000000000000acudos"
 		;;
 
 	*)

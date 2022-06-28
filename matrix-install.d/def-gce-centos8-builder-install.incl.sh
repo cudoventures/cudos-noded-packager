@@ -33,15 +33,11 @@ gce-centos8-builder-install()
 	#
 	case $CUDOS_NETWORK in
 		mainnet)
-			YUMREPO=cudos-0.6.0
+			YUMREPO=cudos-1.0.0
 			NETPACK=cudos-network-mainnet
 			;;
-		dressrehearsal)
-			YUMREPO=cudos-0.6.0
-			NETPACK=cudos-network-dressrehearsal
-			;;
 		public-testnet)
-			YUMREPO=cudos-0.4
+			YUMREPO=cudos-0.9.0
 			NETPACK=cudos-network-public-testnet
 			;;
 		private-testnet)

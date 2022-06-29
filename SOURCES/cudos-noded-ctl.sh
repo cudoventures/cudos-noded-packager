@@ -134,7 +134,7 @@ set_config_seed_mode()
 set_config_minimum-gas-prices()
 {
 	FARG="$1"
-	sed -i -e'1,$s'"/^minimum-gas-prices =.*/minimum-gas-prices = $FARG/" "$CUDOS_HOME/config/app.toml"
+	sed -i -e'1,$s'"/^minimum-gas-prices =.*/minimum-gas-prices = \"$FARG\"/" "$CUDOS_HOME/config/app.toml"
 }
 
 #

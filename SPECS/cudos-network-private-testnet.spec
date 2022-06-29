@@ -38,13 +38,12 @@ Cudos Dress Rehearsal Network Definition Files
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.3.3/docker/config/genesis.testnet.private.json?raw=true"                  -O ${RPM_SOURCE_DIR}/genesis.json
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.3.3/docker/config/persistent-peers.testnet.private.config?raw=true"       -O ${RPM_SOURCE_DIR}/persistent-peers.config
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.3.3/docker/config/seeds.testnet.private.config?raw=true"                  -O ${RPM_SOURCE_DIR}/seeds.config
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.3.3/docker/config/state-sync-rpc-servers.testnet.private.config?raw=true" -O ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config
-touch unconditional-peers.config
-touch private-peers.config
-
+wget "https://github.com/CudoVentures/cudos-builders/blob/v0.8.0/docker/config/genesis.testnet.private.json?raw=true"                  -O ${RPM_SOURCE_DIR}/genesis.json
+wget "https://github.com/CudoVentures/cudos-builders/blob/v0.8.0/docker/config/persistent-peers.testnet.private.config?raw=true"       -O ${RPM_SOURCE_DIR}/persistent-peers.config
+wget "https://github.com/CudoVentures/cudos-builders/blob/v0.8.0/docker/config/seeds.testnet.private.config?raw=true"                  -O ${RPM_SOURCE_DIR}/seeds.config
+wget "https://github.com/CudoVentures/cudos-builders/blob/v0.8.0/docker/config/state-sync-rpc-servers.testnet.private.config?raw=true" -O ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config
+touch ${RPM_SOURCE_DIR}/unconditional-peers.config
+touch ${RPM_SOURCE_DIR}/private-peers.config
 %build
 
 %install

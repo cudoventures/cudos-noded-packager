@@ -42,8 +42,8 @@ wget "https://github.com/CudoVentures/cudos-builders/blob/v0.9.0/docker/config/g
 wget "https://github.com/CudoVentures/cudos-builders/blob/v0.9.0/docker/config/persistent-peers.testnet.public.config?raw=true"       -O ${RPM_SOURCE_DIR}/persistent-peers.config
 wget "https://github.com/CudoVentures/cudos-builders/blob/v0.9.0/docker/config/seeds.testnet.public.config?raw=true"                  -O ${RPM_SOURCE_DIR}/seeds.config
 wget "https://github.com/CudoVentures/cudos-builders/blob/v0.9.0/docker/config/state-sync-rpc-servers.testnet.public.config?raw=true" -O ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config
-touch unconditional-peers.config
-touch private-peers.config
+touch ${RPM_SOURCE_DIR}/unconditional-peers.config
+touch ${RPM_SOURCE_DIR}/private-peers.config
 %build
 
 %install
@@ -77,5 +77,3 @@ fi
 %dir /var/lib/cudos/cudos-data/config
 /var/lib/cudos/cudos-data/config/*
 %doc
-
-%changelog

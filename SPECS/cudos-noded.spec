@@ -214,6 +214,7 @@ fi
 %defattr(-,root,root,-)
 /etc/default/*
 /etc/profile.d/*
+/usr/bin/cosmovisor
 /usr/bin/cudos-noded
 /usr/bin/cudos-noded-ctl
 /usr/bin/cudos-init-node.sh

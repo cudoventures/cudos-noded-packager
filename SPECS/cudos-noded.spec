@@ -150,7 +150,6 @@ cp -v ${RPM_SOURCE_DIR}/cudos-init-node.sh      ${RPM_BUILD_ROOT}/usr/bin/
 chmod 755                                       ${RPM_BUILD_ROOT}/usr/bin/*.sh
 
 cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded       ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/bin/
-ln -s /var/lib/cudos/cudos-data/cosmovisor/current/bin/cudos-noded  ${RPM_BUILD_ROOT}/usr/bin/cudos-noded 
 
 cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm.so ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/lib/
 chmod 644                                                                          ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/lib/*.so
@@ -159,6 +158,9 @@ ln -s /var/lib/cudos/cudos-data/cosmovisor/current/lib/libwasmvm.so             
 # Install the shell scripts for /usr/bin
 cp ${RPM_SOURCE_DIR}/cudos-is-node-ready.sh            ${RPM_BUILD_ROOT}/usr/bin/
 chmod 755                                              ${RPM_BUILD_ROOT}/usr/bin/*
+
+# Warning this is a dangling link until the package is installed
+ln -s /var/lib/cudos/cudos-data/cosmovisor/current/bin/cudos-noded  ${RPM_BUILD_ROOT}/usr/bin/cudos-noded 
 
 # Install the files for /usr/lib64/nagios/plugins/
 cp ${RPM_SOURCE_DIR}/check_cudos_p2p                   ${RPM_BUILD_ROOT}/usr/lib64/nagios/plugins/

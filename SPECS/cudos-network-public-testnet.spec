@@ -30,18 +30,21 @@ Source0:      genesis.json
 Source1:      seeds.config
 Source2:      persistent-peers.config
 Source3:      state-sync-rpc-servers.config
+Source4:      upgrade-info.json-testnet-0.9.0
 
-Requires:     cudos-noded = 0.9.0
+Requires:     cudos-noded = ${version}
+Requires:     cudos-p2p-scan
+Requires:     cudos-gex
 
 %description
 Cudos Dress Rehearsal Network Definition Files
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.9.0/docker/config/genesis.testnet.public.json?raw=true"                  -O ${RPM_SOURCE_DIR}/genesis.json
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.9.0/docker/config/persistent-peers.testnet.public.config?raw=true"       -O ${RPM_SOURCE_DIR}/persistent-peers.config
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.9.0/docker/config/seeds.testnet.public.config?raw=true"                  -O ${RPM_SOURCE_DIR}/seeds.config
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.9.0/docker/config/state-sync-rpc-servers.testnet.public.config?raw=true" -O ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config
+wget "https://github.com/CudoVentures/cudos-builders/blob/v${version}/docker/config/genesis.testnet.public.json?raw=true"                  -O ${RPM_SOURCE_DIR}/genesis.json
+wget "https://github.com/CudoVentures/cudos-builders/blob/v${version}/docker/config/persistent-peers.testnet.public.config?raw=true"       -O ${RPM_SOURCE_DIR}/persistent-peers.config
+wget "https://github.com/CudoVentures/cudos-builders/blob/v${version}/docker/config/seeds.testnet.public.config?raw=true"                  -O ${RPM_SOURCE_DIR}/seeds.config
+wget "https://github.com/CudoVentures/cudos-builders/blob/v${version}/docker/config/state-sync-rpc-servers.testnet.public.config?raw=true" -O ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config
 touch ${RPM_SOURCE_DIR}/unconditional-peers.config
 touch ${RPM_SOURCE_DIR}/private-peers.config
 %build
@@ -51,14 +54,18 @@ echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.9.0
 
 # Install the cudos-data/config files
-cp -v ${RPM_SOURCE_DIR}/genesis.json                   ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
-cp -v ${RPM_SOURCE_DIR}/persistent-peers.config        ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
-cp -v ${RPM_SOURCE_DIR}/seeds.config                   ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
-cp -v ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config  ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
-cp -v ${RPM_SOURCE_DIR}/unconditional-peers.config     ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
-cp -v ${RPM_SOURCE_DIR}/private-peers.config           ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+cp -v ${RPM_SOURCE_DIR}/genesis.json                     ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+cp -v ${RPM_SOURCE_DIR}/persistent-peers.config          ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+cp -v ${RPM_SOURCE_DIR}/seeds.config                     ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+cp -v ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config    ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+cp -v ${RPM_SOURCE_DIR}/unconditional-peers.config       ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+cp -v ${RPM_SOURCE_DIR}/private-peers.config             ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+
+# Install the cosmovisor upgrade files
+cp -v ${RPM_SOURCE_DIR}/upgrade-info.json-testnet-0.9.0  ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.9.0/upgrade-info.json
 
 %clean
 # rm -rf $RPM_BUILD_ROOT
@@ -75,5 +82,6 @@ fi
 %defattr(-,cudos,cudos,-)
 %dir /var/lib/cudos/cudos-data
 %dir /var/lib/cudos/cudos-data/config
+/var/lib/cudos/cudos-data/cosmovisor
 /var/lib/cudos/cudos-data/config/*
 %doc

@@ -48,6 +48,8 @@ Source52:     config.yml-tmpl
 Source53:     chronocollector-init.sh
 Source54:     chronocollector-linux-amd64.gz
 
+Source60:     cudos-cosmovisor.service
+
 Provides:     libwasmvm.so()(64bit)
 
 BuildRequires: golang
@@ -109,6 +111,10 @@ export GOPATH="${RPM_BUILD_DIR}/go"
 cd CudosNode
 make
 
+echo -e "\n\n=== Build and install cosmovisor ===\n\n"
+
+go install -v github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0
+
 echo -e "\n\n=== Build and install gex ===\n\n"
 
 go install -v github.com/cosmos/gex@latest
@@ -122,6 +128,8 @@ echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/bin/
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/lib/
 mkdir -p ${RPM_BUILD_ROOT}/etc/default/
 mkdir -p ${RPM_BUILD_ROOT}/etc/profile.d/
 mkdir -p ${RPM_BUILD_ROOT}/usr/bin/
@@ -132,16 +140,21 @@ mkdir -p ${RPM_BUILD_ROOT}/var/lib/chronoc/bin
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib64/nagios/plugins/
 
 # Copy the sources to /var/lib/cudos
-cp -rv ${RPM_BUILD_DIR}/Cudos*                         ${RPM_BUILD_ROOT}/var/lib/cudos/
+cp -rv ${RPM_BUILD_DIR}/Cudos*                  ${RPM_BUILD_ROOT}/var/lib/cudos/
 
-# Copy the newly built binaries into /usr/bin and /usr/lib
-cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded                                          ${RPM_BUILD_ROOT}/usr/bin/
-cp -v ${RPM_BUILD_DIR}/go/bin/gex                                                  ${RPM_BUILD_ROOT}/usr/bin/cudos-gex
-cp -v ${RPM_BUILD_DIR}/go/bin/cudos-p2p-scan                                       ${RPM_BUILD_ROOT}/usr/bin/
-cp -v ${RPM_SOURCE_DIR}/cudos-init-node.sh                                         ${RPM_BUILD_ROOT}/usr/bin/
-cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm.so ${RPM_BUILD_ROOT}/usr/lib/
-chmod 644                                                                          ${RPM_BUILD_ROOT}/usr/lib/*.so
-chmod 755                                                                          ${RPM_BUILD_ROOT}/usr/bin/*.sh
+# Install the newly built binaries
+cp -v ${RPM_BUILD_DIR}/go/bin/gex               ${RPM_BUILD_ROOT}/usr/bin/cudos-gex
+cp -v ${RPM_BUILD_DIR}/go/bin/cosmovisor        ${RPM_BUILD_ROOT}/usr/bin/
+cp -v ${RPM_BUILD_DIR}/go/bin/cudos-p2p-scan    ${RPM_BUILD_ROOT}/usr/bin/
+cp -v ${RPM_SOURCE_DIR}/cudos-init-node.sh      ${RPM_BUILD_ROOT}/usr/bin/
+chmod 755                                       ${RPM_BUILD_ROOT}/usr/bin/*.sh
+
+cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded       ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/bin/
+ln -s /var/lib/cudos/cudos-data/cosmovisor/current/bin/cudos-noded  ${RPM_BUILD_ROOT}/usr/bin/cudos-noded 
+
+cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm.so ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/lib/
+chmod 644                                                                          ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/lib/*.so
+ln -s /var/lib/cudos/cudos-data/cosmovisor/current/lib/libwasmvm.so                ${RPM_BUILD_ROOT}/usr/lib/libwasmvm.so 
 
 # Install the shell scripts for /usr/bin
 cp ${RPM_SOURCE_DIR}/cudos-is-node-ready.sh            ${RPM_BUILD_ROOT}/usr/bin/
@@ -155,7 +168,7 @@ chmod 755                                              ${RPM_BUILD_ROOT}/usr/lib
 cp ${RPM_SOURCE_DIR}/etc_default_cudos-noded           ${RPM_BUILD_ROOT}/etc/default/cudos-noded
 cp ${RPM_SOURCE_DIR}/etc_profiled_cudos-noded.sh       ${RPM_BUILD_ROOT}/etc/profile.d/cudos-noded.sh
 
-# Install systemd service file
+# Install systemd service files
 cp ${RPM_SOURCE_DIR}/*.service                         ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
 
 # Install /usr/bin scripts
@@ -203,7 +216,9 @@ fi
 /usr/bin/cudos-noded-ctl
 /usr/bin/cudos-init-node.sh
 /usr/lib/systemd/system/cudos-noded.service
+/usr/lib/systemd/system/cudos-cosmovisor.service
 /usr/lib/*.so
+/var/lib/cudos/cudos-data/cosmovisor
 %doc
 
 %files -n cudos-node-src

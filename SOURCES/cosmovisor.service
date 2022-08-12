@@ -1,0 +1,20 @@
+[Unit]
+Description=Cosmovisor Daemon
+After=network-online.target
+
+[Service]
+Environment="DAEMON_NAME=cudos-noded"
+Environment="DAEMON_HOME=/var/lib/cudos/cudos-data"
+Environment="DAEMON_RESTART_AFTER_UPGRADE=true"
+Environment="DAEMON_ALLOW_DOWNLOAD_BINARIES=false"
+Environment="DAEMON_LOG_BUFFER_SIZE=512"
+Environment="UNSAFE_SKIP_BACKUP=true"
+User=cudos
+ExecStart=/usr/bin/cosmovisor start --home /var/lib/cudos/cudos-data
+Restart=always
+RestartSec=3
+LimitNOFILE=infinity
+LimitNPROC=infinity
+
+[Install]
+WantedBy=multi-user.target

@@ -32,7 +32,7 @@ Source2:      persistent-peers.config
 Source3:      state-sync-rpc-servers.config
 Source4:      upgrade-info.json-testnet-0.9.0
 
-Requires:     cudos-noded = ${version}
+Requires:     cudos-noded = 0.9.0
 Requires:     cudos-p2p-scan
 Requires:     cudos-gex
 

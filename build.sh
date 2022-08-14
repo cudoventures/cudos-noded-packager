@@ -43,6 +43,10 @@ fi
 # the conventional location in the rpmbuild tree structure ie ./SOURCES/
 #
 
+# Clear out any existing git checkouts
+rm -rf Cudos*
+
+# Check out fresh copies of the current version
 case $cudos_version in
 
 0\.4)
@@ -86,7 +90,7 @@ esac
 
 mkdir -p SOURCES
 
-tar czvf SOURCES/cudos-noded-${cudos_version}.tar.gz Cudos*
+tar czf SOURCES/cudos-noded-${cudos_version}.tar.gz Cudos*
 rm -rf Cudos*
 
 # Define a utility function for rpmbuild
@@ -100,13 +104,19 @@ run_rpmbuild()
      --define "_topdir $( pwd )" \
      --define "_versiontag ${VER}" \
      --define "_releasetag ${RLS}" \
-     -ba $( pwd )/SPECS/${SPEC_NAME}
+     -bs $( pwd )/SPECS/${SPEC_NAME}.spec
+  
+  rpmbuild \
+     --define "_topdir $( pwd )" \
+     --define "_versiontag ${VER}" \
+     --define "_releasetag ${RLS}" \
+     --rebuild $( pwd )/SRPMS/${SPEC_NAME}-${VER}-${RLS}.*.src.rpm
 }
 
 #
 # Clear out the old RPM binary files and the old BUILDROOT
 #
-rm -rv RPMS BUILDROOT || true
+rm -rf RPMS BUILDROOT || true
 
 #
 # BUILD_NUMBER can be inherited from the CI/CD environment and
@@ -123,13 +133,19 @@ then
 	BUILD_NUMBER="$( hostname -s ).$( date '+%Y%m%d%H%M%S' )"
 fi
 
+
+exit 0
+
 #
 # Build the spec files
 #
-run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded.spec
-run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-private-testnet.spec
-run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-public-testnet.spec
-run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-mainnet.spec
+run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v0.8.0
+run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v0.9.0
+run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v1.0.0
+run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded
+run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-private-testnet
+run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-public-testnet
+run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-mainnet
 
 #
 # Feed the rpm binaries into "Alien" to be converted

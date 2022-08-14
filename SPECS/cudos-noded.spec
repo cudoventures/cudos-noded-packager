@@ -53,6 +53,7 @@ Source60:     cudos-cosmovisor.service
 Provides:     libwasmvm.so()(64bit)
 
 # undefine __brp_mangle_shebangs
+%global __brp_check_rpaths %{nil}
 
 %description
 Cudos node binary and library

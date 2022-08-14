@@ -64,7 +64,11 @@ cp -v ${RPM_SOURCE_DIR}/unconditional-peers.config     ${RPM_BUILD_ROOT}/var/lib
 cp -v ${RPM_SOURCE_DIR}/private-peers.config           ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
 
 # Install the cosmovisor upgrade files
-cp -v ${RPM_SOURCE_DIR}/upgrade-info.json-private-testnet-0.8.0  ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.8.0/upgrade-info.json
+for UPGV in 0.8.0
+do
+  mkdir -p                                                          ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v${UPGV}/upgrade-info.json
+  cp -v ${RPM_SOURCE_DIR}/upgrade-info.json-private-testnet-${UPGV} ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v${UPGV}/upgrade-info.json
+done
 
 %clean
 # rm -rf $RPM_BUILD_ROOT

@@ -224,6 +224,9 @@ else
   echo "  Setting Cosmovisor 'current' link to genesis"
   ln -s /var/lib/cudos/cudos-data/cosmovisor/genesis /var/lib/cudos/cudos-data/cosmovisor/current
 fi
+echo "  Reloading systemd config"
+systemctl daemon-reload 
+echo "  Done"
 
 %files
 %defattr(-,root,root,-)

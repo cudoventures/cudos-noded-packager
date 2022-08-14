@@ -209,9 +209,16 @@ chmod 444                                              ${RPM_BUILD_ROOT}/usr/lib
 %post
 if [ $1 = "1" ]
 then
-    echo "Install:"
+    echo "Install: Setting up links"
 else
-    echo "Upgrade:"
+    echo "Upgrade: Setting up links"
+fi
+if [[ -f /var/lib/cudos/cudos-data/cosmovisor/current ]]
+then
+  echo "  Cosmovisor 'current' link in place already"
+else
+  echo "  Setting Cosmovisor 'current' link to genesis"
+  ln -s /var/lib/cudos/cudos-data/cosmovisor/genesis /var/lib/cudos/cudos-data/cosmovisor/current
 fi
 rm -f /usr/bin/cudos-noded /lib64/libwasmvm.so || true
 ln -s /var/lib/cudos/cudos-data/cosmovisor/current/bin/cudos-noded /usr/bin/cudos-noded

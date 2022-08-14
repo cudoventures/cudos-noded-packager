@@ -5,6 +5,7 @@ After=network-online.target
 [Service]
 EnvironmentFile=-/etc/default/cudos-cosmovisor
 User=cudos
+ExecStartPre=/usr/bin/cudos-init-node.sh
 ExecStart=/usr/bin/cosmovisor start --home /var/lib/cudos/cudos-data --log_level "${DAEMON_LOGLEVEL}"
 Restart=always
 RestartSec=3

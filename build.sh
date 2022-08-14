@@ -83,10 +83,25 @@ case $cudos_version in
   
 esac
 
+
 mkdir -p SOURCES
 
 tar czvf SOURCES/cudos-noded-${cudos_version}.tar.gz Cudos*
 rm -rf Cudos*
+
+# Define a utility function for rpmbuild
+run_rpmbuild()
+{
+  VER=$1
+  RLS=$2
+  SPEC_NAME=$3
+  
+  rpmbuild \
+     --define "_topdir $( pwd )" \
+     --define "_versiontag ${VER}" \
+     --define "_releasetag ${RLS}" \
+     -ba $( pwd )/SPECS/${SPEC_NAME}
+}
 
 #
 # Clear out the old RPM binary files and the old BUILDROOT
@@ -109,10 +124,12 @@ then
 fi
 
 #
-# Pass control to rpmbuild and the rpm spec files
+# Build the spec files
 #
-# noded binary
-rpmbuild --define "_topdir $( pwd )" --define "_versiontag ${cudos_version}" --define "_releasetag ${BUILD_NUMBER}" -ba $( pwd )/SPECS/cudos-noded.spec
+run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded.spec
+run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-private-testnet.spec
+run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-public-testnet.spec
+run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-mainnet.spec
 
 #
 # Feed the rpm binaries into "Alien" to be converted

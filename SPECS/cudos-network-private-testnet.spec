@@ -30,8 +30,11 @@ Source0:      genesis.json
 Source1:      seeds.config
 Source2:      persistent-peers.config
 Source3:      state-sync-rpc-servers.config
+Source4:      upgrade-info.json-private-testnet-0.8.0
 
 Requires:     cudos-noded = 0.8.0
+Requires:     cudos-p2p-scan
+Requires:     cudos-gex
 
 %description
 Cudos Dress Rehearsal Network Definition Files
@@ -60,6 +63,9 @@ cp -v ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config  ${RPM_BUILD_ROOT}/var/lib
 cp -v ${RPM_SOURCE_DIR}/unconditional-peers.config     ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
 cp -v ${RPM_SOURCE_DIR}/private-peers.config           ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
 
+# Install the cosmovisor upgrade files
+cp -v ${RPM_SOURCE_DIR}/upgrade-info.json-private-testnet-1.0.0  ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.0.0/upgrade-info.json
+
 %clean
 # rm -rf $RPM_BUILD_ROOT
 
@@ -76,4 +82,6 @@ fi
 %dir /var/lib/cudos/cudos-data
 %dir /var/lib/cudos/cudos-data/config
 /var/lib/cudos/cudos-data/config/*
+/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.9.0/upgrade-info.json
+
 %doc

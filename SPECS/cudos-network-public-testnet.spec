@@ -57,12 +57,12 @@ mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.9.0
 
 # Install the cudos-data/config files
-cp -v ${RPM_SOURCE_DIR}/genesis.json                     ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
-cp -v ${RPM_SOURCE_DIR}/persistent-peers.config          ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
-cp -v ${RPM_SOURCE_DIR}/seeds.config                     ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
-cp -v ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config    ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
-cp -v ${RPM_SOURCE_DIR}/unconditional-peers.config       ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
-cp -v ${RPM_SOURCE_DIR}/private-peers.config             ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+cp -v ${RPM_SOURCE_DIR}/genesis.json                   ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+cp -v ${RPM_SOURCE_DIR}/persistent-peers.config        ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+cp -v ${RPM_SOURCE_DIR}/seeds.config                   ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+cp -v ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config  ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+cp -v ${RPM_SOURCE_DIR}/unconditional-peers.config     ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
+cp -v ${RPM_SOURCE_DIR}/private-peers.config           ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
 
 # Install the cosmovisor upgrade files
 cp -v ${RPM_SOURCE_DIR}/upgrade-info.json-testnet-0.9.0  ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.9.0/upgrade-info.json
@@ -84,4 +84,5 @@ fi
 %dir /var/lib/cudos/cudos-data/config
 /var/lib/cudos/cudos-data/config/*
 /var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.9.0/upgrade-info.json
+
 %doc

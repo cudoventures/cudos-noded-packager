@@ -52,8 +52,6 @@ Source60:     cudos-cosmovisor.service
 
 Provides:     libwasmvm.so()(64bit)
 
-BuildRequires: golang
-
 # undefine __brp_mangle_shebangs
 
 %description

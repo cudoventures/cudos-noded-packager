@@ -49,6 +49,8 @@ Source53:     chronocollector-init.sh
 Source54:     chronocollector-linux-amd64.gz
 
 Source60:     cudos-cosmovisor.service
+Source61:     etc_default_cudos-cosmovisor
+Source62:     etc_profiled_cudos-cosmovisor.sh
 
 Provides:     libwasmvm.so()(64bit)
 
@@ -168,7 +170,9 @@ chmod 755                                              ${RPM_BUILD_ROOT}/usr/lib
 
 # Install environment setup files
 cp ${RPM_SOURCE_DIR}/etc_default_cudos-noded           ${RPM_BUILD_ROOT}/etc/default/cudos-noded
+cp ${RPM_SOURCE_DIR}/etc_default_cudos-cosmovisor      ${RPM_BUILD_ROOT}/etc/default/cudos-cosmovisor
 cp ${RPM_SOURCE_DIR}/etc_profiled_cudos-noded.sh       ${RPM_BUILD_ROOT}/etc/profile.d/cudos-noded.sh
+cp ${RPM_SOURCE_DIR}/etc_profiled_cudos-cosmovisor.sh  ${RPM_BUILD_ROOT}/etc/profile.d/cudos-cosmovisor.sh
 
 # Install systemd service files
 cp ${RPM_SOURCE_DIR}/*.service                         ${RPM_BUILD_ROOT}/usr/lib/systemd/system/

@@ -82,6 +82,6 @@ fi
 %dir /var/lib/cudos/cudos-data
 %dir /var/lib/cudos/cudos-data/config
 /var/lib/cudos/cudos-data/config/*
-/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.9.0/upgrade-info.json
+/var/lib/cudos/cudos-data/cosmovisor/upgrades/*/upgrade-info.json
 
 %doc

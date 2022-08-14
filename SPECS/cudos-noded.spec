@@ -209,10 +209,13 @@ chmod 444                                              ${RPM_BUILD_ROOT}/usr/lib
 %post
 if [ $1 = "1" ]
 then
-    echo "Install .. but no scripts today"
+    echo "Install:"
 else
-    echo "Upgrade .. still no scripts today"
+    echo "Upgrade:"
 fi
+rm -f /usr/bin/cudos-noded /lib64/libwasmvm.so || true
+ln -s /var/lib/cudos/cudos-data/cosmovisor/current/bin/cudos-noded /usr/bin/cudos-noded
+ln -s /var/lib/cudos/cudos-data/cosmovisor/current/lib/libwasmvm.so /lib64/libwasmvm.so
 
 %files
 %defattr(-,root,root,-)

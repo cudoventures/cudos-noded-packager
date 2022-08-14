@@ -80,9 +80,6 @@ then
 else
     echo "Upgrade:"
 fi
-rm -f /usr/bin/cudos-noded /lib64/libwasmvm.so || true
-ln -s /var/lib/cudos/cudos-data/cosmovisor/current/bin/cudos-noded /usr/bin/cudos-noded
-ln -s /var/lib/cudos/cudos-data/cosmovisor/current/lib/libwasmvm.so /lib64/libwasmvm.so
 
 %files
 %defattr(-,cudos,cudos,-)

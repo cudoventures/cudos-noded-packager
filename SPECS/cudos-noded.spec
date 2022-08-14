@@ -213,16 +213,17 @@ then
 else
     echo "Upgrade: Setting up links"
 fi
-if [[ -f /var/lib/cudos/cudos-data/cosmovisor/current ]]
+echo "  Refreshing /usr/bin and /lib64 links"
+rm -f /usr/bin/cudos-noded /lib64/libwasmvm.so || true
+ln -s /var/lib/cudos/cudos-data/cosmovisor/current/bin/cudos-noded /usr/bin/cudos-noded
+ln -s /var/lib/cudos/cudos-data/cosmovisor/current/lib/libwasmvm.so /lib64/libwasmvm.so
+if [ -d /var/lib/cudos/cudos-data/cosmovisor/current ]
 then
   echo "  Cosmovisor 'current' link in place already"
 else
   echo "  Setting Cosmovisor 'current' link to genesis"
   ln -s /var/lib/cudos/cudos-data/cosmovisor/genesis /var/lib/cudos/cudos-data/cosmovisor/current
 fi
-rm -f /usr/bin/cudos-noded /lib64/libwasmvm.so || true
-ln -s /var/lib/cudos/cudos-data/cosmovisor/current/bin/cudos-noded /usr/bin/cudos-noded
-ln -s /var/lib/cudos/cudos-data/cosmovisor/current/lib/libwasmvm.so /lib64/libwasmvm.so
 
 %files
 %defattr(-,root,root,-)

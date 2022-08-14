@@ -106,7 +106,7 @@ run_rpmbuild()
 #
 # Clear out the old RPM binary files and the old BUILDROOT
 #
-rm -rv RPMS BUILDROOT
+rm -rv RPMS BUILDROOT || true
 
 #
 # BUILD_NUMBER can be inherited from the CI/CD environment and

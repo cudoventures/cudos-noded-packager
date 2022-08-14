@@ -67,7 +67,7 @@ cp -v ${RPM_SOURCE_DIR}/private-peers.config           ${RPM_BUILD_ROOT}/var/lib
 # Install the cosmovisor upgrade files
 for UPGV in 0.9.0
 do
-  mkdir -p                                                  ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v${UPGV}/upgrade-info.json
+  mkdir -p                                                  ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v${UPGV}
   cp -v ${RPM_SOURCE_DIR}/upgrade-info.json-testnet-${UPGV} ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v${UPGV}/upgrade-info.json
 done
 

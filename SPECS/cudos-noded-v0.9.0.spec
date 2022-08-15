@@ -53,14 +53,10 @@ BASEDR="$( pwd )"
 tar xzf %{SOURCE0}
 
 %build
-
 echo -e "\n\n=== build section ===\n\n"
 export GOPATH="${RPM_BUILD_DIR}/go"
 cd CudosNode
 make
-
-echo -e "\n\n=== Build and install cosmovisor ===\n\n"
-go install -v github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0
 
 %install
 echo -e "\n\n=== install section ===\n\n"

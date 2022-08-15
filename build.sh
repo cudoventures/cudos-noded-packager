@@ -87,9 +87,6 @@ case $cudos_version in
   
 esac
 
-
-mkdir -p SOURCES
-
 tar czf SOURCES/cudos-noded-${cudos_version}.tar.gz Cudos*
 rm -rf Cudos*
 

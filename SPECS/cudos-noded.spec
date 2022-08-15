@@ -188,10 +188,11 @@ then
 else
     echo "Upgrade: Setting up links"
 fi
-echo "  Refreshing /usr/bin and /lib64 links"
-rm -f /usr/bin/cudos-noded /lib64/libwasmvm.so || true
+echo "  Refreshing /usr/bin, /lib and /lib64 links"
+rm -f /usr/bin/cudos-noded /lib64/libwasmvm.so /lib/libwasmvm.so || true
 ln -s /var/lib/cudos/cudos-data/cosmovisor/current/bin/cudos-noded /usr/bin/cudos-noded
 ln -s /var/lib/cudos/cudos-data/cosmovisor/current/lib/libwasmvm.so /lib64/libwasmvm.so
+ln -s /var/lib/cudos/cudos-data/cosmovisor/current/lib/libwasmvm.so /lib/libwasmvm.so
 if [ -d /var/lib/cudos/cudos-data/cosmovisor/current ]
 then
   echo "  Cosmovisor 'current' link in place already"

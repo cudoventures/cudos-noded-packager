@@ -47,13 +47,13 @@ fi
 # Define tarball creation function
 create_cudos_tarball()
 {
-    cudos_version="$1"
+    VER="$1"
 
     # Clear out any existing git checkouts
     rm -rf Cudos*
 
     # Check out fresh copies of the current version
-    case $cudos_version in
+    case $VER in
 
     0\.4)
       git clone --depth 1 --branch v0.4.0 https://github.com/CudoVentures/cudos-node.git CudosNode
@@ -63,15 +63,15 @@ create_cudos_tarball()
       ;;
 
     0\.[5-9]\.[0-9])
-      git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cudos-node.git CudosNode
-      git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cudos-builders.git CudosBuilders
-      git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
+      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-node.git CudosNode
+      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-builders.git CudosBuilders
+      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
       ;;
       
     [1-9]\.[0-9]\.[0-9])
-      git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cudos-node.git CudosNode
-      git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cudos-builders.git CudosBuilders
-      git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
+      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-node.git CudosNode
+      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-builders.git CudosBuilders
+      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
       ;;
       
     1.0.master)
@@ -87,13 +87,13 @@ create_cudos_tarball()
       ;;
       
     *)
-      echo "Unknown Version '$cudos_version'"
+      echo "Unknown Version '$VER'"
       exit 1
       ;;
       
     esac
 
-    tar czf SOURCES/cudos-noded-${cudos_version}.tar.gz Cudos*
+    tar czf SOURCES/cudos-noded-${VER}.tar.gz Cudos*
     rm -rf Cudos*
 }
 

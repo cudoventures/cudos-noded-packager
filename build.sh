@@ -131,7 +131,7 @@ create_toml_tarball()
   wget "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/state-sync-rpc-servers.${FILETAG}.config?raw=true" -O state-sync-rpc-servers.config
   touch unconditional-peers.config
   touch private-peers.config
-  tar czvf ../toml-config-${NTWK}.tar.gz *
+  tar czvf ../SOURCES/toml-config-${NTWK}.tar.gz *
   cd ..
   rm -rf toml-tmp
 }

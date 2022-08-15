@@ -133,9 +133,6 @@ then
 	BUILD_NUMBER="$( hostname -s ).$( date '+%Y%m%d%H%M%S' )"
 fi
 
-
-exit 0
-
 #
 # Build the spec files
 #

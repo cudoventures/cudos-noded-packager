@@ -124,6 +124,8 @@ mkdir -p ${RPM_BUILD_ROOT}/lib64
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/chronoc/bin
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib64/nagios/plugins/
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor
+
 
 # Install the newly built binaries
 cp -v ${RPM_BUILD_DIR}/go/bin/gex               ${RPM_BUILD_ROOT}/usr/bin/cudos-gex

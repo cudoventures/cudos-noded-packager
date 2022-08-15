@@ -124,7 +124,6 @@ mkdir -p ${RPM_BUILD_ROOT}/lib64
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/chronoc/bin
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib64/nagios/plugins/
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor
 
 
 # Install the newly built binaries
@@ -213,8 +212,6 @@ echo "  Done"
 /usr/bin/cudos-init-node.sh
 /usr/lib/systemd/system/cudos-noded.service
 /usr/lib/systemd/system/cudos-cosmovisor.service
-%defattr(-,cudos,cudos,-)
-/var/lib/cudos/cudos-data/cosmovisor
 %doc
 
 %files -n cudos-gex

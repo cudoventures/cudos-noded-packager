@@ -96,7 +96,7 @@ fi
 RESULT=` fgrep 'tendermint_consensus_validators{' "${PRDUMP}" | awk '{ print $2 '} `
 if [ "${RESULT}" != "" ]
 then
-	echo "P \"Cudos Node Number of Validators\" num_vals=$RESULT;8:;8: Number of Validators: $RESULT"
+	echo "P \"Cudos Node Number of Validators\" num_vals=$RESULT;2:;2: Number of Validators: $RESULT"
 else
 	echo "0 \"Cudos Node Number of Validators\" - Parameter not present in prometheus data"
 fi

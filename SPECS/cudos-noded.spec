@@ -21,12 +21,11 @@
 Name:         cudos-noded
 Version:      %{_versiontag}
 Release:      %{_releasetag}%{?dist}
-Summary:      Cudos Full Node
+Summary:      Cudos Node Common Files
 
 License:      GPL3
 URL:          https://github.com/CudoVentures/cudos-node           
 
-Source0:      cudos-noded-%{version}.tar.gz
 Source1:      cudos-noded.service
 Source2:      etc_default_cudos-noded
 Source3:      etc_profiled_cudos-noded.sh
@@ -58,16 +57,10 @@ Provides:     libwasmvm.so()(64bit)
 %global __brp_check_rpaths %{nil}
 
 %description
-Cudos node binary and library
+Cudos Node Common Files
 %pre
 getent group cudos >/dev/null || groupadd -r cudos || :
 getent passwd cudos >/dev/null || useradd -c "Cudos User" -g cudos -s /bin/bash -r -m -d /var/lib/cudos cudos 2> /dev/null || :
-
-%package -n cudos-node-src
-Summary: CUDOS Node Sources
-Requires: cudos-noded
-%description -n cudos-node-src
-CUDOS Node Sources
 
 %package -n cudos-gex
 Summary: Gex - Cosmos Node Monitor App
@@ -100,17 +93,11 @@ getent passwd chronoc >/dev/null || useradd -c "Cudos User" -g chronoc -s /bin/b
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
-# Unpack tarball
-
-BASEDR="$( pwd )"
-tar xzvf %{SOURCE0}
 
 %build
 echo -e "\n\n=== build section ===\n\n"
 
 export GOPATH="${RPM_BUILD_DIR}/go"
-cd CudosNode
-make
 
 echo -e "\n\n=== Build and install cosmovisor ===\n\n"
 
@@ -129,10 +116,6 @@ echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/genesis/bin/
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/genesis/lib/
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/bin/
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/lib/
 mkdir -p ${RPM_BUILD_ROOT}/etc/default/
 mkdir -p ${RPM_BUILD_ROOT}/etc/profile.d/
 mkdir -p ${RPM_BUILD_ROOT}/usr/bin/
@@ -142,23 +125,14 @@ mkdir -p ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/chronoc/bin
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib64/nagios/plugins/
 
-# Copy the sources to /var/lib/cudos
-cp -rv ${RPM_BUILD_DIR}/Cudos*                  ${RPM_BUILD_ROOT}/var/lib/cudos/
-
 # Install the newly built binaries
 cp -v ${RPM_BUILD_DIR}/go/bin/gex               ${RPM_BUILD_ROOT}/usr/bin/cudos-gex
 cp -v ${RPM_BUILD_DIR}/go/bin/cosmovisor        ${RPM_BUILD_ROOT}/usr/bin/
 cp -v ${RPM_BUILD_DIR}/go/bin/cudos-p2p-scan    ${RPM_BUILD_ROOT}/usr/bin/
+
+# Install scripts
 cp -v ${RPM_SOURCE_DIR}/cudos-init-node.sh      ${RPM_BUILD_ROOT}/usr/bin/
 chmod 755                                       ${RPM_BUILD_ROOT}/usr/bin/*.sh
-
-cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded       ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/genesis/bin/
-cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded       ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/bin/
-
-cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm.so ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/genesis/lib/
-chmod 644                                                                          ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/genesis/lib/*.so
-cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm.so ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/lib/
-chmod 644                                                                          ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/lib/*.so
 
 # Install the shell scripts for /usr/bin
 cp ${RPM_SOURCE_DIR}/cudos-is-node-ready.sh            ${RPM_BUILD_ROOT}/usr/bin/
@@ -240,10 +214,6 @@ echo "  Done"
 %defattr(-,cudos,cudos,-)
 /var/lib/cudos/cudos-data/cosmovisor
 %doc
-
-%files -n cudos-node-src
-%defattr(-,cudos,cudos,-)
-/var/lib/cudos/Cudos*
 
 %files -n cudos-gex
 %defattr(-,root,root,-)

@@ -43,52 +43,59 @@ fi
 # the conventional location in the rpmbuild tree structure ie ./SOURCES/
 #
 
-# Clear out any existing git checkouts
-rm -rf Cudos*
+#
+# Define tarball creation function
+create_cudos_tarball()
+{
+    cudos_version="$1"
 
-# Check out fresh copies of the current version
-case $cudos_version in
+    # Clear out any existing git checkouts
+    rm -rf Cudos*
 
-0\.4)
-  git clone --depth 1 --branch v0.4.0 https://github.com/CudoVentures/cudos-node.git CudosNode
-  git clone --depth 1 --branch v0.3.3 https://github.com/CudoVentures/cudos-builders.git CudosBuilders
-  git clone --depth 1 --branch v0.4.0 https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
-  git clone                           https://github.com/CudoVentures/cudos-network-upgrade.git CudosNetworkUpgrade
-  ;;
+    # Check out fresh copies of the current version
+    case $cudos_version in
 
-0\.[5-9]\.[0-9])
-  git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cudos-node.git CudosNode
-  git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cudos-builders.git CudosBuilders
-  git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
-  ;;
-  
-[1-9]\.[0-9]\.[0-9])
-  git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cudos-node.git CudosNode
-  git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cudos-builders.git CudosBuilders
-  git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
-  ;;
-  
-1.0.master)
-  git clone --depth 1 --branch cudos-master https://github.com/CudoVentures/cudos-node.git CudosNode
-  git clone --depth 1 --branch cudos-master https://github.com/CudoVentures/cudos-builders.git CudosBuilders
-  git clone --depth 1 --branch cudos-master https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
-  ;;
-  
-1.0.dev)
-  git clone --depth 1 --branch cudos-dev https://github.com/CudoVentures/cudos-node.git CudosNode
-  git clone --depth 1 --branch cudos-dev https://github.com/CudoVentures/cudos-builders.git CudosBuilders
-  git clone --depth 1 --branch cudos-dev https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
-  ;;
-  
-*)
-  echo "Unknown Version '$cudos_version'"
-  exit 1
-  ;;
-  
-esac
+    0\.4)
+      git clone --depth 1 --branch v0.4.0 https://github.com/CudoVentures/cudos-node.git CudosNode
+      git clone --depth 1 --branch v0.3.3 https://github.com/CudoVentures/cudos-builders.git CudosBuilders
+      git clone --depth 1 --branch v0.4.0 https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
+      git clone                           https://github.com/CudoVentures/cudos-network-upgrade.git CudosNetworkUpgrade
+      ;;
 
-tar czf SOURCES/cudos-noded-${cudos_version}.tar.gz Cudos*
-rm -rf Cudos*
+    0\.[5-9]\.[0-9])
+      git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cudos-node.git CudosNode
+      git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cudos-builders.git CudosBuilders
+      git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
+      ;;
+      
+    [1-9]\.[0-9]\.[0-9])
+      git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cudos-node.git CudosNode
+      git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cudos-builders.git CudosBuilders
+      git clone --depth 1 --branch v$cudos_version https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
+      ;;
+      
+    1.0.master)
+      git clone --depth 1 --branch cudos-master https://github.com/CudoVentures/cudos-node.git CudosNode
+      git clone --depth 1 --branch cudos-master https://github.com/CudoVentures/cudos-builders.git CudosBuilders
+      git clone --depth 1 --branch cudos-master https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
+      ;;
+      
+    1.0.dev)
+      git clone --depth 1 --branch cudos-dev https://github.com/CudoVentures/cudos-node.git CudosNode
+      git clone --depth 1 --branch cudos-dev https://github.com/CudoVentures/cudos-builders.git CudosBuilders
+      git clone --depth 1 --branch cudos-dev https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
+      ;;
+      
+    *)
+      echo "Unknown Version '$cudos_version'"
+      exit 1
+      ;;
+      
+    esac
+
+    tar czf SOURCES/cudos-noded-${cudos_version}.tar.gz Cudos*
+    rm -rf Cudos*
+}
 
 # Define a utility function for rpmbuild
 run_rpmbuild()
@@ -129,6 +136,13 @@ if [ "$BUILD_NUMBER" = "" ]
 then
 	BUILD_NUMBER="$( hostname -s ).$( date '+%Y%m%d%H%M%S' )"
 fi
+
+#
+# Create the tarballs
+#
+create_cudos_tarball "0.8.0"
+create_cudos_tarball "0.9.0"
+create_cudos_tarball "1.0.0"
 
 #
 # Build the spec files

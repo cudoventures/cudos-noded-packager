@@ -40,7 +40,7 @@ Cudos Dress Rehearsal Network Definition Files
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
-tar -C ${RPM_SOURCE_DIR} -xzf toml-config-testnet.tar.gz
+tar -C ${RPM_SOURCE_DIR} -xzf ${RPM_SOURCE_DIR}/toml-config-testnet.tar.gz
 
 %build
 echo -e "\n\n=== build section ===\n\n"

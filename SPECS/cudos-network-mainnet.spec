@@ -26,13 +26,11 @@ Summary:      Cudos Mainnet Network Definition Files
 License:      GPL3
 URL:          https://github.com/CudoVentures/cudos-node
 
-Source0:      genesis.json
-Source1:      seeds.config
-Source2:      persistent-peers.config
-Source3:      state-sync-rpc-servers.config
-Source4:      upgrade-info.json-testnet-1.0.0
+Source0:      toml-config-mainnet.tar.gz
+Source1:      upgrade-info.json-mainnet-1.0.0
 
-Requires:     cudos-noded = 1.0.0
+Requires:     cudos-noded
+Requires:     cudos-noded-v1.0.0
 Requires:     cudos-p2p-scan
 Requires:     cudos-gex
 
@@ -41,12 +39,6 @@ Cudos Dress Rehearsal Network Definition Files
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
-wget "https://github.com/CudoVentures/cudos-builders/blob/v1.0.0/docker/config/genesis.mainnet.json?raw=true"                  -O ${RPM_SOURCE_DIR}/genesis.json
-wget "https://github.com/CudoVentures/cudos-builders/blob/v1.0.0/docker/config/persistent-peers.mainnet.config?raw=true"       -O ${RPM_SOURCE_DIR}/persistent-peers.config
-wget "https://github.com/CudoVentures/cudos-builders/blob/v1.0.0/docker/config/seeds.mainnet.config?raw=true"                  -O ${RPM_SOURCE_DIR}/seeds.config
-wget "https://github.com/CudoVentures/cudos-builders/blob/v1.0.0/docker/config/state-sync-rpc-servers.mainnet.config?raw=true" -O ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config
-touch ${RPM_SOURCE_DIR}/unconditional-peers.config
-touch ${RPM_SOURCE_DIR}/private-peers.config
 %build
 
 %install
@@ -71,6 +63,10 @@ do
   cp -v ${RPM_SOURCE_DIR}/upgrade-info.json-mainnet-${UPGV} ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v${UPGV}/upgrade-info.json
 done
 
+cd ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor
+ln -s upgrades/v1.0.0 genesis
+cd -
+
 %clean
 # rm -rf $RPM_BUILD_ROOT
 
@@ -87,6 +83,6 @@ fi
 %dir /var/lib/cudos/cudos-data
 %dir /var/lib/cudos/cudos-data/config
 /var/lib/cudos/cudos-data/config/*
-/var/lib/cudos/cudos-data/cosmovisor/upgrades/*/upgrade-info.json
+/var/lib/cudos/cudos-data/cosmovisor
 
 %doc

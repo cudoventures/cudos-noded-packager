@@ -117,6 +117,25 @@ run_rpmbuild()
      --rebuild $( pwd )/SRPMS/${SPEC_NAME}-${VER}-${RLS}.*.src.rpm
 }
 
+# Define toml config tarball function
+create_toml_tarball()
+{
+  FILETAG="$1"
+  NTWK="$2"
+
+  mkdir -p toml-tmp
+  cd toml-tmp
+  wget "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/genesis.${FILETAG}.json?raw=true"                  -O genesis.json
+  wget "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/persistent-peers.${FILETAG}.config?raw=true"       -O persistent-peers.config
+  wget "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/seeds.${FILETAG}.config?raw=true"                  -O seeds.config
+  wget "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/state-sync-rpc-servers.${FILETAG}.config?raw=true" -O state-sync-rpc-servers.config
+  touch unconditional-peers.config
+  touch private-peers.config
+  tar czvf ../toml-config-${NTWK}.tar.gz *
+  cd ..
+  rm -rf toml-tmp
+}
+
 #
 # Clear out the old RPM binary files and the old BUILDROOT
 #
@@ -138,11 +157,18 @@ then
 fi
 
 #
-# Create the tarballs
+# Create the source tarballs
 #
 create_cudos_tarball "0.8.0"
 create_cudos_tarball "0.9.0"
 create_cudos_tarball "1.0.0"
+
+#
+# Create the toml config tarballs
+#
+create_toml_tarball "testnet.private" "private-testnet"
+create_toml_tarball "testnet.public"  "testnet"
+create_toml_tarball "mainnet"         "mainnet"
 
 #
 # Build the spec files

@@ -26,13 +26,12 @@ Summary:      Cudos Public Testnet Network Definition Files
 License:      GPL3
 URL:          https://github.com/CudoVentures/cudos-node
 
-Source0:      genesis.json
-Source1:      seeds.config
-Source2:      persistent-peers.config
-Source3:      state-sync-rpc-servers.config
-Source4:      upgrade-info.json-testnet-0.9.0
+Source0:      toml-config-testnet.tar.gz
+Source1:      upgrade-info.json-testnet-0.9.0
 
-Requires:     cudos-noded = 0.9.0
+Requires:     cudos-noded
+Requires:     cudos-noded-v0.9.0
+Requires:     cudos-noded-v1.0.0
 Requires:     cudos-p2p-scan
 Requires:     cudos-gex
 
@@ -41,13 +40,10 @@ Cudos Dress Rehearsal Network Definition Files
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.9.0/docker/config/genesis.testnet.public.json?raw=true"                  -O ${RPM_SOURCE_DIR}/genesis.json
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.9.0/docker/config/persistent-peers.testnet.public.config?raw=true"       -O ${RPM_SOURCE_DIR}/persistent-peers.config
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.9.0/docker/config/seeds.testnet.public.config?raw=true"                  -O ${RPM_SOURCE_DIR}/seeds.config
-wget "https://github.com/CudoVentures/cudos-builders/blob/v0.9.0/docker/config/state-sync-rpc-servers.testnet.public.config?raw=true" -O ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config
-touch ${RPM_SOURCE_DIR}/unconditional-peers.config
-touch ${RPM_SOURCE_DIR}/private-peers.config
+tar -C ${RPM_SOURCE_DIR} ${SOURCE0}
+
 %build
+echo -e "\n\n=== build section ===\n\n"
 
 %install
 echo -e "\n\n=== install section ===\n\n"
@@ -55,6 +51,7 @@ echo -e "\n\n=== install section ===\n\n"
 # Make the fixed directory structure
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.9.0
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.0.0
 
 # Install the cudos-data/config files
 cp -v ${RPM_SOURCE_DIR}/genesis.json                   ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
@@ -65,11 +62,15 @@ cp -v ${RPM_SOURCE_DIR}/unconditional-peers.config     ${RPM_BUILD_ROOT}/var/lib
 cp -v ${RPM_SOURCE_DIR}/private-peers.config           ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
 
 # Install the cosmovisor upgrade files
-for UPGV in 0.9.0
+for UPGV in 0.9.0 1.0.0
 do
   mkdir -p                                                  ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v${UPGV}
   cp -v ${RPM_SOURCE_DIR}/upgrade-info.json-testnet-${UPGV} ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v${UPGV}/upgrade-info.json
 done
+
+cd ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor
+ln -s upgrades/v0.9.0 genesis
+cd -
 
 %clean
 # rm -rf $RPM_BUILD_ROOT
@@ -87,6 +88,6 @@ fi
 %dir /var/lib/cudos/cudos-data
 %dir /var/lib/cudos/cudos-data/config
 /var/lib/cudos/cudos-data/config/*
-/var/lib/cudos/cudos-data/cosmovisor/upgrades/*/upgrade-info.json
+/var/lib/cudos/cudos-data/cosmovisor
 
 %doc

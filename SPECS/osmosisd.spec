@@ -102,6 +102,7 @@ cp ${RPM_SOURCE_DIR}/etc_profiled_osmosis-cosmovisor.sh  ${RPM_BUILD_ROOT}/etc/p
 
 # Install systemd service files
 cp ${RPM_SOURCE_DIR}/osmosisd.service                         ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
+cp ${RPM_SOURCE_DIR}/osmosis-cosmovisor.service               ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
 
 # Install /usr/bin scripts
 cp ${RPM_SOURCE_DIR}/osmosisd-ctl.sh                ${RPM_BUILD_ROOT}/usr/bin/osmosisd-ctl

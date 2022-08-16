@@ -36,9 +36,6 @@ Source6:      osmosis-is-node-ready.sh
 Source40:     check_osmosis_block_age.sh
 Source41:     check_osmosis_block_data.sh
 Source42:     check_osmosis_catching_up.sh
-Source43:     check_osmosis_block_age_docker.sh
-Source44:     check_osmosis_block_data_docker.sh
-Source45:     check_osmosis_catching_up_docker.sh
 Source46:     check_osmosis_consensus.sh
 
 Source60:     osmosis-cosmovisor.service

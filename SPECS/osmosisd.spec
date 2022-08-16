@@ -114,14 +114,11 @@ chmod 755                                              ${RPM_BUILD_ROOT}/usr/bin
 cp ${RPM_SOURCE_DIR}/check_osmosis_block_age.sh          ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/
 cp ${RPM_SOURCE_DIR}/check_osmosis_block_data.sh         ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/
 cp ${RPM_SOURCE_DIR}/check_osmosis_catching_up.sh        ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/
-cp ${RPM_SOURCE_DIR}/check_osmosis_block_age_docker.sh   ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/
-cp ${RPM_SOURCE_DIR}/check_osmosis_block_data_docker.sh  ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/
-cp ${RPM_SOURCE_DIR}/check_osmosis_catching_up_docker.sh ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/
 cp ${RPM_SOURCE_DIR}/check_osmosis_consensus.sh          ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/
-chmod 755                                              ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/*
+chmod 755                                                ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/*
 
 # This script is only needed when there's a chain halt .. so make it 444 until needed
-chmod 444                                              ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/check_osmosis_consensus.sh
+chmod 444                                                ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/check_osmosis_consensus.sh
 
 %clean
 # rm -rf $RPM_BUILD_ROOT

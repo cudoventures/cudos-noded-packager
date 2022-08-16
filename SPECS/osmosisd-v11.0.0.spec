@@ -54,7 +54,7 @@ make build
 echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
-cp build/osmosisd ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{version}/bin
+cp ${RPM_BUILD_DIR}/osmosis/build/osmosisd ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{version}/bin
 
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{version}/bin
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{version}/lib/

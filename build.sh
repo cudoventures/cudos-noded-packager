@@ -173,6 +173,8 @@ create_toml_tarball "mainnet"         "mainnet"
 #
 # Build the spec files
 #
+run_rpmbuild "11.0.0"           "${BUILD_NUMBER}" osmosisd
+run_rpmbuild "11.0.0"           "${BUILD_NUMBER}" osmosisd-v1.0.0
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-private-testnet
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-public-testnet
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-mainnet

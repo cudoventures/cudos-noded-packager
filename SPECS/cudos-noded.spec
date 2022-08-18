@@ -26,7 +26,6 @@ Summary:      Cudos Node Common Files
 License:      GPL3
 URL:          https://github.com/CudoVentures/cudos-node           
 
-Source1:      cudos-noded.service
 Source2:      etc_default_cudos-noded
 Source3:      etc_profiled_cudos-noded.sh
 Source4:      cudos-init-node.sh

@@ -58,10 +58,8 @@ mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{vers
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{version}/lib/
 
 # Install the newly built binaries
-cp -v ${RPM_BUILD_DIR}/osmosis/build/osmosisd       ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{version}/bin/
-
-%clean
-# rm -rf $RPM_BUILD_ROOT
+cp -v ${RPM_BUILD_DIR}/osmosis/build/osmosisd  ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{version}/bin/
+cp -v ${RPM_BUILD_DIR}go/pkg/mod/github.com/!cosm!wasm/wasmvm@v1.0.0/api/libwasmvm.x86_64.so  ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{version}/lib/
 
 %files
 %defattr(-,osmosis,osmosis,-)

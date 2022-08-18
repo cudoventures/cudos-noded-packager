@@ -104,6 +104,8 @@ run_rpmbuild()
   RLS=$2
   SPEC_NAME=$3
   
+  echo -ne "\n\n======= Building Package $SPEC_NAME =======\n\n"
+  
   rpmbuild \
      --define "_topdir $( pwd )" \
      --define "_versiontag ${VER}" \

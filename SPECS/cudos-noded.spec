@@ -47,10 +47,6 @@ Source52:     config.yml-tmpl
 Source53:     chronocollector-init.sh
 Source54:     chronocollector-linux-amd64.gz
 
-Source60:     cudos-cosmovisor.service
-Source61:     etc_default_cudos-cosmovisor
-Source62:     etc_profiled_cudos-cosmovisor.sh
-
 Provides:     libwasmvm.so()(64bit)
 
 # undefine __brp_mangle_shebangs
@@ -99,10 +95,6 @@ echo -e "\n\n=== build section ===\n\n"
 
 export GOPATH="${RPM_BUILD_DIR}/go"
 
-echo -e "\n\n=== Build and install cosmovisor ===\n\n"
-
-go install -v github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0
-
 echo -e "\n\n=== Build and install gex ===\n\n"
 
 go install -v github.com/cosmos/gex@latest
@@ -128,7 +120,6 @@ mkdir -p ${RPM_BUILD_ROOT}/usr/lib64/nagios/plugins/
 
 # Install the newly built binaries
 cp -v ${RPM_BUILD_DIR}/go/bin/gex               ${RPM_BUILD_ROOT}/usr/bin/cudos-gex
-cp -v ${RPM_BUILD_DIR}/go/bin/cosmovisor        ${RPM_BUILD_ROOT}/usr/bin/
 cp -v ${RPM_BUILD_DIR}/go/bin/cudos-p2p-scan    ${RPM_BUILD_ROOT}/usr/bin/
 
 # Install scripts
@@ -145,9 +136,7 @@ chmod 755                                              ${RPM_BUILD_ROOT}/usr/lib
 
 # Install environment setup files
 cp ${RPM_SOURCE_DIR}/etc_default_cudos-noded           ${RPM_BUILD_ROOT}/etc/default/cudos-noded
-cp ${RPM_SOURCE_DIR}/etc_default_cudos-cosmovisor      ${RPM_BUILD_ROOT}/etc/default/cudos-cosmovisor
 cp ${RPM_SOURCE_DIR}/etc_profiled_cudos-noded.sh       ${RPM_BUILD_ROOT}/etc/profile.d/cudos-noded.sh
-cp ${RPM_SOURCE_DIR}/etc_profiled_cudos-cosmovisor.sh  ${RPM_BUILD_ROOT}/etc/profile.d/cudos-cosmovisor.sh
 
 # Install systemd service files
 cp ${RPM_SOURCE_DIR}/*.service                         ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
@@ -190,9 +179,18 @@ else
 fi
 echo "  Refreshing /usr/bin, /lib and /lib64 links"
 rm -f /usr/bin/cudos-noded /lib64/libwasmvm.so /lib/libwasmvm.so || true
+
 ln -s /var/lib/cudos/cudos-data/cosmovisor/current/bin/cudos-noded /usr/bin/cudos-noded
 ln -s /var/lib/cudos/cudos-data/cosmovisor/current/lib/libwasmvm.so /lib64/libwasmvm.so
 ln -s /var/lib/cudos/cudos-data/cosmovisor/current/lib/libwasmvm.so /lib/libwasmvm.so
+
+if [ -d /var/lib/cudos/.cudosd/. ]
+then
+  echo "  Cosmovisor '.cudosd' to'cudos-data' link in place already"
+else
+  echo "  Setting Cosmovisor link '.cudosd' to 'cudos-data'" 
+  ln -s /var/lib/cudos/cudos-data /var/lib/cudos/.cudosd
+fi
 if [ -d /var/lib/cudos/cudos-data/cosmovisor/current ]
 then
   echo "  Cosmovisor 'current' link in place already"
@@ -211,8 +209,6 @@ echo "  Done"
 /usr/bin/cosmovisor
 /usr/bin/cudos-noded-ctl
 /usr/bin/cudos-init-node.sh
-/usr/lib/systemd/system/cudos-noded.service
-/usr/lib/systemd/system/cudos-cosmovisor.service
 %doc
 
 %files -n cudos-gex

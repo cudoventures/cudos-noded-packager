@@ -1,0 +1,16 @@
+[Unit]
+Description=Cosmovisor Daemon for chain %f
+After=network-online.target
+
+[Service]
+EnvironmentFile=-/etc/default/%f-cosmovisor
+User=%f
+ExecStartPre="/usr/bin/cosmovisor-init-node.sh %f"
+ExecStart=/usr/bin/cosmovisor start --home /var/lib/%f/.%f --log_level "${DAEMON_LOGLEVEL}"
+Restart=always
+RestartSec=3
+LimitNOFILE=infinity
+LimitNPROC=infinity
+
+[Install]
+WantedBy=multi-user.target

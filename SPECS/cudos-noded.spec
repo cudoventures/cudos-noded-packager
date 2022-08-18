@@ -134,8 +134,8 @@ cp ${RPM_SOURCE_DIR}/check_cudos_p2p                   ${RPM_BUILD_ROOT}/usr/lib
 chmod 755                                              ${RPM_BUILD_ROOT}/usr/lib64/nagios/plugins/*
 
 # Install environment setup files
-cp ${RPM_SOURCE_DIR}/etc_default_cudos-noded           ${RPM_BUILD_ROOT}/etc/default/cudos-noded
-cp ${RPM_SOURCE_DIR}/etc_profiled_cudos-noded.sh       ${RPM_BUILD_ROOT}/etc/profile.d/cudos-noded.sh
+cp ${RPM_SOURCE_DIR}/etc_default_cudos-cosmovisor      ${RPM_BUILD_ROOT}/etc/default/cudos-cosmovisor
+cp ${RPM_SOURCE_DIR}/etc_profiled_cudos-cosmovisor.sh  ${RPM_BUILD_ROOT}/etc/profile.d/cosmovisor.sh
 
 # Install systemd service files
 cp ${RPM_SOURCE_DIR}/cudos-chronocollector.service     ${RPM_BUILD_ROOT}/usr/lib/systemd/system/

@@ -38,10 +38,6 @@ Source41:     check_osmosis_block_data.sh
 Source42:     check_osmosis_catching_up.sh
 Source46:     check_osmosis_consensus.sh
 
-Source60:     osmosis-cosmovisor.service
-Source61:     etc_default_osmosis-cosmovisor
-Source62:     etc_profiled_osmosis-cosmovisor.sh
-
 # undefine __brp_mangle_shebangs
 %global __brp_check_rpaths %{nil}
 
@@ -66,10 +62,6 @@ echo -e "\n\n=== build section ===\n\n"
 
 export GOPATH="${RPM_BUILD_DIR}/go"
 
-echo -e "\n\n=== Build and install cosmovisor ===\n\n"
-
-go install -v github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0
-
 %install
 echo -e "\n\n=== install section ===\n\n"
 
@@ -83,9 +75,6 @@ mkdir -p ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib64/nagios/plugins/
 
 
-# Install the newly built binaries
-cp -v ${RPM_BUILD_DIR}/go/bin/cosmovisor        ${RPM_BUILD_ROOT}/usr/bin/
-
 # Install scripts
 cp -v ${RPM_SOURCE_DIR}/osmosis-init-node.sh      ${RPM_BUILD_ROOT}/usr/bin/
 chmod 755                                       ${RPM_BUILD_ROOT}/usr/bin/*.sh
@@ -96,13 +85,10 @@ chmod 755                                              ${RPM_BUILD_ROOT}/usr/bin
 
 # Install environment setup files
 cp ${RPM_SOURCE_DIR}/etc_default_osmosisd           ${RPM_BUILD_ROOT}/etc/default/osmosisd
-cp ${RPM_SOURCE_DIR}/etc_default_osmosis-cosmovisor      ${RPM_BUILD_ROOT}/etc/default/osmosis-cosmovisor
 cp ${RPM_SOURCE_DIR}/etc_profiled_osmosisd.sh       ${RPM_BUILD_ROOT}/etc/profile.d/osmosisd.sh
-cp ${RPM_SOURCE_DIR}/etc_profiled_osmosis-cosmovisor.sh  ${RPM_BUILD_ROOT}/etc/profile.d/osmosis-cosmovisor.sh
 
 # Install systemd service files
 cp ${RPM_SOURCE_DIR}/osmosisd.service                         ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
-cp ${RPM_SOURCE_DIR}/osmosis-cosmovisor.service               ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
 
 # Install /usr/bin scripts
 cp ${RPM_SOURCE_DIR}/osmosisd-ctl.sh                ${RPM_BUILD_ROOT}/usr/bin/osmosisd-ctl
@@ -143,11 +129,9 @@ echo "  Done"
 %defattr(-,root,root,-)
 /etc/default/*
 /etc/profile.d/*
-/usr/bin/cosmovisor
 /usr/bin/osmosisd-ctl
 /usr/bin/osmosis-init-node.sh
 /usr/lib/systemd/system/osmosisd.service
-/usr/lib/systemd/system/osmosis-cosmovisor.service
 %doc
 
 %files -n osmosis-check_mk

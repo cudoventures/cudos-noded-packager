@@ -170,6 +170,7 @@ fi
 create_cudos_tarball "0.8.0"
 create_cudos_tarball "0.9.0"
 create_cudos_tarball "1.0.0"
+create_cudos_tarball "1.1.0"
 
 #
 # Create the toml config tarballs

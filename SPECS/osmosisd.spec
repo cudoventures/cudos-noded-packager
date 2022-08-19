@@ -125,10 +125,8 @@ echo "  Done"
 %files
 %defattr(-,root,root,-)
 /etc/default/*
-/etc/profile.d/*
 /usr/bin/osmosisd-ctl
 /usr/bin/osmosis-init-node.sh
-/usr/lib/systemd/system/osmosisd.service
 %doc
 
 %files -n osmosis-check_mk

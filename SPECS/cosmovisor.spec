@@ -28,7 +28,6 @@ URL:          https://github.com/cosmos/cosmos-sdk/cosmovisor
 
 Source1:      etc_profiled_cosmovisor.sh
 Source2:      cosmovisor@.service
-Source3:      cosmovisor-init-node.sh
 
 Requires:     cosmovisor-daemon
 
@@ -48,15 +47,11 @@ mkdir -p ${RPM_BUILD_ROOT}/etc/profile.d
 mkdir -p ${RPM_BUILD_ROOT}/usr/bin
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/systemd/system
 
-# Install the newly built binaries
+# Install the binary
 cp -v ${RPM_BUILD_DIR}/go/bin/cosmovisor        ${RPM_BUILD_ROOT}/usr/bin/
 
 # Install environment setup file
 cp ${RPM_SOURCE_DIR}/etc_profiled_cosmovisor    ${RPM_BUILD_ROOT}/etc/profile,d/cosmovisor
-
-# Install scripts
-cp -v ${RPM_SOURCE_DIR}/cosmovisor-init-node.sh ${RPM_BUILD_ROOT}/usr/bin/
-chmod 755                                       ${RPM_BUILD_ROOT}/usr/bin/*.sh
 
 # Install systemd service files
 cp ${RPM_SOURCE_DIR}/cosmovisor@.service                         ${RPM_BUILD_ROOT}/usr/lib/systemd/system/

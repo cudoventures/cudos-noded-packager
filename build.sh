@@ -55,12 +55,6 @@ create_cudos_tarball()
     # Check out fresh copies of the current version
     case $VER in
 
-    1\.1\.0)
-      git clone --depth 1 --branch cudos-dev https://github.com/CudoVentures/cudos-node.git CudosNode
-      git clone --depth 1 --branch cudos-dev https://github.com/CudoVentures/cudos-builders.git CudosBuilders
-      git clone --depth 1 --branch cudos-dev https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
-      ;;
-
     0\.4)
       git clone --depth 1 --branch v0.4.0 https://github.com/CudoVentures/cudos-node.git CudosNode
       git clone --depth 1 --branch v0.3.3 https://github.com/CudoVentures/cudos-builders.git CudosBuilders

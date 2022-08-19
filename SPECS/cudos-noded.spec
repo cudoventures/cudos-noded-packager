@@ -27,14 +27,14 @@ License:      GPL3
 URL:          https://github.com/CudoVentures/cudos-node           
 
 Source1:      etc_default_cosmovisor-cudos
-Source3:      etc_profiled_cosmovisor.sh
+Source2:      etc_profiled_cosmovisor.sh
 
-Source2:      etc_default_cudos-noded
-Source3:      etc_profiled_cudos-noded.sh
+Source3:      etc_default_cudos-noded
+Source4:      etc_profiled_cudos-noded.sh
 
-Source4:      cudos-init-node.sh
-Source5:      cudos-noded-ctl.sh
-Source6:      cudos-is-node-ready.sh
+Source5:      cudos-init-node.sh
+Source6:      cudos-noded-ctl.sh
+Source7:      cudos-is-node-ready.sh
 
 Source40:     check_cudos_block_age.sh
 Source41:     check_cudos_block_data.sh

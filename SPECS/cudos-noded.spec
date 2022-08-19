@@ -216,10 +216,12 @@ echo "  Done"
 
 %files -n cudos-gex
 %defattr(-,root,root,-)
+/usr/bin/cosmos-gex
 /usr/bin/cudos-gex
 
 %files -n cudos-p2p-scan
 %defattr(-,root,root,-)
+/usr/bin/cosmos-p2p-scan
 /usr/bin/cudos-p2p-scan
 /usr/lib64/nagios/plugins/check_cudos_p2p
 

@@ -26,23 +26,23 @@ Summary:      Osmosis Node Common Files
 License:      GPL3
 URL:          https://github.com/osmosis-labs/osmosis           
 
-Source1:      osmosisd.service
-Source2:      etc_default_osmosisd
-Source3:      etc_profiled_osmosisd.sh
+Source2:      etc_default_cosmovisor-osmosis
 Source4:      osmosis-init-node.sh
 Source5:      osmosisd-ctl.sh
-Source6:      osmosis-is-node-ready.sh
 
-Source40:     check_osmosis_block_age.sh
-Source41:     check_osmosis_block_data.sh
-Source42:     check_osmosis_catching_up.sh
-Source46:     check_osmosis_consensus.sh
+Source40:     osmosis-is-node-ready.sh
+Source41:     check_osmosis_block_age.sh
+Source42:     check_osmosis_block_data.sh
+Source43:     check_osmosis_catching_up.sh
+Source44:     check_osmosis_consensus.sh
+
+Provides:     cosmovisor-daemon
 
 # undefine __brp_mangle_shebangs
-%global __brp_check_rpaths %{nil}
+# %global __brp_check_rpaths %{nil}
 
 %description
-Osmosis Node Common Files
+Cosmovisor Node Common Files - osmosis
 %pre
 getent group osmosis >/dev/null || groupadd -r osmosis || :
 getent passwd osmosis >/dev/null || useradd -c "Osmosis User" -g osmosis -s /bin/bash -r -m -d /var/lib/osmosis osmosis 2> /dev/null || :
@@ -76,19 +76,12 @@ mkdir -p ${RPM_BUILD_ROOT}/usr/lib64/nagios/plugins/
 
 
 # Install scripts
-cp -v ${RPM_SOURCE_DIR}/osmosis-init-node.sh      ${RPM_BUILD_ROOT}/usr/bin/
-chmod 755                                       ${RPM_BUILD_ROOT}/usr/bin/*.sh
-
-# Install the shell scripts for /usr/bin
-cp ${RPM_SOURCE_DIR}/osmosis-is-node-ready.sh            ${RPM_BUILD_ROOT}/usr/bin/
-chmod 755                                              ${RPM_BUILD_ROOT}/usr/bin/*
+cp ${RPM_SOURCE_DIR}/osmosis-init-node.sh       ${RPM_BUILD_ROOT}/usr/bin/
+cp ${RPM_SOURCE_DIR}/osmosis-is-node-ready.sh   ${RPM_BUILD_ROOT}/usr/bin/
+chmod 755                                       ${RPM_BUILD_ROOT}/usr/bin/*
 
 # Install environment setup files
-cp ${RPM_SOURCE_DIR}/etc_default_osmosisd           ${RPM_BUILD_ROOT}/etc/default/osmosisd
-cp ${RPM_SOURCE_DIR}/etc_profiled_osmosisd.sh       ${RPM_BUILD_ROOT}/etc/profile.d/osmosisd.sh
-
-# Install systemd service files
-cp ${RPM_SOURCE_DIR}/osmosisd.service                         ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
+cp ${RPM_SOURCE_DIR}/etc_default_cosmovisor-osmosis           ${RPM_BUILD_ROOT}/etc/default/cosmovisor
 
 # Install /usr/bin scripts
 cp ${RPM_SOURCE_DIR}/osmosisd-ctl.sh                ${RPM_BUILD_ROOT}/usr/bin/osmosisd-ctl
@@ -114,6 +107,13 @@ then
 else
     echo "Upgrade: Setting up links"
 fi
+echo "  Refreshing /usr/bin, /lib and /lib64 links"
+rm -f /usr/bin/osmosisd /lib64/libwasmvm.x86_64.so /lib/libwasmvm.x86_64.so || true
+
+ln -s /var/lib/osmosis/.osmosisd/cosmovisor/current/bin/osmosisd /usr/bin/osmosisd
+ln -s /var/lib/osmosis/.osmosisd/cosmovisor/current/lib/libwasmvm.so /lib64/libwasmvm.so
+ln -s /var/lib/osmosis/.osmosisd/cosmovisor/current/lib/libwasmvm.so /lib/libwasmvm.so
+
 if [ -d /var/lib/osmosis/.osmosisd/cosmovisor/current ]
 then
   echo "  Cosmovisor 'current' link in place already"

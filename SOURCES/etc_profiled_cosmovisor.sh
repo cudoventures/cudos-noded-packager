@@ -15,10 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# The CUDOS_HOME variable needs to be set in order to fix the location
-# of the config files and database
+
 #
-. /etc/default/osmosis-cosmovisor
+# Export the values set in /etc/default/cosmovisor
+# to ensure they can be used in sub-processes
+#
+. /etc/default/cosmovisor
 
 export DAEMON_NAME
 export DAEMON_HOME

@@ -26,8 +26,11 @@ Summary:      Osmosis Node Common Files
 License:      GPL3
 URL:          https://github.com/cosmos/cosmos-sdk/cosmovisor
 
-Source1:      cosmovisor@.service
-Source4:      cosmovisor-init-node.sh
+Source1:      etc_profiled_cosmovisor.sh
+Source2:      cosmovisor@.service
+Source3:      cosmovisor-init-node.sh
+
+Requires:     cosmovisor-daemon
 
 # undefine __brp_mangle_shebangs
 # %global __brp_check_rpaths %{nil}
@@ -44,14 +47,18 @@ go install -v github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0
 echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
+mkdir -p ${RPM_BUILD_ROOT}/etc/profile.d
 mkdir -p ${RPM_BUILD_ROOT}/usr/bin
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/systemd/system
 
 # Install the newly built binaries
 cp -v ${RPM_BUILD_DIR}/go/bin/cosmovisor        ${RPM_BUILD_ROOT}/usr/bin/
 
+# Install environment setup file
+cp ${RPM_SOURCE_DIR}/etc_profiled_cosmovisor    ${RPM_BUILD_ROOT}/etc/profile,d/cosmovisor
+
 # Install scripts
-cp -v ${RPM_SOURCE_DIR}/cosmovisor-init-node.sh      ${RPM_BUILD_ROOT}/usr/bin/
+cp -v ${RPM_SOURCE_DIR}/cosmovisor-init-node.sh ${RPM_BUILD_ROOT}/usr/bin/
 chmod 755                                       ${RPM_BUILD_ROOT}/usr/bin/*.sh
 
 # Install systemd service files
@@ -59,8 +66,8 @@ cp ${RPM_SOURCE_DIR}/cosmovisor@.service                         ${RPM_BUILD_ROO
 
 %files
 %defattr(-,root,root,-)
+/etc/profile,d/cosmovisor
 /usr/bin/cosmovisor
-/usr/bin/cosmovisor-init-node.sh
 /usr/lib/systemd/system/cosmovisor@.service
 %doc
 

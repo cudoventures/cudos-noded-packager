@@ -52,9 +52,6 @@ Source54:     chronocollector-linux-amd64.gz
 
 Provides:     cosmovisor-daemon
 
-# undefine __brp_mangle_shebangs
-%global __brp_check_rpaths %{nil}
-
 %description
 Cosmovisor client files for - cudos 
 %pre

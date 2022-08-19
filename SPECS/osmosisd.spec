@@ -38,9 +38,6 @@ Source44:     check_osmosis_consensus.sh
 
 Provides:     cosmovisor-daemon
 
-# undefine __brp_mangle_shebangs
-# %global __brp_check_rpaths %{nil}
-
 %description
 Cosmovisor Node Common Files - osmosis
 %pre

@@ -29,6 +29,7 @@ URL:          https://github.com/CudoVentures/cudos-node
 Source0:      toml-config-testnet.tar.gz
 Source1:      upgrade-info.json-testnet-0.9.0
 
+Requires:     cosmovisor
 Requires:     cudos-noded
 Requires:     cudos-noded-v0.9.0
 Requires:     cudos-noded-v1.0.0

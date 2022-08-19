@@ -29,6 +29,7 @@ URL:          https://github.com/CudoVentures/cudos-node
 Source0:      toml-config-mainnet.tar.gz
 Source1:      upgrade-info.json-mainnet-1.0.0
 
+Requires:     cosmovisor
 Requires:     cudos-noded
 Requires:     cudos-noded-v1.0.0
 Requires:     cudos-p2p-scan

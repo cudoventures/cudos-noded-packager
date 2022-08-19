@@ -51,14 +51,14 @@ mkdir -p ${RPM_BUILD_ROOT}/usr/lib/systemd/system
 cp -v ${RPM_BUILD_DIR}/go/bin/cosmovisor        ${RPM_BUILD_ROOT}/usr/bin/
 
 # Install environment setup file
-cp ${RPM_SOURCE_DIR}/etc_profiled_cosmovisor    ${RPM_BUILD_ROOT}/etc/profile,d/cosmovisor
+cp ${RPM_SOURCE_DIR}/etc_profiled_cosmovisor.sh ${RPM_BUILD_ROOT}/etc/profile.d/cosmovisor.sh
 
 # Install systemd service files
 cp ${RPM_SOURCE_DIR}/cosmovisor@.service                         ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
 
 %files
 %defattr(-,root,root,-)
-/etc/profile,d/cosmovisor
+/etc/profile.d/cosmovisor.sh
 /usr/bin/cosmovisor
 /usr/lib/systemd/system/cosmovisor@.service
 %doc

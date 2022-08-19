@@ -182,17 +182,17 @@ create_toml_tarball "mainnet"         "mainnet"
 #
 # Build the spec files
 #
-run_rpmbuild "1.0.0"            "${BUILD_NUMBER}" cosmovisor
-run_rpmbuild "11.0.0"           "${BUILD_NUMBER}" osmosisd
-run_rpmbuild "11.0.0"           "${BUILD_NUMBER}" osmosisd-v11.0.0
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-private-testnet
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-public-testnet
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-mainnet
+run_rpmbuild "1.0.0"            "${BUILD_NUMBER}" cosmovisor
+run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded
 run_rpmbuild "0.8.0"            "${BUILD_NUMBER}" cudos-noded-v0.8.0
 run_rpmbuild "0.9.0"            "${BUILD_NUMBER}" cudos-noded-v0.9.0
 run_rpmbuild "1.0.0"            "${BUILD_NUMBER}" cudos-noded-v1.0.0
 run_rpmbuild "1.1.0"            "${BUILD_NUMBER}" cudos-noded-v1.1.0
-run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded
+run_rpmbuild "11.0.0"           "${BUILD_NUMBER}" osmosisd
+run_rpmbuild "11.0.0"           "${BUILD_NUMBER}" osmosisd-v11.0.0
 
 #
 # Feed the rpm binaries into "Alien" to be converted

@@ -138,7 +138,9 @@ chmod 755                                              ${RPM_BUILD_ROOT}/usr/lib
 #    It ensures only one of the client packages can be installed at any one time
 #
 cp ${RPM_SOURCE_DIR}/etc_default_cosmovisor-cudos      ${RPM_BUILD_ROOT}/etc/default/cosmovisor
-cp ${RPM_SOURCE_DIR}/etc_profiled_cosmovisor.sh        ${RPM_BUILD_ROOT}/etc/profile.d/cosmovisor.sh
+
+cp ${RPM_SOURCE_DIR}/etc_default_cudos-noded           ${RPM_BUILD_ROOT}/etc/default/cudos-noded
+cp ${RPM_SOURCE_DIR}/etc_profiled_cudos-noded.sh       ${RPM_BUILD_ROOT}/etc/profile.d/cudos-noded.sh
 
 # Install systemd service files
 cp ${RPM_SOURCE_DIR}/cudos-chronocollector.service     ${RPM_BUILD_ROOT}/usr/lib/systemd/system/

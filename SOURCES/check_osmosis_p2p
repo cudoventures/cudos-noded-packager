@@ -1,0 +1,23 @@
+#!/bin/bash
+
+export TMPFILE=/tmp/cudos-p2p-scan.$$.txt
+
+export TARGET="$1"
+
+/usr/bin/cudos-p2p-scan "$TARGET" > $TMPFILE
+
+P2P_STATUS="` jq -M .Status < $TMPFILE | tr -d '"' `"
+P2P_ID="` jq -M .ID < $TMPFILE | tr -d '"' `"
+P2P_MONIKER="` jq -M .Moniker < $TMPFILE | tr -d '"' `"
+P2P_NETWORK="` jq -M .Network < $TMPFILE | tr -d '"' `"
+
+if [[ "$P2P_STATUS" = "open" ]]
+then
+	echo "P2P OK - PEX port open TMID=$P2P_ID Moniker=$P2P_MONIKER Network=$P2P_NETWORK"
+	exit 0	
+else
+	echo "P2P Closed - PEX port Closed"
+	exit 2	
+fi
+
+rm -f "$TMPFILE"

@@ -21,17 +21,19 @@
 Name:         cudos-noded
 Version:      %{_versiontag}
 Release:      %{_releasetag}%{?dist}
-Summary:      Cudos Node Common Files
+Summary:      Cosmovisor Node Client Files - cudos
 
 License:      GPL3
 URL:          https://github.com/CudoVentures/cudos-node           
 
-Source1:      cudos-noded.service
-Source2:      etc_default_cudos-noded
-Source3:      etc_profiled_cudos-noded.sh
-Source4:      cudos-init-node.sh
-Source5:      cudos-noded-ctl.sh
-Source6:      cudos-is-node-ready.sh
+Source1:      etc_default_cosmovisor-cudos
+
+Source3:      etc_default_cudos-noded
+Source4:      etc_profiled_cudos-noded.sh
+
+Source5:      cudos-init-node.sh
+Source6:      cudos-noded-ctl.sh
+Source7:      cudos-is-node-ready.sh
 
 Source40:     check_cudos_block_age.sh
 Source41:     check_cudos_block_data.sh
@@ -47,17 +49,10 @@ Source52:     config.yml-tmpl
 Source53:     chronocollector-init.sh
 Source54:     chronocollector-linux-amd64.gz
 
-Source60:     cudos-cosmovisor.service
-Source61:     etc_default_cudos-cosmovisor
-Source62:     etc_profiled_cudos-cosmovisor.sh
-
-Provides:     libwasmvm.so()(64bit)
-
-# undefine __brp_mangle_shebangs
-%global __brp_check_rpaths %{nil}
+Provides:     cosmovisor-daemon
 
 %description
-Cudos Node Common Files
+Cosmovisor client files for - cudos 
 %pre
 getent group cudos >/dev/null || groupadd -r cudos || :
 getent passwd cudos >/dev/null || useradd -c "Cudos User" -g cudos -s /bin/bash -r -m -d /var/lib/cudos cudos 2> /dev/null || :
@@ -99,10 +94,6 @@ echo -e "\n\n=== build section ===\n\n"
 
 export GOPATH="${RPM_BUILD_DIR}/go"
 
-echo -e "\n\n=== Build and install cosmovisor ===\n\n"
-
-go install -v github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0
-
 echo -e "\n\n=== Build and install gex ===\n\n"
 
 go install -v github.com/cosmos/gex@latest
@@ -120,22 +111,21 @@ mkdir -p ${RPM_BUILD_ROOT}/etc/default/
 mkdir -p ${RPM_BUILD_ROOT}/etc/profile.d/
 mkdir -p ${RPM_BUILD_ROOT}/usr/bin/
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/systemd/system
+mkdir -p ${RPM_BUILD_ROOT}/lib
 mkdir -p ${RPM_BUILD_ROOT}/lib64
+
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/chronoc/bin
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib64/nagios/plugins/
 
-
 # Install the newly built binaries
-cp -v ${RPM_BUILD_DIR}/go/bin/gex               ${RPM_BUILD_ROOT}/usr/bin/cudos-gex
-cp -v ${RPM_BUILD_DIR}/go/bin/cosmovisor        ${RPM_BUILD_ROOT}/usr/bin/
-cp -v ${RPM_BUILD_DIR}/go/bin/cudos-p2p-scan    ${RPM_BUILD_ROOT}/usr/bin/
+cp -v ${RPM_BUILD_DIR}/go/bin/gex               ${RPM_BUILD_ROOT}/usr/bin/cosmos-gex
+ln -s cosmos-gex                                ${RPM_BUILD_ROOT}/usr/bin/cudos-gex
+cp -v ${RPM_BUILD_DIR}/go/bin/cudos-p2p-scan    ${RPM_BUILD_ROOT}/usr/bin/cosmos-p2p-scan
+ln -s cosmos-p2p-scan                           ${RPM_BUILD_ROOT}/usr/bin/cudos-p2p-scan
 
 # Install scripts
-cp -v ${RPM_SOURCE_DIR}/cudos-init-node.sh      ${RPM_BUILD_ROOT}/usr/bin/
-chmod 755                                       ${RPM_BUILD_ROOT}/usr/bin/*.sh
-
-# Install the shell scripts for /usr/bin
+cp ${RPM_SOURCE_DIR}/cudos-init-node.sh         ${RPM_BUILD_ROOT}/usr/bin/
 cp ${RPM_SOURCE_DIR}/cudos-is-node-ready.sh            ${RPM_BUILD_ROOT}/usr/bin/
 chmod 755                                              ${RPM_BUILD_ROOT}/usr/bin/*
 
@@ -144,13 +134,16 @@ cp ${RPM_SOURCE_DIR}/check_cudos_p2p                   ${RPM_BUILD_ROOT}/usr/lib
 chmod 755                                              ${RPM_BUILD_ROOT}/usr/lib64/nagios/plugins/*
 
 # Install environment setup files
+# NB The name change to a cosmovisor is deliberate
+#    It ensures only one of the client packages can be installed at any one time
+#
+cp ${RPM_SOURCE_DIR}/etc_default_cosmovisor-cudos      ${RPM_BUILD_ROOT}/etc/default/cosmovisor
+
 cp ${RPM_SOURCE_DIR}/etc_default_cudos-noded           ${RPM_BUILD_ROOT}/etc/default/cudos-noded
-cp ${RPM_SOURCE_DIR}/etc_default_cudos-cosmovisor      ${RPM_BUILD_ROOT}/etc/default/cudos-cosmovisor
 cp ${RPM_SOURCE_DIR}/etc_profiled_cudos-noded.sh       ${RPM_BUILD_ROOT}/etc/profile.d/cudos-noded.sh
-cp ${RPM_SOURCE_DIR}/etc_profiled_cudos-cosmovisor.sh  ${RPM_BUILD_ROOT}/etc/profile.d/cudos-cosmovisor.sh
 
 # Install systemd service files
-cp ${RPM_SOURCE_DIR}/*.service                         ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
+cp ${RPM_SOURCE_DIR}/cudos-chronocollector.service     ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
 
 # Install /usr/bin scripts
 cp ${RPM_SOURCE_DIR}/cudos-noded-ctl.sh                ${RPM_BUILD_ROOT}/usr/bin/cudos-noded-ctl
@@ -190,9 +183,18 @@ else
 fi
 echo "  Refreshing /usr/bin, /lib and /lib64 links"
 rm -f /usr/bin/cudos-noded /lib64/libwasmvm.so /lib/libwasmvm.so || true
+
 ln -s /var/lib/cudos/cudos-data/cosmovisor/current/bin/cudos-noded /usr/bin/cudos-noded
 ln -s /var/lib/cudos/cudos-data/cosmovisor/current/lib/libwasmvm.so /lib64/libwasmvm.so
 ln -s /var/lib/cudos/cudos-data/cosmovisor/current/lib/libwasmvm.so /lib/libwasmvm.so
+
+if [ -d /var/lib/cudos/.cudosd/. ]
+then
+  echo "  Cosmovisor '.cudosd' to'cudos-data' link in place already"
+else
+  echo "  Setting Cosmovisor link '.cudosd' to 'cudos-data'" 
+  ln -s /var/lib/cudos/cudos-data /var/lib/cudos/.cudosd
+fi
 if [ -d /var/lib/cudos/cudos-data/cosmovisor/current ]
 then
   echo "  Cosmovisor 'current' link in place already"
@@ -208,19 +210,18 @@ echo "  Done"
 %defattr(-,root,root,-)
 /etc/default/*
 /etc/profile.d/*
-/usr/bin/cosmovisor
 /usr/bin/cudos-noded-ctl
 /usr/bin/cudos-init-node.sh
-/usr/lib/systemd/system/cudos-noded.service
-/usr/lib/systemd/system/cudos-cosmovisor.service
 %doc
 
 %files -n cudos-gex
 %defattr(-,root,root,-)
+/usr/bin/cosmos-gex
 /usr/bin/cudos-gex
 
 %files -n cudos-p2p-scan
 %defattr(-,root,root,-)
+/usr/bin/cosmos-p2p-scan
 /usr/bin/cudos-p2p-scan
 /usr/lib64/nagios/plugins/check_cudos_p2p
 

@@ -1,3 +1,9 @@
+[cudos]
+name=OS Version $releasever - Cudo Cudos Latest Packages
+baseurl=http://jenkins.gcp.service.cudo.org/cudos/1.0.0
+gpgcheck=0
+enabled=0
+
 [cudos-0.4]
 name=CentOS Stream $releasever - Cudo Cudos 0.4 Packages
 baseurl=http://jenkins.gcp.service.cudo.org/cudos/0.4

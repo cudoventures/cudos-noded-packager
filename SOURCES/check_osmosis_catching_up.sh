@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # Copyright 2022 Andrew Meredith <andrew.meredith@cudoventures.com>
 # Copyright 2022 Cudo Ventures - All rights reserved.
@@ -15,16 +16,31 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# The CUDOS_HOME variable needs to be set in order to fix the location
-# of the config files and database
-#
-. /etc/default/cudos-cosmovisor
 
-export DAEMON_NAME
-export DAEMON_HOME
-export DAEMON_RESTART_AFTER_UPGRADE
-export DAEMON_ALLOW_DOWNLOAD_BINARIES
-export DAEMON_LOG_BUFFER_SIZE
-export UNSAFE_SKIP_BACKUP
+export TMPFILE=/tmp/osmosisd-$$.txt
 
-export DAEMON_LOGLEVEL
+RESULTS="`/usr/bin/osmosis-is-node-ready.sh`"
+
+dos2unix $TMPFILE >/dev/null 2>&1
+
+BLOCKHEIGHT_RAW=` echo "$RESULTS" | fgrep Block | sed -e'1,$s/.*Block Height: //'`
+BLOCKHEIGHT=`printf "%.0f" $BLOCKHEIGHT_RAW`
+CATCHING_UP=` echo "$RESULTS" | fgrep Catch | sed -e'1,$s/.*Catching up: //'`
+
+if /usr/bin/osmosis-is-node-ready.sh >$TMPFILE 2>&1
+then
+  ERR=0
+else
+  ERR=2
+fi
+
+if [ "$CATCHING_UP" = "true" ]
+then
+  CATCHING_UP=1
+else
+  CATCHING_UP=0
+fi
+
+cat << EOF
+${ERR} "Osmosis Node Catching Up" latest_block_height=${BLOCKHEIGHT}|catching_up=${CATCHING_UP} `cat $TMPFILE| tr "\n" " "`
+EOF

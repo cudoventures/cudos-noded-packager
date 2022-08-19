@@ -18,10 +18,10 @@
 # Runs the Cudos Node Daemon
 #
 
-Name:         cudos-noded-v0.9.0
+Name:         cudos-noded-v1.1.0
 Version:      %{_versiontag}
 Release:      %{_releasetag}%{?dist}
-Summary:      Cudos Node Binary Pack for v0.9.0
+Summary:      Cudos Node Binary Pack for v1.1.0
 
 License:      GPL3
 URL:          https://github.com/CudoVentures/cudos-node           
@@ -37,9 +37,9 @@ Installed into the Cosmovisor directories
 getent group cudos >/dev/null || groupadd -r cudos || :
 getent passwd cudos >/dev/null || useradd -c "Cudos User" -g cudos -s /bin/bash -r -m -d /var/lib/cudos cudos 2> /dev/null || :
 
-%package -n cudos-node-v0.9.0-src
+%package -n cudos-node-v1.1.0-src
 Summary: Cudos Node Sources
-%description -n cudos-node-v0.9.0-src
+%description -n cudos-node-v1.1.0-src
 CUDOS Node Sources
 
 %prep
@@ -59,12 +59,12 @@ make
 echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/src/v0.9.0/
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/src/v1.1.0/
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/bin/
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/lib/
 
 # Copy the sources to /var/lib/cudos
-cp -r ${RPM_BUILD_DIR}/Cudos*                  ${RPM_BUILD_ROOT}/var/lib/cudos/src/v0.9.0/
+cp -r ${RPM_BUILD_DIR}/Cudos*                  ${RPM_BUILD_ROOT}/var/lib/cudos/src/v1.1.0/
 
 # Install the newly built binaries
 cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded       ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/bin/
@@ -79,8 +79,8 @@ chmod 644                                                                       
 /var/lib/cudos/cudos-data/cosmovisor
 %doc
 
-%files -n cudos-node-v0.9.0-src
+%files -n cudos-node-v1.1.0-src
 %defattr(-,cudos,cudos,-)
-/var/lib/cudos/src/v0.9.0/
+/var/lib/cudos/src/v1.1.0/
 
 %changelog

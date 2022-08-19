@@ -1,4 +1,6 @@
-# Cudos Daemon binary packaging
+# Generic Cosmos Daemon binary packaging
+
+As the cosmos based daemons are all so similar, and the packaging can now handle any of the cosmovisor compatible daemons, this branch is to add the first example, Osmosis.
 
 ## Notes
 

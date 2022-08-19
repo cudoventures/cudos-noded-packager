@@ -55,20 +55,7 @@ create_cudos_tarball()
     # Check out fresh copies of the current version
     case $VER in
 
-    0\.4)
-      git clone --depth 1 --branch v0.4.0 https://github.com/CudoVentures/cudos-node.git CudosNode
-      git clone --depth 1 --branch v0.3.3 https://github.com/CudoVentures/cudos-builders.git CudosBuilders
-      git clone --depth 1 --branch v0.4.0 https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
-      git clone                           https://github.com/CudoVentures/cudos-network-upgrade.git CudosNetworkUpgrade
-      ;;
-
-    0\.[5-9]\.[0-9])
-      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-node.git CudosNode
-      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-builders.git CudosBuilders
-      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
-      ;;
-      
-    [1-9]\.[0-9]\.[0-9])
+    [0-9]\.[0-9]\.[0-9])
       git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-node.git CudosNode
       git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-builders.git CudosBuilders
       git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
@@ -103,6 +90,8 @@ run_rpmbuild()
   VER=$1
   RLS=$2
   SPEC_NAME=$3
+  
+  echo -ne "\n\n======= Building Package $SPEC_NAME =======\n\n"
   
   rpmbuild \
      --define "_topdir $( pwd )" \
@@ -162,6 +151,7 @@ fi
 create_cudos_tarball "0.8.0"
 create_cudos_tarball "0.9.0"
 create_cudos_tarball "1.0.0"
+create_cudos_tarball "1.1.0"
 
 #
 # Create the toml config tarballs
@@ -176,10 +166,14 @@ create_toml_tarball "mainnet"         "mainnet"
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-private-testnet
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-public-testnet
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-mainnet
+run_rpmbuild "1.0.0"            "${BUILD_NUMBER}" cosmovisor
+run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded
 run_rpmbuild "0.8.0"            "${BUILD_NUMBER}" cudos-noded-v0.8.0
 run_rpmbuild "0.9.0"            "${BUILD_NUMBER}" cudos-noded-v0.9.0
 run_rpmbuild "1.0.0"            "${BUILD_NUMBER}" cudos-noded-v1.0.0
-run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded
+run_rpmbuild "1.1.0"            "${BUILD_NUMBER}" cudos-noded-v1.1.0
+run_rpmbuild "11.0.0"           "${BUILD_NUMBER}" osmosisd
+run_rpmbuild "11.0.0"           "${BUILD_NUMBER}" osmosisd-v11.0.0
 
 #
 # Feed the rpm binaries into "Alien" to be converted

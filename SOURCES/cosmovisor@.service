@@ -3,10 +3,9 @@ Description=Cosmovisor Daemon for chain %i
 After=network-online.target
 
 [Service]
-EnvironmentFile=-/etc/default/%i-cosmovisor
+EnvironmentFile=-/etc/default/cosmovisor
 User=%i
 PermissionsStartOnly=true
-ExecStartPre=/usr/bin/cosmovisor-init-node.sh %i
 ExecStart=/usr/bin/cosmovisor start --home /var/lib/%i/.%id --log_level ${DAEMON_LOGLEVEL}
 Restart=always
 RestartSec=3

@@ -203,6 +203,34 @@ It uses the version subdirectory selected by cosmovisor
 
 ### Managing the Service
 
+#### Cosmovisor Daemon version and configuration
+
+The cosmovisor daemon can also work in client mode and can transfer commands direct to the daemon running the Cosmos Service
+
+```bash
+root@osmosis-testnet-node:~# cosmovisor version
+Cosmovisor Version:  
+2:21AM INF Configuration is valid:
+Configurable Values:
+  DAEMON_HOME: /var/lib/osmosis/.osmosisd
+  DAEMON_NAME: osmosisd
+  DAEMON_ALLOW_DOWNLOAD_BINARIES: false
+  DAEMON_RESTART_AFTER_UPGRADE: true
+  DAEMON_POLL_INTERVAL: 300ms
+  UNSAFE_SKIP_BACKUP: true
+  DAEMON_PREUPGRADE_MAX_RETRIES: 0
+Derived Values:
+        Root Dir: /var/lib/osmosis/.osmosisd/cosmovisor
+     Upgrade Dir: /var/lib/osmosis/.osmosisd/cosmovisor/upgrades
+     Genesis Bin: /var/lib/osmosis/.osmosisd/cosmovisor/genesis/bin/osmosisd
+  Monitored File: /var/lib/osmosis/.osmosisd/data/upgrade-info.json
+ module=cosmovisor
+2:21AM INF running app args=["version"] module=cosmovisor path=/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11/bin/osmosisd
+11.0.0
+```
+
+NB "11.0.0" is the results of calling the underlying Cosmos Daemon with the argument "version"
+
 #### Enable and Start the service
 
 ```bash
@@ -228,10 +256,32 @@ journalctl -f -u cosmovisor@osmosis
 
 # Anatomy of a binary install
 
-## The "cudos-noded" package
-* [Package File List](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-noded-0.6.0-67.el8.x86_64.rpm-lst.txt)
-* [Package RPM Headers](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-noded-0.6.0-67.el8.x86_64.rpm.txt)
-* [Spec File](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/SPECS/cudos-noded.spec)
+## The Client Package
+* [cudos-noded.spec](SPECS/cudos-noded.spec)
+* [osmosisd.spec](SPECS/osmosisd.spec)
+
+This contains any specific configurations required for the project in general, irrespective of version.
+
+```bash
+root@osmosis-testnet-node:~# dpkg -L osmosisd
+/.
+/etc
+/etc/default
+/etc/default/cosmovisor
+/usr
+/usr/bin
+/usr/bin/osmosis-init-node.sh
+/usr/bin/osmosisd-ctl
+/usr/share
+/usr/share/doc
+/usr/share/doc/osmosisd
+/usr/share/doc/osmosisd/changelog.Debian.gz
+/usr/share/doc/osmosisd/copyright
+```
+
+It also ensures that the user can use the daemon in client mode for TX commands and other such activity
+
+
 
 ### cudos-noded binary and library
 As this service is controlled by the cosmovisor daemon, the binary and library are installed in cosmovisor's
@@ -274,8 +324,6 @@ Additional steps might be needed for specific updates of the software or chain-i
 These will be delivered in the network package and executed as appropriate by Cosmovisor.
 
 ## The "cudos-gex" package
-  * [Package File List](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-gex-0.6.0-30.el8.x86_64.rpm-lst.txt)
-  * [Package RPM Headers](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-gex-0.6.0-30.el8.x86_64.rpm.txt)
 
 The "Cosmos Gex" tool is a really useful console app to run on a node for debug purposes.
 It displays some basic information about the current state of the node.

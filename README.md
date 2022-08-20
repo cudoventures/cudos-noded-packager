@@ -1,92 +1,115 @@
 # Generic Cosmos Daemon binary packaging
 
-As the cosmos based daemons are all so similar, and the packaging can now handle any of the cosmovisor compatible daemons, this branch is to add the first example, Osmosis.
+## Why Packaging
 
-## Notes
+One of the key attractions of the Cosmos blockchain daemon family is that nodes can communicate with each other across different chains and pass tokens around seamlessly in encapsulations, and maybe switch them for other tokens through liquidity pools, with novel uses and new specialisations popping up all the time; while still allowing the different Cosmos based blockchains to focus on their own particular reason for being by crreating novel functions that can naturally integrate with everyone else.
 
-The binary packages are produced by the scripting in this git repository, directly from
-the code in the original git repositories and published on a "Proof of Concept" basis
-for public download from yum/apt repositories.
+However, in order for this to be realised on the ground, the various software components of this ecosystem must remain up and running, and up to date with chain upgrades and operating system software changes.
 
-The correct mix of package names and versions can be set up on a target machine by installing a `Cudos Network
-Pack`, which is another rpm/deb package that contains the relevant genesis
-and node address files for the given network, along with the relevant Cosmovisor config files.
+It's tempting to think that every new problem is unique and new, but this one isn't. The machine underneath the blockchain daemons and apps, is immensely more complex than the apps they're deployed to sustain; and contain orders of magnitudes more code. So how was the entirity of the rest of the operating system needed to run one of these daemons, installed. It was laced together with a dependancy chain of operating system packages. Be they Debian style .deb files, or Red Hat style .rpm .. or indeed any of the other package styles used for other platforms. There is no good reason why the Cosmos family of daemons and apps couldn't be built for Android, iThing, and certainly for the ARM chip family in general.
 
-Every Cudos Node major version has its own yum/apt repository to maintain separation while
-still allowing security and utility upgrades to older versions, although with the adoption
-of the Cosmovisor tool this is going to change in the near future. In the future the different
-networks and versions will be handled by the "cudos-network-???" packages.
+In order for this to be realised, this whole stack of software needs to become as much part of the fabric of computing as any other applications the operating system might have been put there to sustain, and to do that, it needs to be just another option on the panel of things you might want to install on this box/tablet/phone.
 
-In order to allow easier integration of the various components the directory locations
-for the daemon have been fixed and should remain at those locations. The `$CUDOS_HOME` variable
-is preset to `/var/lib/cudos/cudos-data`, which is owned by the user `cudos` who's home
-directory is `/var/lib/cudos`.
+And everything else on the machine got there by installing its package(s).
 
-It is advised that all configuration editing operations be done as user `cudos` in
-order to avoid permissions issues. Everything under `/var/lib/cudos` should be owned
-by user `cudos`. The cudos-noded-ctl script, used for configuring the .toml files will
-refuse to run as anything other than user cudos for this reason.
+## The Generic Package Structure
 
-The only operations that need root involvement are installing, upgrading and removing
-the software packages and operations involving systemctl. It is advised that all other
-operations are performed as either user `cudos` or as another non-priviledged user and specifically *not* as `root`. Doing 
-so would leave files in the `$CUDOS_HOME` area that the user running the daemon (`cudos`)
-cannot update.
+The intent of this package structure is to be chain agnostic, with the end goal of making the choice of network and chain a tick box to which newcomers can easily be added. While allowing the individual Cosmos Daemon projects full reign to evolve their contribution to suite their own plans.
 
-Please be aware that this code and the repo service is being offered on a "Proof of Concept" basis,
-although it is now being considered as the production method for the future.
+## Top Level Package
 
-Please see [License](LICENSE) for the license conditions under which this software is released. 
+For a fully working system to be set up for the chosen network, one package is required, the so called "Network Package". This contains the unique files for that network, such as the genesis and the bootstrap seed servers, but nothing else. For example:
 
-Please see the following details on how to install a Cudos node daemon using these binary packages, on a Linux system.
+```bash
+[root@cudos ~]# rpm -ql cudos-network-public-testnet
+/var/lib/cudos/cudos-data
+/var/lib/cudos/cudos-data/config
+/var/lib/cudos/cudos-data/config/genesis.json
+/var/lib/cudos/cudos-data/config/persistent-peers.config
+/var/lib/cudos/cudos-data/config/private-peers.config
+/var/lib/cudos/cudos-data/config/seeds.config
+/var/lib/cudos/cudos-data/config/state-sync-rpc-servers.config
+/var/lib/cudos/cudos-data/config/unconditional-peers.config
+```
+
+It does however enforce a set of requirements for other packages.
+
+```bash
+[root@cudos ~]# rpm -q --requires cudos-network-public-testnet
+/bin/sh
+cudos-gex
+cudos-noded
+cudos-noded-v0.9.0
+cudos-noded-v1.0.0
+cudos-p2p-scan
+rpmlib(CompressedFileNames) <= 3.0.4-1
+rpmlib(FileDigests) <= 4.6.0-1
+rpmlib(PayloadFilesHavePrefix) <= 4.0-1
+rpmlib(PayloadIsXz) <= 5.2-1
+```
+
+Which includes the binary packages (eg cudos-noded-v0.9.0 & cudos-noded-v1.0.0) and the framework package for that project (eg cudos-noded).
+
+Therefore, by installing just that top level package, you will bring in all the right components for that specific network for that network project.
 
 ## Install from the package repository
 
-Install the Network Pack for the Cudos blockchain network you want this node to be on, in whatever capacity.
+Install the Network Pack for the blockchain network you want this node to be on, in whatever capacity.
 The network pack contains the genesis.json file and the initial seed and RPC connection information needed to get the node connected.
 
 The packages used to install the different networks are:
 * cudos-network-mainnet
 * cudos-network-public-testnet
 * cudos-network-private-testnet
+* osmosis-network-testnet (*)
+* osmosis-network-mainnet (*)
+
+(*) not yet on public release
 
 NB The packs are mutually exclusive, they share the same filenames.
-Using this system of packaging, any given host can only be on one Cudos network at any one time.
+Using this system of packaging, any given host can only run a daemon on one network at any one time.
 
-The following examples are correct for Cudos Mainnet.
+The following examples are for Cudos Public Testnet.
 
 #### Red Hat family (RHEL, CentOS & Fedora)
 
 ```bash
 dnf install -y yum-utils
 yum-config-manager --add-repo http://jenkins.gcp.service.cudo.org/cudos/cudos.repo
-yum-config-manager --enable cudos-1.0.0
-dnf install cudos-network-mainnet
+yum-config-manager --enable cudos-0.9.0
+dnf install cudos-network-public-testnet
 ```
 
 #### Debian and Ubuntu
 
 ```bash
-echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/1.0.0/debian stable main' > /etc/apt/sources.list.d/cudos.list
+echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/0.9.0/debian stable main' > /etc/apt/sources.list.d/cudos.list
 apt update
-apt install cudos-network-mainnet
+apt install cudos-network-public-testnet
 ```
+## Get it running
 
-## Configure the daemon
+### Configure the daemon
 
-The underlying network (in the above example, mainnet) has already been configured
-by the Network Pack, the only thing left to get this node synchronized with
-the network is to set up the neighbour information.
-This is done directly in the config.toml and app.toml files by `cudos-noded-ctl`.
+The underlying network (in the above example, Cudos public testnet) has already been configured
+by the Network Pack, all that's left is to set the node's role, configure the neighbour
+information and it can synchronize with the network.
+
+This can be done by setting individual parameters directly in the config.toml and
+app.toml files using the specific daemon configuration app for the that network. In the
+case of the Cudos network, this would be `cudos-noded-ctl`.
 Please see [cudos-noded-ctl](docs/cudos-noded-ctl.md)
 
-For an example of how the `cudos-noded-ctl` command is to be used, please see
+In the case of the Cudos network, there is in addition a higehr level tool
+that can set the configuration in one command, please see
 [cudos-init-node.sh](SOURCES/cudos-init-node.sh)
 
-If you start the cudos-noded service on a freshly installed node without any .toml
-configuration files, the initialisation script [cudos-init-node.sh](SOURCES/cudos-init-node.sh) which
-is run by the systemd service file [cudos-cosmovisor.service](SOURCES/cudos-cosmovisor.service) will assume
-the `full-node` configuration is required and configure `config.toml` and `app.toml` accordingly.
+Before you start the daemon's service on a freshly installed node without any .toml
+configuration files, the initialisation script must be run. In the case of the Cudos
+network for example this would be [cudos-init-node.sh](SOURCES/cudos-init-node.sh)
+
+If the script is run with no arguments, it will assume the `full-node` configuration
+is required and configure `config.toml` and `app.toml` accordingly.
 
 If a node type other than `full-node` is needed, run [cudos-init-node.sh](SOURCES/cudos-init-node.sh) with
 an argument to initialise the node as another node type **before** the node is started for the first time.
@@ -97,7 +120,7 @@ Node types available are:
 * `seed-node`
 * `sentry-node`
 
-### Clustered Nodes
+#### Clustered Nodes
 
 If the intent is to build a Cudos Node Cluster for a Clustered Validator the `clustered-node` type is used for the validator.
 
@@ -113,7 +136,7 @@ NB If the node is intended to be a member of a cluster of Cudos Nodes, and as su
 sentries, private peers amd unconditional peers, it is important to also configure the peer files.
 Please see [cudos-noded-ctl](docs/cudos-noded-ctl.md) for further details.
 
-### Solo Nodes
+#### Solo Nodes
 
 If a Solo Validator is needed, a basic `full-node` can be staked, much as a `clustered-node` was staked to create a Clustered Validator.
 
@@ -124,10 +147,74 @@ If a clustered-node is left to the default neighbour configuration it will not t
 and will just stall indefinitely waiting for chain infomation. As soon as another node contacts it, the
 synchronisation process will being.
 
-## Enable and start the daemon
+### Systemd Service
+
+The Cosmovisor daemon is run by the systemd service file [cosmovisor@.service](SOURCES/cosmovisor@.service)
+This is a parameterised service. The parameter it takes is the project name:
+
+#### Osmosis
 
 ```bash
-systemctl enable --now cudos-noded
+root@osmosis-testnet-node:~# systemctl status cosmovisor@osmosis
+● cosmovisor@osmosis.service - Cosmovisor Daemon for chain osmosis
+   Loaded: loaded (/lib/systemd/system/cosmovisor@.service; enabled; vendor preset: enabled)
+   Active: active (running) since Sat 2022-08-20 00:55:09 UTC; 24min ago
+ Main PID: 18424 (cosmovisor)
+    Tasks: 19 (limit: 4915)
+   Memory: 3.4G
+   CGroup: /system.slice/system-cosmovisor.slice/cosmovisor@osmosis.service
+           ├─18424 /usr/bin/cosmovisor start --home /var/lib/osmosis/.osmosisd --log_level info
+           └─18430 /var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11/bin/osmosisd start --home /var/lib/osmosis/.osmosisd --log_level info
+
+Aug 20 01:19:42 osmosis-testnet-node cosmovisor[18424]: 1:19AM INF committed state app_hash=DD719ABB0C6ADD95CC42C9F397F4D3836D148A0B4226
+Aug 20 01:19:42 osmosis-testnet-node cosmovisor[18424]: 1:19AM INF indexed block height=6215166 module=txindex
+```
+
+#### Cudos
+
+```bash
+[root@cudos ~]# systemctl status cosmovisor@cudos
+● cosmovisor@cudos.service - Cosmovisor Daemon for chain cudos
+   Loaded: loaded (/usr/lib/systemd/system/cosmovisor@.service; enabled; vendor preset: disabled)
+   Active: active (running) since Fri 2022-08-19 15:05:33 BST; 11h ago
+ Main PID: 2843165 (cosmovisor)
+    Tasks: 34 (limit: 99834)
+   Memory: 2.0G
+   CGroup: /system.slice/system-cosmovisor.slice/cosmovisor@cudos.service
+           ├─2843165 /usr/bin/cosmovisor start --home /var/lib/cudos/.cudosd --log_level info
+           ├─2843171 /var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.9.0/bin/cudos-noded start --home /var/lib/cudos/.cudosd --log_level info
+           └─2843186 /usr/bin/dbus-daemon --syslog --fork --print-pid 4 --print-address 6 --session
+
+Aug 20 02:21:12 cudos.ch.anvil.org cosmovisor[2843171]: 2:21AM INF received complete proposal block hash=170236F992A6DE12AD0FCF79B2CB76461F50366AC6EEB4CA90A8>
+Aug 20 02:21:13 cudos.ch.anvil.org cosmovisor[2843171]: 2:21AM INF finalizing commit of block hash=170236F992A6DE12AD0FCF79B2CB76461F50366AC6EEB4CA90A8765BD6>
+```
+
+The cosmovisor daemon then executes the correct binary for that network. In the Osmosis example:
+
+```bash
+/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11/bin/osmosisd start --home /var/lib/osmosis/.osmosisd --log_level info
+```
+
+It uses the version subdirectory selected by cosmovisor
+
+```bash
+/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11
+```
+
+### Managing the Service
+
+#### Enable and Start the service
+
+```bash
+[root@cudos ~]# systemctl enable --now cosmovisor@cudos
+Created symlink /etc/systemd/system/multi-user.target.wants/cosmovisor@cudos.service → /usr/lib/systemd/system/cosmovisor@.service.
+```
+
+#### Disable and Stop the Service
+
+```bash
+[root@cudos ~]# systemctl disable --now cosmovisor@cudos
+Removed /etc/systemd/system/multi-user.target.wants/cosmovisor@cudos.service.
 ```
 
 ## Logs
@@ -136,7 +223,7 @@ As this daemon is controlled by systemd, the logs will naturally flow to journal
 and can be watched using the standard operating system tools .. eg:
 
 ```bash
-journalctl -f -t cudos-noded
+journalctl -f -u cosmovisor@osmosis
 ```
 
 # Anatomy of a binary install
@@ -164,25 +251,19 @@ The Daemon user "cudos" is a machine account, so the LFHS suggests their data sh
 To this end the Cudos Node home area is fixed as the cudos-data subdirectory of the Cudos User's home directory "/var/lib/cudos".
 
 ## The Cudos Network Packs
-* mainnet
-  * [Package File List](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-network-mainnet-0.6.0-30.el8.x86_64.rpm-lst.txt)
-  * [Package RPM Headers](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-network-mainnet-0.6.0-30.el8.x86_64.rpm.txt)
-  * [Spec File](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/SPECS/cudos-network-mainnet.spec)
-* public-testnet
-  * [Package File List](http://jenkins.gcp.service.cudo.org/cudos/0.4/RPMS/x86_64/cudos-network-public-testnet-0.4-13.el8.x86_64.rpm-lst.txt)
-  * [Package RPM Headers](http://jenkins.gcp.service.cudo.org/cudos/0.4/RPMS/x86_64/cudos-network-public-testnet-0.4-13.el8.x86_64.rpm.txt)
-  * [Spec File](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/SPECS/cudos-network-public-testnet.spec)
-* dressrehearsal
-  * [Package File List](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-network-dressrehearsal-0.6.0-45.el8.x86_64.rpm-lst.txt)
-  * [Package RPM Headers](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/RPMS/x86_64/cudos-network-dressrehearsal-0.6.0-45.el8.x86_64.rpm.txt)
-  * [Spec File](http://jenkins.gcp.service.cudo.org/cudos/0.6.0/SPECS/cudos-network-dressrehearsal.spec)
+* Cudos Mainnet
+  * [cudos-network-mainnet.spec](SPECS/cudos-network-mainnet.spec)
+* Cudos Public Testnet
+  * [cudos-network-public-testnet.spec](SPECS/cudos-network-public-testnet.spec)
+* Cudos Private Testnet
+  * [cudos-network-private-testnet.spec](SPECS/cudos-network-private-testnet.spec)
    
 These packs are mutually exclusive because they all supply the same set of files.
 
 #### Genesis File
-The file "/usr/cudos/cudos-data/config/genesis.json" is the core configuration file of the network on which
+The file ".../config/genesis.json" is the core configuration file of the network on which
 this node is intended to operate. All nodes on the same network should be using this exact genesis file.
-The "cudos-network-<Network Name>" packages install the relevant file for the network.
+The "<Project>-network-<Network Name>" packages install the relevant file for the network.
 
 #### Public Seed and Sentry Nodes
 File containing lists of seeds and sentries and other useful node names. These are offered as "bootstrap files"
@@ -221,3 +302,38 @@ and sent to prometheus/Chronosphere front-ends using this package.
 offered purely as a "Proof of Concept" and a working demonstration of a possible alternative way
 of installing Cudos Nodes in the future.**
 
+## Notes
+
+The binary packages are produced by the scripting in this git repository, directly from
+the code in the original git repositories and published on a "Proof of Concept" basis
+for public download from yum/apt repositories.
+
+The correct mix of package names and versions can be set up on a target machine by installing a `Cudos Network
+Pack`, which is another rpm/deb package that contains the relevant genesis
+and node address files for the given network, along with the relevant Cosmovisor config files.
+
+Every Cudos Node major version has its own yum/apt repository to maintain separation while
+still allowing security and utility upgrades to older versions, although with the adoption
+of the Cosmovisor tool this is going to change in the near future. In the future the different
+networks and versions will be handled by the "cudos-network-???" packages.
+
+In order to allow easier integration of the various components the directory locations
+for the daemon have been fixed and should remain at those locations. The `$CUDOS_HOME` variable
+is preset to `/var/lib/cudos/cudos-data`, which is owned by the user `cudos` who's home
+directory is `/var/lib/cudos`.
+
+It is advised that all configuration editing operations be done as user `cudos` in
+order to avoid permissions issues. Everything under `/var/lib/cudos` should be owned
+by user `cudos`. The cudos-noded-ctl script, used for configuring the .toml files will
+refuse to run as anything other than user cudos for this reason.
+
+The only operations that need root involvement are installing, upgrading and removing
+the software packages and operations involving systemctl. It is advised that all other
+operations are performed as either user `cudos` or as another non-priviledged user and specifically *not* as `root`. Doing 
+so would leave files in the `$CUDOS_HOME` area that the user running the daemon (`cudos`)
+cannot update.
+
+Please be aware that this code and the repo service is being offered on a "Proof of Concept" basis,
+although it is now being considered as the production method for the future.
+
+Please see [License](LICENSE) for the license conditions under which this software is released. 

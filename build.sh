@@ -49,6 +49,8 @@ create_cudos_tarball()
 {
     VER="$1"
 
+    echo -e "\n\nCreating $VER Cudos tarball\n\n"
+
     # Clear out any existing git checkouts
     rm -rf Cudos*
 
@@ -118,6 +120,8 @@ create_toml_tarball()
   FILETAG="$1"
   NTWK="$2"
 
+  echo -e "\n\nCreating TOML tarball '$FILETAG'\n\n"
+
   mkdir -p toml-tmp
   cd toml-tmp
   wget "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/genesis.${FILETAG}.json?raw=true"                  -O genesis.json
@@ -130,6 +134,17 @@ create_toml_tarball()
   cd ..
   rm -rf toml-tmp
 }
+
+#
+# Create config tarballs from local repo files
+#
+cd SOURCES
+for FDIR in *-network-*_config
+do
+  echo -e "\n\nCreating $FDIR tarball\n\n"
+  tar -C "${FDIR}" -cvf "${FDIR}.tar.gz" .
+done
+cd ..
 
 #
 # Clear out the old RPM binary files and the old BUILDROOT

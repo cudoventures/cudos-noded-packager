@@ -88,7 +88,12 @@ fi
 %defattr(-,cudos,cudos,-)
 %dir /var/lib/cudos/cudos-data
 %dir /var/lib/cudos/cudos-data/config
-/var/lib/cudos/cudos-data/config/*
 /var/lib/cudos/cudos-data/cosmovisor
+%config(noreplace) /var/lib/cudos/cudos-data/config/genesis.json
+%config(noreplace) /var/lib/cudos/cudos-data/config/persistent-peers.config
+%config(noreplace) /var/lib/cudos/cudos-data/config/private-peers.config
+%config(noreplace) /var/lib/cudos/cudos-data/config/seeds.config
+%config(noreplace) /var/lib/cudos/cudos-data/config/state-sync-rpc-servers.config
+%config(noreplace) /var/lib/cudos/cudos-data/config/unconditional-peers.config
 
 %doc

@@ -142,7 +142,7 @@ cd SOURCES
 for FDIR in *-network-*_config
 do
   echo -e "\n\nCreating $FDIR tarball\n\n"
-  tar -C "${FDIR}" -cvf "${FDIR}.tar.gz" .
+  tar -C "${FDIR}" -czvf "${FDIR}.tar.gz" .
 done
 cd ..
 

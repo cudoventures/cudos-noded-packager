@@ -28,6 +28,8 @@ URL:          https://github.com/CudoVentures/cudos-node
 Source0:      cudos-noded-%{version}.tar.gz
 Provides:     libwasmvm.so()(64bit)
 
+BuildRequires: patchelf
+
 %description
 Cudos Node binary and library
 
@@ -67,7 +69,10 @@ mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{versi
 cp -r ${RPM_BUILD_DIR}/Cudos*                  ${RPM_BUILD_ROOT}/var/lib/cudos/src/v1.1.0/
 
 # Install the newly built binaries
-cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded       ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/bin/
+cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/bin/cudos-noded
+patchelf --remove-rpath                   ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/bin/cudos-noded
+patchelf --set-rpath '$ORIGIN/../lib/'    ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/bin/cudos-noded
+
 cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm.so ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/lib/
 chmod 644                                                                          ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v%{version}/lib/*.so
 

@@ -71,6 +71,8 @@ Using this system of packaging, any given host can only run a daemon on one netw
 
 The following examples are for Cudos Public Testnet.
 
+NB They must all be run as root. Just putting "sudo" before some of these commands does not work.
+
 #### Red Hat family (RHEL, CentOS & Fedora)
 
 ```bash

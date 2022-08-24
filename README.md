@@ -81,6 +81,15 @@ Known Working:
 - RHEL/CentOS/EL 8
 - Fedora 34 & 35
 
+For Private Testnet
+```bash
+dnf install -y yum-utils
+yum-config-manager --add-repo http://jenkins.gcp.service.cudo.org/cudos/cudos.repo
+yum-config-manager --enable cudos-0.8.0
+dnf install cudos-network-private-testnet
+```
+
+For Public Testnet
 ```bash
 dnf install -y yum-utils
 yum-config-manager --add-repo http://jenkins.gcp.service.cudo.org/cudos/cudos.repo
@@ -88,17 +97,44 @@ yum-config-manager --enable cudos-0.9.0
 dnf install cudos-network-public-testnet
 ```
 
+For Mainnet
+```bash
+dnf install -y yum-utils
+yum-config-manager --add-repo http://jenkins.gcp.service.cudo.org/cudos/cudos.repo
+yum-config-manager --enable cudos-1.0.0
+dnf install cudos-network-mainnet
+```
+
 #### Debian Family
+
+NB There is currently a build glitch that means the package dependencies are excluded from the .deb packages.
+Short term, the packages will need to be cited individually when installing, rather than the top level package being able to pull them in.
 
 Known Working:
 - Debian 10
 - Ubuntu 20.04
 
+For Private Testnet
+```bash
+echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/0.8.0/debian stable main' > /etc/apt/sources.list.d/cudos.list
+apt update
+apt install cudos-network-private-testnet cosmovisor cudos-gex cudos-noded cudos-noded-v0.8.0 cudos-noded-v0.9.0 cudos-noded-v1.0.0 cudos-noded-v1.1.0 cudos-p2p-scan
+```
+
+For Public Testnet
 ```bash
 echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/0.9.0/debian stable main' > /etc/apt/sources.list.d/cudos.list
 apt update
-apt install cudos-network-public-testnet
+apt install cudos-network-public-testnet cosmovisor cudos-gex cudos-noded cudos-noded-v0.9.0 cudos-noded-v1.0.0 cudos-noded-v1.1.0 cudos-p2p-scan
 ```
+
+For Mainnet
+```bash
+echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/1.0.0/debian stable main' > /etc/apt/sources.list.d/cudos.list
+apt update
+apt install cudos-network-mainnet cosmovisor cudos-gex cudos-noded cudos-noded-v1.0.0 cudos-noded-v1.1.0 cudos-p2p-scan
+```
+
 ## Get it running
 
 ### Configure the daemon

@@ -34,22 +34,22 @@ gce-ubuntu2004-docker-install()
 	case $CUDOS_NETWORK in
 		mainnet)
 			YUMREPO=cudos-1.0.0
-			NETPACK=cudos-network-mainnet
+			PACKLIST="cudos-network-mainnet cosmovisor cudos-gex cudos-noded cudos-noded-v1.0.0 cudos-noded-v1.1.0 cudos-p2p-scan"
 			;;
 		public-testnet)
 			YUMREPO=cudos-0.9.0
-			NETPACK=cudos-network-public-testnet
+			PACKLIST="cudos-network-public-testnet cosmovisor cudos-gex cudos-noded cudos-noded-v0.9.0 cudos-noded-v1.0.0 cudos-noded-v1.1.0 cudos-p2p-scan"
 			;;
 		private-testnet)
 			YUMREPO=cudos-0.8.0
-			NETPACK=cudos-network-private-testnet
+			PACKLIST="cudos-network-private-testnet cosmovisor cudos-gex cudos-noded cudos-noded-v0.8.0 cudos-noded-v0.9.0 cudos-noded-v1.0.0 cudos-noded-v1.1.0 cudos-p2p-scan"
 			;;
 	esac
 	
 	#
 	# Install the packages
 	#
-	if ! sudo apt install -y ${NETPACK}
+	if ! sudo apt install -y ${PACKLIST}
 	then
 		echo -ne "\nError: apt install failed\n\n"
 		exit 1

@@ -54,8 +54,20 @@ Requires:     cosmovisor
 %description
 Cosmovisor client files for - cudos 
 %pre
-getent group cudos >/dev/null || echo "  Create Group cudos" || groupadd -r cudos || :
-getent passwd cudos >/dev/null || echo "  Create User cudos" || useradd -c "Cudos User" -g cudos -s /bin/bash -r -m -d /var/lib/cudos cudos 2> /dev/null || :
+if getent group cudos >/dev/null
+then
+  echo "  Group cudos OK"
+else
+  echo "  Create Group cudos"
+  groupadd -r cudos
+fi
+if getent passwd cudos >/dev/null
+then
+  echo "  User cudos OK"
+else
+  echo "  Create User cudos"
+  useradd -c "Cudos User" -g cudos -s /bin/bash -r -m -d /var/lib/cudos cudos
+fi
 
 %package -n cudos-gex
 Summary: Gex - Cosmos Node Monitor App

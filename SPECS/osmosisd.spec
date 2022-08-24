@@ -41,8 +41,20 @@ Requires:     cosmovisor
 %description
 Cosmovisor Node Common Files - osmosis
 %pre
-getent group osmosis >/dev/null || groupadd -r osmosis || :
-getent passwd osmosis >/dev/null || useradd -c "Osmosis User" -g osmosis -s /bin/bash -r -m -d /var/lib/osmosis osmosis 2> /dev/null || :
+if getent group osmosis >/dev/null
+then
+  echo "  Group osmosis OK"
+else
+  echo "  Create Group osmosis"
+  groupadd -r osmosis
+fi
+if getent passwd osmosis >/dev/null
+then
+  echo "  User osmosis OK"
+else
+  echo "  Create User osmosis"
+  useradd -c "Osmosis User" -g osmosis -s /bin/bash -r -m -d /var/lib/osmosis osmosis
+fi
 
 %package -n osmosis-check_mk
 Summary: Osmosis Node Monitoring Agents

@@ -113,11 +113,11 @@ chmod 444                                                ${RPM_BUILD_ROOT}/usr/l
 %post
 if [ $1 = "1" ]
 then
-    echo "Install: Setting up links"
+    echo "  Install: Setting up links"
 else
-    echo "Upgrade: Setting up links"
+    echo "  Upgrade: Setting up links"
 fi
-echo "  Refreshing /usr/bin, /lib and /lib64 links"
+echo "    Refreshing /usr/bin, /lib and /lib64 links"
 rm -f /usr/bin/osmosisd /lib64/libwasmvm.x86_64.so /lib/libwasmvm.x86_64.so || true
 
 ln -s /var/lib/osmosis/.osmosisd/cosmovisor/current/bin/osmosisd /usr/bin/osmosisd
@@ -126,15 +126,18 @@ ln -s /var/lib/osmosis/.osmosisd/cosmovisor/current/lib/libwasmvm.so /lib/libwas
 
 if [ -d /var/lib/osmosis/.osmosisd/cosmovisor/current ]
 then
-  echo "  Cosmovisor 'current' link in place already"
+  echo "    Cosmovisor 'current' link in place already"
 else
-  echo "  Setting Cosmovisor 'current' link to genesis"
+  echo "    Setting Cosmovisor 'current' link to genesis"
   mkdir -p /var/lib/osmosis/.osmosisd/cosmovisor
   ln -s /var/lib/osmosis/.osmosisd/cosmovisor/genesis /var/lib/osmosis/.osmosisd/cosmovisor/current
 fi
-echo "  Reloading systemd config"
+echo "    Chowning the home dir"
+chown -R osmosis:osmosis /var/lib/osmosis
+find /var/lib/osmosis -ls
+echo "    Reloading systemd config"
 systemctl daemon-reload 
-echo "  Done"
+echo "    Done"
 
 %files
 %defattr(-,root,root,-)

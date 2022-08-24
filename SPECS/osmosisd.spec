@@ -116,6 +116,7 @@ then
   echo "  Cosmovisor 'current' link in place already"
 else
   echo "  Setting Cosmovisor 'current' link to genesis"
+  mkdir -p /var/lib/osmosis/.osmosisd/cosmovisor
   ln -s /var/lib/osmosis/.osmosisd/cosmovisor/genesis /var/lib/osmosis/.osmosisd/cosmovisor/current
 fi
 echo "  Reloading systemd config"

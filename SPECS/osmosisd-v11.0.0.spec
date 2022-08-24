@@ -60,8 +60,8 @@ mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{vers
 
 # Install the newly built binaries
 cp -v ${RPM_BUILD_DIR}/osmosis/build/osmosisd  ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{version}/bin/
-patchelf --remove-rpath                        ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{version}/bin/cudos-noded
-patchelf --set-rpath '$ORIGIN/../lib/'         ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{version}/bin/cudos-noded
+patchelf --remove-rpath                        ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{version}/bin/osmosisd
+patchelf --set-rpath '$ORIGIN/../lib/'         ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{version}/bin/osmosisd
 
 cp -v ${RPM_BUILD_DIR}'/go/pkg/mod/github.com/!cosm!wasm/wasmvm@v1.0.0/api/libwasmvm.x86_64.so'  ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{version}/lib/
 chmod 644  ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{version}/lib/*

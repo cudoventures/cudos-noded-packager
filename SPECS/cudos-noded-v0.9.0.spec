@@ -28,6 +28,8 @@ URL:          https://github.com/CudoVentures/cudos-node
 Source0:      cudos-noded-%{version}.tar.gz
 Provides:     libwasmvm.so()(64bit)
 
+Requires:     cudos-noded
+
 %description
 Cudos Node binary and library
 

@@ -29,8 +29,6 @@ URL:          https://github.com/cosmos/cosmos-sdk/cosmovisor
 Source1:      etc_profiled_cosmovisor.sh
 Source2:      cosmovisor@.service
 
-Requires:     cosmovisor-daemon
-
 %description
 Cosmos Cosmovisor
 

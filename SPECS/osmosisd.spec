@@ -36,7 +36,7 @@ Source42:     check_osmosis_block_data.sh
 Source43:     check_osmosis_catching_up.sh
 Source44:     check_osmosis_consensus.sh
 
-Provides:     cosmovisor-daemon
+Requires:     cosmovisor
 
 %description
 Cosmovisor Node Common Files - osmosis

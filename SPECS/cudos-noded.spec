@@ -49,7 +49,7 @@ Source52:     config.yml-tmpl
 Source53:     chronocollector-init.sh
 Source54:     chronocollector-linux-amd64.gz
 
-Provides:     cosmovisor-daemon
+Requires:     cosmovisor
 
 %description
 Cosmovisor client files for - cudos 

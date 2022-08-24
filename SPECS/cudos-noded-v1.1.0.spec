@@ -30,6 +30,8 @@ Provides:     libwasmvm.so()(64bit)
 
 BuildRequires: patchelf
 
+Requires:     cudos-noded
+
 %description
 Cudos Node binary and library
 

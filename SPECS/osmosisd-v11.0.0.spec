@@ -63,7 +63,7 @@ chmod 644  ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v%{ve
 
 %files
 %defattr(-,osmosis,osmosis,-)
-/var/lib/osmosis/.osmosisd/cosmovisor
+/var/lib/osmosis/.osmosisd/cosmovisor/*
 %doc
 
 %changelog

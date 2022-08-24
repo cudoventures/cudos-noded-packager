@@ -78,7 +78,7 @@ chmod 644                                                                       
 
 %files
 %defattr(-,cudos,cudos,-)
-/var/lib/cudos/cudos-data/cosmovisor
+/var/lib/cudos/cudos-data/cosmovisor/*
 %doc
 
 %files -n cudos-node-v1.0.0-src

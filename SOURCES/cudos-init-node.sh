@@ -82,15 +82,16 @@ fi
 # Initialise the node using "cudos-noded init"
 #
 TMPFN="${CUDOS_HOME}/config/genesis.json-$$"
-mv -fv "$CUDOS_HOME"/config/genesis.json "$TMPFN"
+mv -f "$CUDOS_HOME"/config/genesis.json "$TMPFN"
 
 cudos-noded init "$HOSTNAME" 2>/tmp/genesis.$$.json
 if [[ $? -ne 0 ]]
 then
 	echo -ne "Warning: cudos-noded init returned Error\n\n"
+    cat /tmp/genesis.$$.json
 fi
 
-mv -fv "$TMPFN" "$CUDOS_HOME"/config/genesis.json
+mv -f "$TMPFN" "$CUDOS_HOME"/config/genesis.json
 
 #
 # Select behaviour based on the node type name given

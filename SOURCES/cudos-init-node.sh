@@ -87,8 +87,10 @@ mv -f "$CUDOS_HOME"/config/genesis.json "$TMPFN"
 cudos-noded init "$HOSTNAME" 2>/tmp/genesis.$$.json
 if [[ $? -ne 0 ]]
 then
-	echo -ne "Warning: cudos-noded init returned Error\n\n"
+	echo -ne "Error: cudos-noded init failed\n\n"
     cat /tmp/genesis.$$.json
+    mv -f "$TMPFN" "$CUDOS_HOME"/config/genesis.json
+    exit 1
 fi
 
 mv -f "$TMPFN" "$CUDOS_HOME"/config/genesis.json

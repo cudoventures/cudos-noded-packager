@@ -107,6 +107,7 @@ echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor
 mkdir -p ${RPM_BUILD_ROOT}/etc/default/
 mkdir -p ${RPM_BUILD_ROOT}/etc/profile.d/
 mkdir -p ${RPM_BUILD_ROOT}/usr/bin/
@@ -213,6 +214,8 @@ echo "    Done"
 /etc/profile.d/*
 /usr/bin/cudos-noded-ctl
 /usr/bin/cudos-init-node.sh
+%defattr(-,cudos,cudos,-)
+%dir /var/lib/cudos/cudos-data/cosmovisor
 %doc
 
 %files -n cudos-gex

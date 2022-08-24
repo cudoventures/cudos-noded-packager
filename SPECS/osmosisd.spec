@@ -64,6 +64,7 @@ echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor
 mkdir -p ${RPM_BUILD_ROOT}/usr/bin
 mkdir -p ${RPM_BUILD_ROOT}/etc/default/
 mkdir -p ${RPM_BUILD_ROOT}/etc/profile.d/
@@ -128,6 +129,8 @@ echo "  Done"
 /etc/default/*
 /usr/bin/osmosisd-ctl
 /usr/bin/osmosis-init-node.sh
+%defattr(-,osmosis,osmosis,-)
+%dir /var/lib/osmosis/.osmosisd/cosmovisor
 %doc
 
 %files -n osmosis-check_mk

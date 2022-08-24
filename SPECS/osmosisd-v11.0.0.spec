@@ -34,8 +34,8 @@ Osmosis Node binary and library
 Installed into the Cosmovisor directories
 
 %pre
-getent group osmosis >/dev/null || groupadd -r osmosis || :
-getent passwd osmosis >/dev/null || useradd -c "Osmosis User" -g osmosis -s /bin/bash -r -m -d /var/lib/osmosis osmosis 2> /dev/null || :
+getent group osmosis >/dev/null || echo "  Create Group osmosis" || groupadd -r osmosis || :
+getent passwd osmosis >/dev/null || echo "  Create User osmosis"  useradd -c "Osmosis User" -g osmosis -s /bin/bash -r -m -d /var/lib/osmosis osmosis 2> /dev/null || :
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"

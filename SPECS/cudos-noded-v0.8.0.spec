@@ -36,8 +36,8 @@ Cudos Node binary and library
 Installed into the Cosmovisor directories
 
 %pre
-getent group cudos >/dev/null || groupadd -r cudos || :
-getent passwd cudos >/dev/null || useradd -c "Cudos User" -g cudos -s /bin/bash -r -m -d /var/lib/cudos cudos 2> /dev/null || :
+getent group cudos >/dev/null || echo "  Create Group cudos" || groupadd -r cudos || :
+getent passwd cudos >/dev/null || echo "  Create User cudos" || useradd -c "Cudos User" -g cudos -s /bin/bash -r -m -d /var/lib/cudos cudos 2> /dev/null || :
 
 %package -n cudos-node-v0.8.0-src
 Summary: Cudos Node Sources

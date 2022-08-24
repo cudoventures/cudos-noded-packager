@@ -54,8 +54,8 @@ Requires:     cosmovisor
 %description
 Cosmovisor client files for - cudos 
 %pre
-getent group cudos >/dev/null || groupadd -r cudos || :
-getent passwd cudos >/dev/null || useradd -c "Cudos User" -g cudos -s /bin/bash -r -m -d /var/lib/cudos cudos 2> /dev/null || :
+getent group cudos >/dev/null || echo "  Create Group cudos" || groupadd -r cudos || :
+getent passwd cudos >/dev/null || echo "  Create User cudos" || useradd -c "Cudos User" -g cudos -s /bin/bash -r -m -d /var/lib/cudos cudos 2> /dev/null || :
 
 %package -n cudos-gex
 Summary: Gex - Cosmos Node Monitor App
@@ -74,8 +74,8 @@ Requires: bc jq cudos-p2p-scan
 %description -n cudos-monitoring
 CheckMK and ChronoSphere monitoring agents for Cudos Nodes
 %pre -n cudos-monitoring
-getent group chronoc >/dev/null || groupadd -r chronoc || :
-getent passwd chronoc >/dev/null || useradd -c "Cudos User" -g chronoc -s /bin/bash -r -m -d /var/lib/chronoc chronoc 2> /dev/null || :
+getent group chronoc >/dev/null || echo "  Create Group chronoc" || groupadd -r chronoc || :
+getent passwd chronoc >/dev/null || echo "  Create User chronoc" || useradd -c "Cudos User" -g chronoc -s /bin/bash -r -m -d /var/lib/chronoc chronoc 2> /dev/null || :
 
 %package -n cudos-monitoring-docker
 Summary: Cudos Node Monitoring Agents
@@ -177,11 +177,11 @@ chmod 444                                              ${RPM_BUILD_ROOT}/usr/lib
 %post
 if [ $1 = "1" ]
 then
-    echo "Install: Setting up links"
+    echo "  Install: Setting up links"
 else
-    echo "Upgrade: Setting up links"
+    echo "  Upgrade: Setting up links"
 fi
-echo "  Refreshing /usr/bin, /lib and /lib64 links"
+echo "    Refreshing /usr/bin, /lib and /lib64 links"
 rm -f /usr/bin/cudos-noded /lib64/libwasmvm.so /lib/libwasmvm.so || true
 
 ln -s /var/lib/cudos/cudos-data/cosmovisor/current/bin/cudos-noded /usr/bin/cudos-noded
@@ -190,22 +190,22 @@ ln -s /var/lib/cudos/cudos-data/cosmovisor/current/lib/libwasmvm.so /lib/libwasm
 
 if [ -d /var/lib/cudos/.cudosd/. ]
 then
-  echo "  Cosmovisor '.cudosd' to'cudos-data' link in place already"
+  echo "    Cosmovisor '.cudosd' to'cudos-data' link in place already"
 else
-  echo "  Setting Cosmovisor link '.cudosd' to 'cudos-data'" 
+  echo "    Setting Cosmovisor link '.cudosd' to 'cudos-data'" 
   ln -s /var/lib/cudos/cudos-data /var/lib/cudos/.cudosd
 fi
 if [ -d /var/lib/cudos/cudos-data/cosmovisor/current ]
 then
-  echo "  Cosmovisor 'current' link in place already"
+  echo "    Cosmovisor 'current' link in place already"
 else
-  echo "  Setting Cosmovisor 'current' link to genesis"
+  echo "    Setting Cosmovisor 'current' link to genesis"
   find /var/lib/cudos -ls
   ln -s /var/lib/cudos/cudos-data/cosmovisor/genesis /var/lib/cudos/cudos-data/cosmovisor/current
 fi
-echo "  Reloading systemd config"
+echo "    Reloading systemd config"
 systemctl daemon-reload 
-echo "  Done"
+echo "    Done"
 
 %files
 %defattr(-,root,root,-)

@@ -26,6 +26,8 @@ Summary:      Osmosis Node Binary Pack for v%{version}
 License:      GPL3
 URL:          https://github.com/osmosis-labs/osmosis
 
+Requires:     osmosisd
+
 %description
 Osmosis Node binary and library
 

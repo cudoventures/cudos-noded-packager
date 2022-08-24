@@ -200,7 +200,7 @@ then
   echo "  Cosmovisor 'current' link in place already"
 else
   echo "  Setting Cosmovisor 'current' link to genesis"
-  find -ls /var/lib/cudos
+  find /var/lib/cudos -ls
   ln -s /var/lib/cudos/cudos-data/cosmovisor/genesis /var/lib/cudos/cudos-data/cosmovisor/current
 fi
 echo "  Reloading systemd config"

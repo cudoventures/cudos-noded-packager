@@ -18,7 +18,80 @@
 
 gce-ubuntu2004-docker-install()
 {
-        echo -ne "\nNot Yet Supported\n\n"
-        exit 1
+	set -x
+	
+	export CUDOS_NETWORK="$1"
+	export NODE_TYPE="$2"
+
+	echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/0.9.0/debian stable main' | sudo tee /etc/apt/sources.list.d/cudos.list > /dev/null
+    sudo apt update
+
+    echo -ne "\n\n     Install a $NODE_TYPE on $CUDOS_NETWORK\n\n"
+
+	#
+	# Select repository and install the packages based on CUDOS_NETWORK
+	#
+	case $CUDOS_NETWORK in
+		mainnet)
+			YUMREPO=cudos-1.0.0
+			NETPACK=cudos-network-mainnet
+			;;
+		public-testnet)
+			YUMREPO=cudos-0.9.0
+			NETPACK=cudos-network-public-testnet
+			;;
+		private-testnet)
+			YUMREPO=cudos-0.8.0
+			NETPACK=cudos-network-private-testnet
+			;;
+	esac
+	
+	#
+	# Install the packages
+	#
+	if ! sudo apt install -y ${NETPACK}
+	then
+		echo -ne "\nError: apt install failed\n\n"
+		exit 1
+	fi
+			
+	#
+	# Set the CUDOS_HOME variable using the profile
+	# just installed through the cudos-noded package
+	#
+	source /etc/profile.d/cudos-noded.sh
+
+	#
+	# Initialise the node using the node type
+	#
+	if ! sudo -u cudos CUDOS_HOME="${CUDOS_HOME}" /usr/bin/cudos-init-node.sh $NODE_TYPE
+	then
+		echo -ne "\nError: cudos-init-node.sh returned an error\n\n"
+		exit 1
+	fi
+	
+	#
+	# Enable and start the cudos-noded service
+	#
+	if ! sudo systemctl enable --now cosmovisor@cudos
+	then
+		echo -ne "\nError: Service enable failed\n\n"
+		exit 1
+	fi
+		
+
+	#
+	# Hang around a bit to let some logs build up
+	#
+	echo -ne "Sleeping for 120 seconds\n"
+	sleep 120
+
+	#
+	# Dump the log since boot for cudos-noded both to the screen
+	# for the CI/CD job log, and to a logfile for export as an
+	# artifact
+	#
+	journalctl -b -u cosmovisor@cudos | tee log-${CUDOS_NETWORK}_-_${NODE_TYPE}.txt
+	
 }
 

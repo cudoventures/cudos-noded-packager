@@ -58,7 +58,7 @@ gce-centos8-builder-install()
 	#
 	# Install the packages
 	#
-	if ! sudo dnf install -y ${NETPACK} cudos-noded cudos-gex cudos-monitoring
+	if ! sudo dnf install -y ${NETPACK}
 	then
 		echo -ne "\nError: dnf install failed\n\n"
 		exit 1

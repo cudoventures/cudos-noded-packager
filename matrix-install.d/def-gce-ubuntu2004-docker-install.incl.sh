@@ -91,7 +91,7 @@ gce-ubuntu2004-docker-install()
 	# for the CI/CD job log, and to a logfile for export as an
 	# artifact
 	#
-	journalctl -b -u cosmovisor@cudos | tee log-${CUDOS_NETWORK}_-_${NODE_TYPE}.txt
+	sudo journalctl -b -u cosmovisor@cudos | tee log-${CUDOS_NETWORK}_-_${NODE_TYPE}.txt
 	
 }
 

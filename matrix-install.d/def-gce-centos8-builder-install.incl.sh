@@ -82,7 +82,7 @@ gce-centos8-builder-install()
 	#
 	# Enable and start the cudos-noded service
 	#
-	if ! sudo systemctl enable --now cudos-noded
+	if ! sudo systemctl enable --now cosmovisor@cudos
 	then
 		echo -ne "\nError: Service enable failed\n\n"
 		exit 1
@@ -100,7 +100,7 @@ gce-centos8-builder-install()
 	# for the CI/CD job log, and to a logfile for export as an
 	# artifact
 	#
-	journalctl -b -t cudos-noded | tee log-${CUDOS_NETWORK}_-_${NODE_TYPE}.txt
+	sudo journalctl -b -u cosmovisor@cudos | tee log-${CUDOS_NETWORK}_-_${NODE_TYPE}.txt
 	
 }
 

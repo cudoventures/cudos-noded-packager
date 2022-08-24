@@ -134,7 +134,7 @@ else
 fi
 echo "    Chowning the home dir"
 chown -R osmosis:osmosis /var/lib/osmosis
-find /var/lib/osmosis -ls
+# find /var/lib/osmosis -ls
 echo "    Reloading systemd config"
 systemctl daemon-reload 
 echo "    Done"

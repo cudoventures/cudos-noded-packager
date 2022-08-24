@@ -217,7 +217,7 @@ else
 fi
 echo "    Chowning the home dir"
 chown -R cudos:cudos /var/lib/cudos
-find /var/lib/cudos -ls
+# find /var/lib/cudos -ls
 echo "    Reloading systemd config"
 systemctl daemon-reload 
 echo "    Done"

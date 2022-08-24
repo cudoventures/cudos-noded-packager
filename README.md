@@ -67,13 +67,19 @@ The packages used to install the different networks are:
 (*) not yet on public release
 
 NB The packs are mutually exclusive, they share the same filenames.
-Using this system of packaging, any given host can only run a daemon on one network at any one time.
+Currently, any given host can only run a daemon on one network at any one time.
 
 The following examples are for Cudos Public Testnet.
 
-NB They must all be run as root. Just putting "sudo" before some of these commands does not work.
+NB These commands must all be run as root.
+Just putting "sudo" before some of these commands does not work.
+If you run the command "sudo -i", assuming you have permissions to do so, you will get a root prompt.
 
-#### Red Hat family (RHEL, CentOS & Fedora)
+#### Red Hat family
+
+Known Working:
+- RHEL/CentOS/EL 8
+- Fedora 34 & 35
 
 ```bash
 dnf install -y yum-utils
@@ -82,7 +88,11 @@ yum-config-manager --enable cudos-0.9.0
 dnf install cudos-network-public-testnet
 ```
 
-#### Debian and Ubuntu
+#### Debian Family
+
+Known Working:
+- Debian 10
+- Ubuntu 20.04
 
 ```bash
 echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/0.9.0/debian stable main' > /etc/apt/sources.list.d/cudos.list
@@ -97,21 +107,18 @@ The underlying network (in the above example, Cudos public testnet) has already 
 by the Network Pack, all that's left is to set the node's role, configure the neighbour
 information and it can synchronize with the network.
 
-This can be done by setting individual parameters directly in the config.toml and
-app.toml files using the specific daemon configuration app for the that network. In the
+If necessary, this can be done by setting individual parameters directly in the config.toml and
+app.toml files using the specific daemon configuration tool for the network. In the
 case of the Cudos network, this would be `cudos-noded-ctl`.
 Please see [cudos-noded-ctl](docs/cudos-noded-ctl.md)
 
-In the case of the Cudos network, there is in addition a higehr level tool
+However in the case of the Cudos network, there is an additional higher level tool
 that can set the configuration in one command, please see
 [cudos-init-node.sh](SOURCES/cudos-init-node.sh)
 
 Before you start the daemon's service on a freshly installed node without any .toml
 configuration files, the initialisation script must be run. In the case of the Cudos
 network for example this would be [cudos-init-node.sh](SOURCES/cudos-init-node.sh)
-
-If the script is run with no arguments, it will assume the `full-node` configuration
-is required and configure `config.toml` and `app.toml` accordingly.
 
 If a node type other than `full-node` is needed, run [cudos-init-node.sh](SOURCES/cudos-init-node.sh) with
 an argument to initialise the node as another node type **before** the node is started for the first time.
@@ -121,6 +128,15 @@ Node types available are:
 * `clustered-node`
 * `seed-node`
 * `sentry-node`
+
+#### Full Nodes (Default)
+
+If the script is run with no arguments, it will assume the `full-node` configuration
+is required and configure `config.toml` and `app.toml` accordingly.
+
+```bash
+cudos-init-node.sh
+```
 
 #### Clustered Nodes
 
@@ -149,12 +165,27 @@ If a clustered-node is left to the default neighbour configuration it will not t
 and will just stall indefinitely waiting for chain infomation. As soon as another node contacts it, the
 synchronisation process will being.
 
+#### Seed Nodes
+
+```bash
+cudos-init-node.sh seed-node
+```
+
+#### Sentry Nodes
+
+```bash
+cudos-init-node.sh sentry-node
+```
+
 ### Systemd Service
 
 The Cosmovisor daemon is run by the systemd service file [cosmovisor@.service](SOURCES/cosmovisor@.service)
 This is a parameterised service. The parameter it takes is the project name:
+- cudos
+- osmosis
+- more to follow
 
-#### Osmosis
+For example, so see the status of the Osmosis daemon
 
 ```bash
 root@osmosis-testnet-node:~# systemctl status cosmovisor@osmosis
@@ -172,7 +203,7 @@ Aug 20 01:19:42 osmosis-testnet-node cosmovisor[18424]: 1:19AM INF committed sta
 Aug 20 01:19:42 osmosis-testnet-node cosmovisor[18424]: 1:19AM INF indexed block height=6215166 module=txindex
 ```
 
-#### Cudos
+.. Or the cudos daemon
 
 ```bash
 [root@cudos ~]# systemctl status cosmovisor@cudos
@@ -191,19 +222,35 @@ Aug 20 02:21:12 cudos.ch.anvil.org cosmovisor[2843171]: 2:21AM INF received comp
 Aug 20 02:21:13 cudos.ch.anvil.org cosmovisor[2843171]: 2:21AM INF finalizing commit of block hash=170236F992A6DE12AD0FCF79B2CB76461F50366AC6EEB4CA90A8765BD6>
 ```
 
-The cosmovisor daemon then executes the correct binary for that network. In the Osmosis example:
+The cosmovisor daemon then works with the correct binary for that network.
+
+In the Osmosis example:
 
 ```bash
 /var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11/bin/osmosisd start --home /var/lib/osmosis/.osmosisd --log_level info
 ```
 
-It uses the version subdirectory selected by cosmovisor
+Using the version subdirectory selected by cosmovisor
 
 ```bash
 /var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11
 ```
 
 ### Managing the Service
+
+#### Enable and Start the service
+
+```bash
+[root@cudos ~]# systemctl enable --now cosmovisor@cudos
+Created symlink /etc/systemd/system/multi-user.target.wants/cosmovisor@cudos.service → /usr/lib/systemd/system/cosmovisor@.service.
+```
+
+#### Disable and Stop the Service
+
+```bash
+[root@cudos ~]# systemctl disable --now cosmovisor@cudos
+Removed /etc/systemd/system/multi-user.target.wants/cosmovisor@cudos.service.
+```
 
 #### Cosmovisor Daemon version and configuration
 
@@ -233,25 +280,16 @@ Derived Values:
 
 NB "11.0.0" is the results of calling the underlying Cosmos Daemon with the argument "version"
 
-#### Enable and Start the service
-
-```bash
-[root@cudos ~]# systemctl enable --now cosmovisor@cudos
-Created symlink /etc/systemd/system/multi-user.target.wants/cosmovisor@cudos.service → /usr/lib/systemd/system/cosmovisor@.service.
-```
-
-#### Disable and Stop the Service
-
-```bash
-[root@cudos ~]# systemctl disable --now cosmovisor@cudos
-Removed /etc/systemd/system/multi-user.target.wants/cosmovisor@cudos.service.
-```
-
 ## Logs
 
 As this daemon is controlled by systemd, the logs will naturally flow to journald 
-and can be watched using the standard operating system tools .. eg:
+and can be watched using the standard operating system tools.
 
+eg:
+```bash
+journalctl -f -u cosmovisor@cudos
+```
+or
 ```bash
 journalctl -f -u cosmovisor@osmosis
 ```

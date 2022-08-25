@@ -23,6 +23,9 @@ gce-ubuntu2004-docker-install()
 	export CUDOS_NETWORK="$1"
 	export NODE_TYPE="$2"
 
+    echo -ne "\n=== Prepare the platform ===\n\n"
+
+	sudo apt remove unattended-upgrades -y
 	echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/0.9.0/debian stable main' | sudo tee /etc/apt/sources.list.d/cudos.list > /dev/null
     sudo apt update
 

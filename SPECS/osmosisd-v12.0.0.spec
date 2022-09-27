@@ -50,7 +50,10 @@ rm -rf osmosis
 git clone https://github.com/osmosis-labs/osmosis
 cd osmosis
 git checkout v%{version}
+echo -e "\n\n***** Build Osmosis Daemon *****\n\n"
 make build
+echo -e "\n\n***** Run Osmosis Daemon Self Test *****\n\n"
+make test
 
 %install
 echo -e "\n\n=== install section ===\n\n"

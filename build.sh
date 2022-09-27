@@ -197,7 +197,7 @@ run_rpmbuild "1.0.0"            "${BUILD_NUMBER}" cudos-noded-v1.0.0
 run_rpmbuild "1.1.0"            "${BUILD_NUMBER}" cudos-noded-v1.1.0
 run_rpmbuild "12.0.0"           "${BUILD_NUMBER}" osmosisd
 run_rpmbuild "11.0.0"           "${BUILD_NUMBER}" osmosisd-v11.0.0
-run_rpmbuild "12.0.0"           "${BUILD_NUMBER}" osmosisd-v21.0.0
+run_rpmbuild "12.0.0"           "${BUILD_NUMBER}" osmosisd-v12.0.0
 
 #
 # Feed the rpm binaries into "Alien" to be converted

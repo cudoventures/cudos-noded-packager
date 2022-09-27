@@ -46,6 +46,7 @@ echo -e "\n\n=== prep section ===\n\n"
 echo -e "\n\n=== build section ===\n\n"
 export GOPATH="${RPM_BUILD_DIR}/go"
 
+rm -rf osmosis
 git clone https://github.com/osmosis-labs/osmosis
 cd osmosis
 git checkout v%{version}

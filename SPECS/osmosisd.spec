@@ -121,8 +121,8 @@ echo "    Refreshing /usr/bin, /lib and /lib64 links"
 rm -f /usr/bin/osmosisd /lib64/libwasmvm.x86_64.so /lib/libwasmvm.x86_64.so || true
 
 ln -s /var/lib/osmosis/.osmosisd/cosmovisor/current/bin/osmosisd /usr/bin/osmosisd
-ln -s /var/lib/osmosis/.osmosisd/cosmovisor/current/lib/libwasmvm.so /lib64/libwasmvm.so
-ln -s /var/lib/osmosis/.osmosisd/cosmovisor/current/lib/libwasmvm.so /lib/libwasmvm.so
+ln -s /var/lib/osmosis/.osmosisd/cosmovisor/current/lib/libwasmvm.x86_64.so /lib64/libwasmvm.x86_64.so
+ln -s /var/lib/osmosis/.osmosisd/cosmovisor/current/lib/libwasmvm.x86_64.so /lib/libwasmvm.x86_64.so
 
 if [ -d /var/lib/osmosis/.osmosisd/cosmovisor/current ]
 then

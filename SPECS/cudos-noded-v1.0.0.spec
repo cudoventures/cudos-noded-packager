@@ -51,6 +51,7 @@ echo -e "\n\n=== prep section ===\n\n"
 # Unpack tarball
 
 BASEDR="$( pwd )"
+rm -rf CudosNode CudosBuilders CudosGravityBridge
 tar xzf %{SOURCE0}
 
 %build

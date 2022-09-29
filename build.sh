@@ -172,7 +172,6 @@ fi
 create_cudos_tarball "0.8.0"
 create_cudos_tarball "0.9.0"
 create_cudos_tarball "1.0.0"
-create_cudos_tarball "1.1.0"
 
 #
 # Create the toml config tarballs
@@ -194,7 +193,6 @@ run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded
 run_rpmbuild "0.8.0"            "${BUILD_NUMBER}" cudos-noded-v0.8.0
 run_rpmbuild "0.9.0"            "${BUILD_NUMBER}" cudos-noded-v0.9.0
 run_rpmbuild "1.0.0"            "${BUILD_NUMBER}" cudos-noded-v1.0.0
-run_rpmbuild "1.1.0"            "${BUILD_NUMBER}" cudos-noded-v1.1.0
 run_rpmbuild "12.0.0"           "${BUILD_NUMBER}" osmosisd
 run_rpmbuild "11.0.0"           "${BUILD_NUMBER}" osmosisd-v11.0.0
 run_rpmbuild "12.0.0"           "${BUILD_NUMBER}" osmosisd-v12.0.0

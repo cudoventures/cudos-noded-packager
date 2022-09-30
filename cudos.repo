@@ -1,60 +1,17 @@
-[cudos]
-name=OS Version $releasever - Cudo Cudos Latest Packages
-baseurl=http://jenkins.gcp.service.cudo.org/cudos/1.0.0
+[cudos-mainnet]
+name=Cudo Cudos Mainnet Packages
+baseurl=http://jenkins.gcp.service.cudo.org/cudos/cudos-mainnet
 gpgcheck=0
 enabled=0
 
-[cudos-0.4]
-name=CentOS Stream $releasever - Cudo Cudos 0.4 Packages
-baseurl=http://jenkins.gcp.service.cudo.org/cudos/0.4
+[cudos-testnet]
+name=Cudo Cudos Public Testnet Packages
+baseurl=http://jenkins.gcp.service.cudo.org/cudos/cudos-testnet
 gpgcheck=0
 enabled=0
 
-[cudos-0.5.0]
-name=CentOS $releasever - Cudo Cudos 0.5.0 Packages
-baseurl=http://jenkins.gcp.service.cudo.org/cudos/0.5.0
+[cudos-prtn]
+name=Cudo Cudos Private Testnet Packages
+baseurl=http://jenkins.gcp.service.cudo.org/cudos/cudos-prtn
 gpgcheck=0
 enabled=0
-
-[cudos-0.6.0]
-name=CentOS $releasever - Cudo Cudos 0.6.0 Packages
-baseurl=http://jenkins.gcp.service.cudo.org/cudos/0.6.0
-gpgcheck=0
-enabled=0
-
-[cudos-0.7.0]
-name=CentOS $releasever - Cudo Cudos 0.7.0 Packages
-baseurl=http://jenkins.gcp.service.cudo.org/cudos/0.7.0
-gpgcheck=0
-enabled=0
-
-[cudos-0.8.0]
-name=CentOS $releasever - Cudo Cudos 0.8.0 Packages
-baseurl=http://jenkins.gcp.service.cudo.org/cudos/0.8.0
-gpgcheck=0
-enabled=0
-
-[cudos-0.9.0]
-name=CentOS $releasever - Cudo Cudos 0.9.0 Packages
-baseurl=http://jenkins.gcp.service.cudo.org/cudos/0.9.0
-gpgcheck=0
-enabled=0
-
-[cudos-1.0.master]
-name=CentOS Stream $releasever - Cudo Cudos 1.0.master Packages
-baseurl=http://jenkins.gcp.service.cudo.org/cudos/1.0.master
-gpgcheck=0
-enabled=0
-
-[cudos-1.0.dev]
-name=CentOS Stream $releasever - Cudo Cudos 1.0.dev Packages
-baseurl=http://jenkins.gcp.service.cudo.org/cudos/1.0.dev
-gpgcheck=0
-enabled=0
-
-[cudos-1.0.0]
-name=CentOS Stream $releasever - Cudo Cudos 1.0.0 Packages
-baseurl=http://jenkins.gcp.service.cudo.org/cudos/1.0.0
-gpgcheck=0
-enabled=0
-

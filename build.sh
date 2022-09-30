@@ -216,7 +216,7 @@ do
    echo "Directory: $DIRNAME"
 
    sudo alien --generate --to-deb --keep-version --scripts $FNM
-   sudo sed -e's/Depends:.*/&'"${DEPS}/" ${DIRNAME}/debian/control
+   sudo sed -e's/Depends:.*/'"${DEPS}/" ${DIRNAME}/debian/control
    cd $DIRNAME
    sudo debian/rules binary
    cd ..

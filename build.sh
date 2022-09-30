@@ -201,12 +201,26 @@ run_rpmbuild "12.0.0"           "${BUILD_NUMBER}" osmosisd-v12.0.0
 # Feed the rpm binaries into "Alien" to be converted
 # to Debian packages
 #
+# This section also edits in the dependancies which
+# alien leaves out
+#
 mkdir -p debian
 cd debian
 for FNM in ../RPMS/*/*.rpm
 do
    echo -e "\n\nConverting rpm file $FNM to deb package\n\n"
-   sudo alien --to-deb --keep-version --scripts $FNM
+   DEPS="$( rpm -q --requires $FNM | fgrep -v / | fgrep -v '(' | tr '\n' ',' | sed -e's/,$//' )"
+   DIRNAME="$( rpm -q --queryformat '%{NAME}-%{VERSION}' $FNM )"
+
+   echo "Deps: $DEPS"
+   echo "Directory: $DIRNAME"
+
+   sudo alien --generate --to-deb --keep-version --scripts $FNM
+   sudo sed -e's/Depends:.*/&'"${DEPS}/" ${DIRNAME}/debian/control
+   cd $DIRNAME
+   sudo debian/rules binary
+   cd ..
+   sudo rm -rf "$DIRNAME"
 done
 cd ..
 

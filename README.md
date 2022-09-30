@@ -61,10 +61,8 @@ The packages used to install the different networks are:
 * cudos-network-mainnet
 * cudos-network-public-testnet
 * cudos-network-private-testnet
-* osmosis-network-testnet (*)
-* osmosis-network-mainnet (*)
-
-(*) not yet on public release
+* osmosis-network-testnet
+* osmosis-network-mainnet
 
 NB The packs are mutually exclusive, they share the same filenames.
 Currently, any given host can only run a daemon on one network at any one time.
@@ -85,7 +83,7 @@ For Private Testnet
 ```bash
 dnf install -y yum-utils
 yum-config-manager --add-repo http://jenkins.gcp.service.cudo.org/cudos/cudos.repo
-yum-config-manager --enable cudos-0.8.0
+yum-config-manager --enable cudos-prtn
 dnf install cudos-network-private-testnet
 ```
 
@@ -93,7 +91,7 @@ For Public Testnet
 ```bash
 dnf install -y yum-utils
 yum-config-manager --add-repo http://jenkins.gcp.service.cudo.org/cudos/cudos.repo
-yum-config-manager --enable cudos-0.9.0
+yum-config-manager --enable cudos-testnet
 dnf install cudos-network-public-testnet
 ```
 
@@ -101,7 +99,7 @@ For Mainnet
 ```bash
 dnf install -y yum-utils
 yum-config-manager --add-repo http://jenkins.gcp.service.cudo.org/cudos/cudos.repo
-yum-config-manager --enable cudos-1.0.0
+yum-config-manager --enable cudos-mainnet
 dnf install cudos-network-mainnet
 ```
 
@@ -116,23 +114,23 @@ Known Working:
 
 For Private Testnet
 ```bash
-echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/0.8.0/debian stable main' > /etc/apt/sources.list.d/cudos.list
+echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/cudos-prtn/debian stable main' > /etc/apt/sources.list.d/cudos.list
 apt update
-apt install cudos-network-private-testnet cosmovisor cudos-gex cudos-noded cudos-noded-v0.8.0 cudos-noded-v0.9.0 cudos-noded-v1.0.0 cudos-noded-v1.1.0 cudos-p2p-scan
+apt install cudos-network-private-testnet cosmovisor cudos-gex cudos-noded cudos-noded-v0.8.0 cudos-noded-v0.9.0 cudos-noded-v1.0.0 cudos-p2p-scan
 ```
 
 For Public Testnet
 ```bash
-echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/0.9.0/debian stable main' > /etc/apt/sources.list.d/cudos.list
+echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/cudos-testnet/debian stable main' > /etc/apt/sources.list.d/cudos.list
 apt update
-apt install cudos-network-public-testnet cosmovisor cudos-gex cudos-noded cudos-noded-v0.9.0 cudos-noded-v1.0.0 cudos-noded-v1.1.0 cudos-p2p-scan
+apt install cudos-network-public-testnet cosmovisor cudos-gex cudos-noded cudos-noded-v0.9.0 cudos-noded-v1.0.0 cudos-p2p-scan
 ```
 
 For Mainnet
 ```bash
-echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/1.0.0/debian stable main' > /etc/apt/sources.list.d/cudos.list
+echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/cudos-mainnet/debian stable main' > /etc/apt/sources.list.d/cudos.list
 apt update
-apt install cudos-network-mainnet cosmovisor cudos-gex cudos-noded cudos-noded-v1.0.0 cudos-noded-v1.1.0 cudos-p2p-scan
+apt install cudos-network-mainnet cosmovisor cudos-gex cudos-noded cudos-noded-v1.0.0 cudos-p2p-scan
 ```
 
 ## Get it running

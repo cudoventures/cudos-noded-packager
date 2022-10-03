@@ -24,7 +24,7 @@ Release:      %{_releasetag}%{?dist}
 Summary:      Hermes Relayer
 
 License:      GPL3
-URL:          https://github.com/cosmos/cosmos-sdk/cosmovisor
+URL:          https://github.com/informalsystems/ibc-rs.git
 
 %description
 The Hermes rust based IBC relayer

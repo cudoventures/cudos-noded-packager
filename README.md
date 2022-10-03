@@ -105,9 +105,6 @@ dnf install cudos-network-mainnet
 
 #### Debian Family
 
-NB There is currently a build glitch that means the package dependencies are excluded from the .deb packages.
-Short term, the packages will need to be cited individually when installing, rather than the top level package being able to pull them in.
-
 Known Working:
 - Debian 10
 - Ubuntu 20.04
@@ -116,21 +113,21 @@ For Private Testnet
 ```bash
 echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/cudos-prtn/debian stable main' > /etc/apt/sources.list.d/cudos.list
 apt update
-apt install cudos-network-private-testnet cosmovisor cudos-gex cudos-noded cudos-noded-v0.8.0 cudos-noded-v0.9.0 cudos-noded-v1.0.0 cudos-p2p-scan
+apt install cudos-network-private-testnet
 ```
 
 For Public Testnet
 ```bash
 echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/cudos-testnet/debian stable main' > /etc/apt/sources.list.d/cudos.list
 apt update
-apt install cudos-network-public-testnet cosmovisor cudos-gex cudos-noded cudos-noded-v0.9.0 cudos-noded-v1.0.0 cudos-p2p-scan
+apt install cudos-network-public-testnet
 ```
 
 For Mainnet
 ```bash
 echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/cudos-mainnet/debian stable main' > /etc/apt/sources.list.d/cudos.list
 apt update
-apt install cudos-network-mainnet cosmovisor cudos-gex cudos-noded cudos-noded-v1.0.0 cudos-p2p-scan
+apt install cudos-network-mainnet
 ```
 
 ## Get it running

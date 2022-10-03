@@ -44,7 +44,7 @@ mkdir -p ${RPM_BUILD_ROOT}/usr/bin
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/systemd/system
 
 # Install the binary
-cp -v ${RPM_BUILD_DIR}/hermes        ${RPM_BUILD_ROOT}/usr/bin/
+cp -v ${RPM_BUILD_DIR}/ibc-rs/target/release/hermes  ${RPM_BUILD_ROOT}/usr/bin/
 
 # Install systemd service files
 cp ${RPM_SOURCE_DIR}/hermes.service  ${RPM_BUILD_ROOT}/usr/lib/systemd/system/

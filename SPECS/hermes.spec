@@ -26,8 +26,13 @@ Summary:      Hermes Relayer
 License:      GPL3
 URL:          https://github.com/informalsystems/ibc-rs.git
 
+Source1:      check-osmosis-relay.sh
+
 %description
 The Hermes rust based IBC relayer
+- hermes binary
+- systemd control script
+- check_mk probe script
 
 %build
 echo -e "\n\n=== Build Hermes ===\n\n"
@@ -42,6 +47,7 @@ echo -e "\n\n=== install section ===\n\n"
 # Make the fixed directory structure
 mkdir -p ${RPM_BUILD_ROOT}/usr/bin
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/systemd/system
+mkdir -p ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local
 
 # Install the binary
 cp -v ${RPM_BUILD_DIR}/ibc-rs/target/release/hermes  ${RPM_BUILD_ROOT}/usr/bin/
@@ -49,10 +55,14 @@ cp -v ${RPM_BUILD_DIR}/ibc-rs/target/release/hermes  ${RPM_BUILD_ROOT}/usr/bin/
 # Install systemd service files
 cp ${RPM_SOURCE_DIR}/hermes.service  ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
 
+# Install the check_mk probe
+cp ${RPM_SOURCE_DIR}/check-osmosis-relay.sh  ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/
+
 %files
 %defattr(-,root,root,-)
 /usr/bin/hermes
 /usr/lib/systemd/system/hermes.service
+/usr/lib/check_mk_agent/local/check-osmosis-relay.sh
 %doc
 
 %changelog

@@ -49,7 +49,8 @@ export GOPATH="${RPM_BUILD_DIR}/go"
 rm -rf osmosis
 git clone https://github.com/osmosis-labs/osmosis
 cd osmosis
-git checkout v%{version}
+# git checkout v%{version}
+git checkout v12.1.0
 echo -e "\n\n***** Build Osmosis Daemon *****\n\n"
 make build
 echo -e "\n\n***** Run Osmosis Daemon Self Test *****\n\n"

@@ -17,8 +17,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+function displaytime {
+  local T=$1
+  local D=$((T/60/60/24))
+  local H=$((T/60/60%24))
+  local M=$((T/60%60))
+  local S=$((T%60))
+  (( $D > 0 )) && printf '%d days ' $D
+  (( $H > 0 )) && printf '%d hours ' $H
+  (( $M > 0 )) && printf '%d minutes ' $M
+  (( $D > 0 || $H > 0 || $M > 0 )) && printf 'and '
+  printf '%d seconds\n' $S
+}
+
 BLOCK_AGE=$(( $( date +%s ) - $( date -d $( cudos-noded status 2>&1 | jq -M .SyncInfo.latest_block_time | tr -d '"' ) +%s ) ))
 BLOCK_NUM=$( cudos-noded status 2>&1 | jq -M .SyncInfo.latest_block_height | tr -d '"' )
+BLOCK_AGE_STR="$( displaytime $BLOCK_AGE )"
 
-echo "P \"Cudos Node Block Age\" block_age=$BLOCK_AGE;:30;:300 Last block ($BLOCK_NUM) signed $BLOCK_AGE seconds ago"
+echo "P \"Cudos Node Block Age\" block_age=$BLOCK_AGE;:30;:300 Last block ($BLOCK_NUM) signed $BLOCK_AGE_STR ago"
 

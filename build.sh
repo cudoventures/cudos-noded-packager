@@ -111,7 +111,7 @@ run_rpmbuild()
      --define "_topdir $( pwd )" \
      --define "_versiontag ${VER}" \
      --define "_releasetag ${RLS}" \
-     --rebuild $( pwd )/SRPMS/${SPEC_NAME}-${VER}-${RLS}.*.src.rpm
+     --rebuild $( pwd )/SRPMS/${SPEC_NAME}-${VER}-${RLS}.*src.rpm
 }
 
 # Define toml config tarball function

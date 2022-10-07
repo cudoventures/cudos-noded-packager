@@ -209,7 +209,7 @@ cd debian
 for FNM in ../RPMS/*/*.rpm
 do
    echo -e "\n\nConverting rpm file $FNM to deb package\n\n"
-   DEPS="$( rpm -q --requires $FNM | fgrep -v / | fgrep -v '(' | tr '\n' ',' | sed -e's/,$//' )"
+   DEPS="$( ( rpm -q --requires $FNM || true ) | fgrep -v / | fgrep -v '(' | tr '\n' ',' | sed -e's/,$//' )"
    DIRNAME="$( rpm -q --queryformat '%{NAME}-%{VERSION}' $FNM )"
 
    echo "Deps: $DEPS"

@@ -1,0 +1,21 @@
+{
+  "builders": [
+    {
+      "type": "googlecompute",
+      "project_id": "cudo-service",
+      "source_image_family": "centos-stream-9",
+      "source_image_project_id": "centos-cloud",
+      "zone": "europe-west2-c",
+      "disk_size": "128",
+      "image_name": "gce-centos9-docker-{{timestamp}}",
+      "image_family": "jenkins-agent",
+      "ssh_username": "jenkins"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": ["sudo dnf -y upgrade ; sudo dnf install -y yum-utils patch; sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo; sudo dnf install -y java git docker-ce docker-ce-cli containerd.io;sudo curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose; sudo chmod +x /usr/local/bin/docker-compose; sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose; sudo systemctl enable docker; sudo usermod -G docker -a jenkins"]
+    }
+  ]
+}

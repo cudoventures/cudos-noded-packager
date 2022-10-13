@@ -120,7 +120,7 @@ case $TYPE_NAME in
 	clustered-node)
 		cudos-noded-ctl addrbook_clear
 
-		cudos-noded-ctl set seeds ""
+		cudos-noded-ctl set seeds "$CUDOS_HOME"/config/seeds.config
 		cudos-noded-ctl set persistent_peers "$CUDOS_HOME"/config/persistent-peers.config
 		cudos-noded-ctl set private_peers "$CUDOS_HOME"/config/private-peers.config
 		cudos-noded-ctl set unconditional_peers "$CUDOS_HOME"/config/unconditional-peers.config

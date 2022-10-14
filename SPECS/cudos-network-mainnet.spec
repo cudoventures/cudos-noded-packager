@@ -27,11 +27,11 @@ License:      GPL3
 URL:          https://github.com/CudoVentures/cudos-node
 
 Source0:      toml-config-mainnet.tar.gz
-Source1:      upgrade-info.json-mainnet-1.0.0
 
 Requires:     cosmovisor
 Requires:     cudos-noded
 Requires:     cudos-noded-v1.0.0
+Requires:     cudos-noded-v1.0.1
 Requires:     cudos-p2p-scan
 Requires:     cudos-gex
 
@@ -50,6 +50,7 @@ echo -e "\n\n=== install section ===\n\n"
 # Make the fixed directory structure
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.0.0
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.0.1
 
 # Install the cudos-data/config files
 cp -v ${RPM_SOURCE_DIR}/genesis.json                   ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
@@ -59,15 +60,8 @@ cp -v ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config  ${RPM_BUILD_ROOT}/var/lib
 cp -v ${RPM_SOURCE_DIR}/unconditional-peers.config     ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
 cp -v ${RPM_SOURCE_DIR}/private-peers.config           ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
 
-# Install the cosmovisor upgrade files
-for UPGV in 1.0.0
-do
-  mkdir -p                                                  ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v${UPGV}
-  cp -v ${RPM_SOURCE_DIR}/upgrade-info.json-mainnet-${UPGV} ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v${UPGV}/upgrade-info.json
-done
-
 cd ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor
-ln -s upgrades/v1.0.0 genesis
+ln -s /var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.0.0 genesis
 cd -
 
 %clean

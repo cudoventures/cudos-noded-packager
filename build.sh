@@ -203,7 +203,6 @@ run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosis-network-mainnet
 run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosis-network-testnet
 run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd
 run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd-v11.0.0
-run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd-v12.0.0
 run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd-v12.1.0
 
 #

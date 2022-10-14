@@ -31,7 +31,7 @@ Source0:      osmosis-network-mainnet_config.tar.gz
 Requires:     cosmovisor
 Requires:     osmosisd
 Requires:     osmosisd-v11.0.0
-Requires:     osmosisd-v12.0.0
+Requires:     osmosisd-v12.1.0
 Requires:     cudos-p2p-scan
 Requires:     cudos-gex
 

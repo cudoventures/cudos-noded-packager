@@ -34,6 +34,7 @@ Source4:      etc_profiled_cudos-noded.sh
 Source5:      cudos-init-node.sh
 Source6:      cudos-noded-ctl.sh
 Source7:      cudos-is-node-ready.sh
+Source8:      docker-migrate.sh
 
 Source40:     check_cudos_block_age.sh
 Source41:     check_cudos_block_data.sh
@@ -161,6 +162,8 @@ cp ${RPM_SOURCE_DIR}/cudos-chronocollector.service     ${RPM_BUILD_ROOT}/usr/lib
 # Install /usr/bin scripts
 cp ${RPM_SOURCE_DIR}/cudos-noded-ctl.sh                ${RPM_BUILD_ROOT}/usr/bin/cudos-noded-ctl
 chmod 755                                              ${RPM_BUILD_ROOT}/usr/bin/cudos-noded-ctl
+cp ${RPM_SOURCE_DIR}/docker-migrate.sh                 ${RPM_BUILD_ROOT}/usr/bin/docker-migrate
+chmod 755                                              ${RPM_BUILD_ROOT}/usr/bin/docker-migrate
 
 # Install chronocollector files
 cp ${RPM_SOURCE_DIR}/chronocollector-linux-amd64.gz    ${RPM_BUILD_ROOT}/var/lib/chronoc/bin
@@ -227,6 +230,7 @@ echo "    Done"
 /etc/default/*
 /etc/profile.d/*
 /usr/bin/cudos-noded-ctl
+/usr/bin/docker-migrate
 /usr/bin/cudos-init-node.sh
 %defattr(-,cudos,cudos,-)
 %dir /var/lib/cudos/cudos-data/cosmovisor

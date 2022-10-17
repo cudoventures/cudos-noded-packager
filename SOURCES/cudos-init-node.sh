@@ -39,6 +39,15 @@
 export TYPE_NAME="$1"
 
 #
+# Check that this is being run as user cudos
+#
+if [[ "$( whoami )" != "cudos" ]]
+then
+	echo -ne "Error: $0 must be run as user cudos.\n\n"
+	exit 1
+fi
+
+#
 # Set the CUDOS_HOME variable using the profile
 #
 source /etc/profile.d/cudos-noded.sh

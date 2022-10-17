@@ -19,9 +19,9 @@
 #
 
 Version:      %{_versiontag}
-Name:         osmosisd-v%{version}
+Name:         osmosisd-v12.1.0
 Release:      %{_releasetag}%{?dist}
-Summary:      Osmosis Node Binary Pack for v%{version}
+Summary:      Osmosis Node Binary Pack for v12.1.0
 
 License:      GPL3
 URL:          https://github.com/osmosis-labs/osmosis
@@ -47,7 +47,7 @@ export GOPATH="${RPM_BUILD_DIR}/go"
 rm -rf osmosis
 git clone https://github.com/osmosis-labs/osmosis
 cd osmosis
-git checkout v%{version}
+git checkout v12.1.0
 echo -e "\n\n***** Build Osmosis Daemon *****\n\n"
 make build
 echo -e "\n\n***** Run Osmosis Daemon Self Test *****\n\n"

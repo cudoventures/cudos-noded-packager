@@ -197,7 +197,7 @@ run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v0.9.0
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v1.0.0
 # run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v1.0.1
 
-run_rpmbuild "${COSMOVISOR_VER" "${BUILD_NUMBER}" cosmovisor
+run_rpmbuild "${COSMOVISOR_VER}" "${BUILD_NUMBER}" cosmovisor
 
 run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosis-network-mainnet
 run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosis-network-testnet

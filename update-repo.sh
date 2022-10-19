@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -xe
 #
 # Copyright 2022 Andrew Meredith <andrew.meredith@cudoventures.com>
 # Copyright 2022 Cudo Ventures - All rights reserved.

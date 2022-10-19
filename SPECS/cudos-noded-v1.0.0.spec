@@ -30,6 +30,8 @@ Source0:      cudos-noded-1.0.0.tar.gz
 Requires:     cudos-noded
 Requires:     cosmovisor
 
+Provides:     libwasmvm.so()(64bit)
+
 %description
 Cudos Node binary and library
 Installed into the Cosmovisor directories

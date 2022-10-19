@@ -21,34 +21,26 @@
 Name:         cudos-noded-v0.8.0
 Version:      %{_versiontag}
 Release:      %{_releasetag}%{?dist}
-Summary:      Cudos Node Binary Pack for v0.8.0
+Summary:      Cudos Node v0.8.0 Binary Pack for System version %{version}
 
 License:      GPL3
 URL:          https://github.com/CudoVentures/cudos-node           
 Source0:      cudos-noded-0.8.0.tar.gz
-Provides:     libwasmvm.so()(64bit)
 
 Requires:     cudos-noded
+Requires:     cosmovisor
 
 %description
 Cudos Node binary and library
-
 Installed into the Cosmovisor directories
 
 %pre
 getent group cudos >/dev/null || echo "  Create Group cudos" || groupadd -r cudos || :
 getent passwd cudos >/dev/null || echo "  Create User cudos" || useradd -c "Cudos User" -g cudos -s /bin/bash -r -m -d /var/lib/cudos cudos 2> /dev/null || :
 
-%package -n cudos-node-v0.8.0-src
-Summary: Cudos Node Sources
-%description -n cudos-node-v0.8.0-src
-CUDOS Node Sources
-
 %prep
 echo -e "\n\n=== prep section ===\n\n"
 # Unpack tarball
-
-BASEDR="$( pwd )"
 rm -rf CudosNode CudosBuilders CudosGravityBridge
 tar xzf %{SOURCE0}
 
@@ -62,17 +54,13 @@ make
 echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/src/v0.8.0/
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.8.0/bin/
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.8.0/lib/
 
-# Copy the sources to /var/lib/cudos
-cp -r ${RPM_BUILD_DIR}/Cudos*                  ${RPM_BUILD_ROOT}/var/lib/cudos/src/v0.8.0/
-
 # Install the newly built binaries
-cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded                                          ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.8.0/bin/
-cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm.so ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.8.0/lib/
-chmod 644                                                                          ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.8.0/lib/*.so
+cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded                                           ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.8.0/bin/
+cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm*.so ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.8.0/lib/
+chmod 644                                                                           ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.8.0/lib/*.so
 
 %clean
 # rm -rf $RPM_BUILD_ROOT
@@ -81,9 +69,5 @@ chmod 644                                                                       
 %defattr(-,cudos,cudos,-)
 /var/lib/cudos/cudos-data/cosmovisor/*
 %doc
-
-%files -n cudos-node-v0.8.0-src
-%defattr(-,cudos,cudos,-)
-/var/lib/cudos/src/v0.8.0/
 
 %changelog

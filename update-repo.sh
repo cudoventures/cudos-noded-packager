@@ -56,7 +56,9 @@
 # lay out the debian files
 cd debian
 mkdir -p ./dists/stable/main/binary-amd64
+mkdir -p ./dists/stable/main/binary-i386
 mv -v *.deb ./dists/stable/main/binary-amd64
 
 # Run the package scanner
 dpkg-scanpackages -m dists/stable/main/binary-amd64 > dists/stable/main/binary-amd64/Packages
+dpkg-scanpackages -m dists/stable/main/binary-i386  > dists/stable/main/binary-i386/Packages

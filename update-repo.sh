@@ -42,12 +42,32 @@
 # control over their "repo tag" on the web service but limited access to
 # the rest of the server.
 
+export PWTMP=$1
+export RPMLISTFILE=$2
+export DEBLISTFILE=$3
+
 #
 # RPMS
 #
 
 # Update the rpm repo files
 /usr/bin/createrepo --deltas --update .
+
+if [[ -f $PWTMP ]]
+then	
+  echo -ne "\n== Sign the new packages == \n\n"
+
+# Set the gpg parameters needed
+cat << EOF > ~/.gnupg/gpg.conf
+status-fd 1
+batch
+pinentry-mode loopback
+passphrase-file ${PWTMP}
+EOF
+
+  # Sign the new packages as listed in the file named in ARG2
+  rpmsign --addsign `cat ${RPMLISTFILE}`
+fi
 
 #
 # DEBS
@@ -56,9 +76,12 @@
 # lay out the debian files
 cd debian
 mkdir -p ./dists/stable/main/binary-amd64
+mkdir -p ./dists/stable/main/binary-arm64
 mkdir -p ./dists/stable/main/binary-i386
-mv -v *.deb ./dists/stable/main/binary-amd64
+
+mv -v *.deb ./dists/stable/main/binary-amd64 || true
 
 # Run the package scanner
 dpkg-scanpackages -m dists/stable/main/binary-amd64 > dists/stable/main/binary-amd64/Packages
+dpkg-scanpackages -m dists/stable/main/binary-arm64 > dists/stable/main/binary-arm64/Packages
 dpkg-scanpackages -m dists/stable/main/binary-i386  > dists/stable/main/binary-i386/Packages

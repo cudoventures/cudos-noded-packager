@@ -81,7 +81,7 @@ fi
 addrbook_clear()
 {
     echo "Info: Clearing address book"
-    > "$CUDOS_HOME/config/addrbook.json"
+    rm "$CUDOS_HOME/config/addrbook.json"
 }
 
 set_config_seeds()

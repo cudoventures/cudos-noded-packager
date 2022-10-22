@@ -30,8 +30,8 @@
 #
 if [[ "$( whoami )" != "cudos" ]]
 then
-	echo -ne "Error: $0 must be run as user cudos.\n\n"
-	exit 1
+    echo -ne "Error: $0 must be run as user cudos.\n\n"
+    exit 1
 fi
 
 #
@@ -39,22 +39,22 @@ fi
 #
 if [[ "$CUDOS_HOME" == "" ]]
 then
-	echo -ne "Error: Cudos home directory variable 'CUDOS_HOME' unset.\n\n"
-	exit 1
+    echo -ne "Error: Cudos home directory variable 'CUDOS_HOME' unset.\n\n"
+    exit 1
 fi
 
 if [[ ! -d "$CUDOS_HOME" ]]
 then
-	echo -ne "Error: Directory '$CUDOS_HOME' does not exist\n\n"
-	exit 1
+    echo -ne "Error: Directory '$CUDOS_HOME' does not exist\n\n"
+    exit 1
 fi
 
 TCHFILE="${CUDOS_HOME}/touchtest.%%"
 if ! touch "$TCHFILE"
 then
-	rm -f "$TCHFILE"
-	echo -ne "Error: Cannot write to directory '$CUDOS_HOME'\n\n"
-	exit 1
+    rm -f "$TCHFILE"
+    echo -ne "Error: Cannot write to directory '$CUDOS_HOME'\n\n"
+    exit 1
 fi
 rm -f "$TCHFILE"
 
@@ -64,15 +64,15 @@ rm -f "$TCHFILE"
 FNM="${CUDOS_HOME}/config/config.toml"
 if [[ ! -f "${FNM}" ]]
 then
-	echo -ne "Error: '$FNM' file not found\n\n"
-	exit 0
+    echo -ne "Error: '$FNM' file not found\n\n"
+    exit 0
 fi
 
 FNM="${CUDOS_HOME}/config/app.toml"
 if [[ ! -f "${FNM}" ]]
 then
-	echo -ne "Error: '$FNM' file not found\n\n"
-	exit 0
+    echo -ne "Error: '$FNM' file not found\n\n"
+    exit 0
 fi
 
 #
@@ -80,61 +80,115 @@ fi
 #
 addrbook_clear()
 {
-  > "$CUDOS_HOME/config/addrbook.json"
+    echo "Info: Clearing address book"
+    > "$CUDOS_HOME/config/addrbook.json"
 }
 
 set_config_seeds()
 {
-	FARG="` cat $1 `"
-	sed -i -e'1,$s'"/^seeds =.*/seeds = \"$FARG\"/" "$CUDOS_HOME/config/config.toml"
+    if [[ "$1" = "" ]]
+    then
+        FARG=""
+    else
+        if [[ -f "$1" ]]
+        then
+            FARG="` cat $1 `"
+        else
+            echo "Error: No such file '$FARG'"
+            exit 1
+        fi
+    fi
+    echo "Info: Setting seeds variable to '$FARG'"
+    sed -i -e'1,$s'"/^seeds =.*/seeds = \"$FARG\"/" "$CUDOS_HOME/config/config.toml"
 }
 
 set_config_persistent_peers()
 {
-	FARG="` cat $1 `"
-	sed -i -e'1,$s'"/^persistent_peers =.*/persistent_peers = \"$FARG\"/" "$CUDOS_HOME/config/config.toml"
+    if [[ "$1" = "" ]]
+    then
+        FARG=""
+    else
+        if [[ -f "$1" ]]
+        then
+            FARG="` cat $1 `"
+        else
+            echo "Error: No such file '$FARG'"
+            exit 1
+        fi
+    fi
+    echo "Info: Setting persistent_peers variable to '$FARG'"
+    sed -i -e'1,$s'"/^persistent_peers =.*/persistent_peers = \"$FARG\"/" "$CUDOS_HOME/config/config.toml"
 }
 
 set_config_private_peers()
 {
-	FARG="` cat $1 `"
-	sed -i -e'1,$s'"/^private_peers =.*/private_peers = \"$FARG\"/" "$CUDOS_HOME/config/config.toml"
+    if [[ "$1" = "" ]]
+    then
+        FARG=""
+    else
+        if [[ -f "$1" ]]
+        then
+            FARG="` cat $1 `"
+        else
+            echo "Error: No such file '$FARG'"
+            exit 1
+        fi
+    fi
+    echo "Info: Setting private_peers variable to '$FARG'"
+    sed -i -e'1,$s'"/^private_peers =.*/private_peers = \"$FARG\"/" "$CUDOS_HOME/config/config.toml"
 }
 
 set_config_unconditional_peers()
 {
-	FARG="` cat $1 `"
-	sed -i -e'1,$s'"/^unconditional_peers =.*/unconditional_peers = \"$FARG\"/" "$CUDOS_HOME/config/config.toml"
+    if [[ "$1" = "" ]]
+    then
+        FARG=""
+    else
+        if [[ -f "$1" ]]
+        then
+            FARG="` cat $1 `"
+        else
+            echo "Error: No such file '$FARG'"
+            exit 1
+        fi
+    fi
+    echo "Info: Setting unconditional_peers variable to '$FARG'"
+    sed -i -e'1,$s'"/^unconditional_peers =.*/unconditional_peers = \"$FARG\"/" "$CUDOS_HOME/config/config.toml"
 }
 
 set_config_pex()
 {
-	FARG="$1"
-	sed -i -e'1,$s'"/^pex =.*/pex = $FARG/" "$CUDOS_HOME/config/config.toml"
+    FARG="$1"
+    echo "Info: Setting pex variable to '$FARG'"
+    sed -i -e'1,$s'"/^pex =.*/pex = $FARG/" "$CUDOS_HOME/config/config.toml"
 }
 
 set_config_unsafe()
 {
-	FARG="$1"
-	sed -i -e'1,$s'"/^unsafe =.*/unsafe = $FARG/" "$CUDOS_HOME/config/config.toml"
+    FARG="$1"
+    echo "Info: Setting unsafe variable to '$FARG'"
+    sed -i -e'1,$s'"/^unsafe =.*/unsafe = $FARG/" "$CUDOS_HOME/config/config.toml"
 }
 
 set_config_prometheus()
 {
-	FARG="$1"
-	sed -i -e'1,$s'"/^prometheus =.*/prometheus = $FARG/" "$CUDOS_HOME/config/config.toml"
+    FARG="$1"
+    echo "Info: Setting prometheus variable to '$FARG'"
+    sed -i -e'1,$s'"/^prometheus =.*/prometheus = $FARG/" "$CUDOS_HOME/config/config.toml"
 }
 
 set_config_seed_mode()
 {
-	FARG="$1"
-	sed -i -e'1,$s'"/^seed_mode =.*/seed_mode = $FARG/" "$CUDOS_HOME/config/config.toml"
+    FARG="$1"
+    echo "Info: Setting seed_mode variable to '$FARG'"
+    sed -i -e'1,$s'"/^seed_mode =.*/seed_mode = $FARG/" "$CUDOS_HOME/config/config.toml"
 }
 
 set_config_minimum-gas-prices()
 {
-	FARG="$1"
-	sed -i -e'1,$s'"/^minimum-gas-prices =.*/minimum-gas-prices = \"$FARG\"/" "$CUDOS_HOME/config/app.toml"
+    FARG="$1"
+    echo "Info: Setting minimum-gas-prices variable to '$FARG'"
+    sed -i -e'1,$s'"/^minimum-gas-prices =.*/minimum-gas-prices = \"$FARG\"/" "$CUDOS_HOME/config/app.toml"
 }
 
 #
@@ -193,4 +247,3 @@ case $IP_COMMAND in
     echo "Unknown command: $IP_COMMAND $*"
     ;;
 esac
-

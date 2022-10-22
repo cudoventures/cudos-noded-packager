@@ -71,9 +71,9 @@ print_help()
 {
 cat<<EOF
 
- Usage: cudos-init-node.sh [--help|--init|--reinit|--reconfig] [node-type]
+ Usage: cudos-init-node.sh [--help|--init|--reinit|--reconfig|--scan-peers] [node-type]
 
- NB For backward compatibility, if there are no arguments on the copmmand line, the
+ NB For backward compatibility, if there are no arguments on the command line, the
     default behaviour of this script is "--init full-node"
 
  If [node-type] is not given, node type "full-node" is assumed

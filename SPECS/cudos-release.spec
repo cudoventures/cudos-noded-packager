@@ -43,16 +43,15 @@ mkdir -p ${RPM_BUILD_ROOT}/etc/pki/rpm-gpg
 mkdir -p ${RPM_BUILD_ROOT}/etc/yum.repos.d
 
 # Install rpm package public key files
-cp ${RPM_SOURCE_DIR}/RPM-GPG-KEY-jenkins-cudos  ${RPM_BUILD_ROOT}/etc/pki/rpm-gpg/
-cp ${RPM_SOURCE_DIR}/RPM-GPG-KEY-prtn-cudos     ${RPM_BUILD_ROOT}/etc/pki/rpm-gpg/
-
+cp ${SOURCE0} ${RPM_BUILD_ROOT}/etc/pki/rpm-gpg/
+cp ${SOURCE1} ${RPM_BUILD_ROOT}/etc/pki/rpm-gpg/
 # Install Yum repo file
-cp ${RPM_SOURCE_DIR}/../cudos.repo  ${RPM_BUILD_ROOT}/etc/yum.repos.d
+cp ${SOURCE2} ${RPM_BUILD_ROOT}/etc/yum.repos.d
 
 %files
 %defattr(-,root,root,-)
 /etc/pki/rpm-gpg/*
 /etc/yum.repos.d/*
-%doc
+%doc README.md
 
 %changelog

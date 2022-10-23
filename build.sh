@@ -194,6 +194,10 @@ create_toml_tarball "mainnet"         "mainnet"
 OSMOSIS_VER="12.1.0"
 COSMOVISOR_VER="1.0.0"
 
+run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-release
+
+run_rpmbuild "${COSMOVISOR_VER}" "${BUILD_NUMBER}" cosmovisor
+
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-private-testnet
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-public-testnet
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-mainnet
@@ -202,8 +206,6 @@ run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v0.8.0
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v0.9.0
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v1.0.0
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v1.0.1
-
-run_rpmbuild "${COSMOVISOR_VER}" "${BUILD_NUMBER}" cosmovisor
 
 run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosis-network-mainnet
 run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosis-network-testnet
@@ -239,8 +241,8 @@ done
 cd ..
 
 #
-# Pull the rpm backage information into .txt files
-# Pull the file list form the packages into .lst.txt files
+# Pull the rpm package information into .txt files
+# Pull the file lists from the packages into .lst.txt files
 #
 # These are usesful to store alongside the packages themselves in artifact lists
 # So the content and info can easily be opened in the artifact list and viewed

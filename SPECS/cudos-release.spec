@@ -54,6 +54,6 @@ cp ${RPM_SOURCE_DIR}/cudos.repo ${RPM_BUILD_ROOT}/etc/yum.repos.d
 %defattr(-,root,root,-)
 /etc/pki/rpm-gpg/*
 /etc/yum.repos.d/*
-%doc README.md
+%doc %{_sourcedir}/README.md
 
 %changelog

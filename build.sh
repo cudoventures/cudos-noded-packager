@@ -176,6 +176,12 @@ then
 fi
 
 #
+# Copy files up to SOURCES for packaging in src.rpms
+#
+cp -v README.md  SOURCES
+cp -v cudos.repo SOURCES
+
+#
 # Create the source tarballs
 #
 create_cudos_tarball "0.8.0"

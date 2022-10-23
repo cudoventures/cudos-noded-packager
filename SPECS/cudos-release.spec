@@ -24,9 +24,10 @@ BuildArch:    noarch
 License:      GPL3
 URL:          https://github.com/CudoVentures/cudos-noded-packager.git
 
-Source0:      RPM-GPG-KEY-jenkins-cudos
-Source1:      RPM-GPG-KEY-prtn-cudos
-Source2:      cudos.repo
+Source0:      README.md
+Source1:      RPM-GPG-KEY-jenkins-cudos
+Source2:      RPM-GPG-KEY-prtn-cudos
+Source3:      cudos.repo
 
 %description
 A bundle of yum/dnf/apt repository configuration files for

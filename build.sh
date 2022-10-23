@@ -54,6 +54,9 @@ create_cudos_tarball()
     # Clear out any existing git checkouts
     rm -rf Cudos*
 
+    # Silence the warning
+    git config --global advice.detachedHead false
+    
     # Check out fresh copies of the current version
     case $VER in
 

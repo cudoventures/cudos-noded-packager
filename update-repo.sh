@@ -50,9 +50,7 @@ export DEBLISTFILE=$3
 # RPMS
 #
 
-# Update the rpm repo files
-/usr/bin/createrepo --deltas --update .
-
+# Sign the rpm files
 if [[ -f $PWTMP ]]
 then	
   echo -ne "\n== Sign the new packages == \n\n"
@@ -66,8 +64,12 @@ passphrase-file ${PWTMP}
 EOF
 
   # Sign the new packages as listed in the file named in ARG2
+  rpmsign --delsign `cat ${RPMLISTFILE}`
   rpmsign --addsign `cat ${RPMLISTFILE}`
 fi
+
+# Update the rpm repo files
+/usr/bin/createrepo --verbose --deltas .
 
 #
 # DEBS
@@ -85,3 +87,4 @@ mv -v *.deb ./dists/stable/main/binary-amd64 || true
 dpkg-scanpackages -m dists/stable/main/binary-amd64 > dists/stable/main/binary-amd64/Packages
 dpkg-scanpackages -m dists/stable/main/binary-arm64 > dists/stable/main/binary-arm64/Packages
 dpkg-scanpackages -m dists/stable/main/binary-i386  > dists/stable/main/binary-i386/Packages
+

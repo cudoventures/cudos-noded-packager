@@ -13,5 +13,6 @@ enabled=0
 [cudos-prtn]
 name=Cudo Cudos Private Testnet Packages
 baseurl=http://jenkins.gcp.service.cudo.org/cudos/cudos-prtn
-gpgcheck=1
 enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-prtn-cudos

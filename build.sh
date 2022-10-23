@@ -130,10 +130,10 @@ create_toml_tarball()
 
   mkdir -p toml-tmp
   cd toml-tmp
-  wget "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/genesis.${FILETAG}.json?raw=true"                  -O genesis.json
-  wget "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/persistent-peers.${FILETAG}.config?raw=true"       -O persistent-peers.config
-  wget "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/seeds.${FILETAG}.config?raw=true"                  -O seeds.config
-  wget "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/state-sync-rpc-servers.${FILETAG}.config?raw=true" -O state-sync-rpc-servers.config
+  wget -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/genesis.${FILETAG}.json?raw=true"                  -O genesis.json
+  wget -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/persistent-peers.${FILETAG}.config?raw=true"       -O persistent-peers.config
+  wget -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/seeds.${FILETAG}.config?raw=true"                  -O seeds.config
+  wget -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/state-sync-rpc-servers.${FILETAG}.config?raw=true" -O state-sync-rpc-servers.config
   touch unconditional-peers.config
   touch private-peers.config
   tar czvf ../SOURCES/toml-config-${NTWK}.tar.gz *

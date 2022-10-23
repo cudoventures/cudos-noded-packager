@@ -35,6 +35,7 @@ the Cudo Blockchain package sets.
 
 %build
 echo -e "\n\n=== Build Section ===\n\n"
+cp ${RPM_SOURCE_DIR}/README.md .
 
 %install
 echo -e "\n\n=== install Section ===\n\n"
@@ -54,6 +55,6 @@ cp ${RPM_SOURCE_DIR}/cudos.repo ${RPM_BUILD_ROOT}/etc/yum.repos.d
 %defattr(-,root,root,-)
 /etc/pki/rpm-gpg/*
 /etc/yum.repos.d/*
-%doc %{_sourcedir}/README.md
+%doc README.md
 
 %changelog

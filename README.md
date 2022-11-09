@@ -8,17 +8,15 @@ However, in order for this to be realised on the ground, the various software co
 
 It's tempting to think that every new problem is unique and new, but this one isn't. The machine underneath the blockchain daemons and apps, is immensely more complex than the apps they're deployed to sustain; and contain orders of magnitudes more code. So how was the entirity of the rest of the operating system needed to run one of these daemons, installed. It was laced together with a dependancy chain of operating system packages. Be they Debian style .deb files, or Red Hat style .rpm .. or indeed any of the other package styles used for other platforms. There is no good reason why the Cosmos family of daemons and apps couldn't be built for Android, iThing, and certainly for the ARM chip family in general.
 
-In order for this to be realised, this whole stack of software needs to become as much part of the fabric of computing as any other applications the operating system might have been put there to sustain, and to do that, it needs to be just another option on the panel of things you might want to install on this box/tablet/phone.
-
-And everything else on the machine got there by installing its package(s).
+In order for this to be realised, this whole stack of software needs to become as much **part of the fabric of computing** as any other applications the operating system might have been put there to sustain, and to do that, it needs to be just another option on the panel of things you might want to install on this box/tablet/phone.
 
 ## The Generic Package Structure
 
-The intent of this package structure is to be chain agnostic, with the end goal of making the choice of network and chain a tick box to which newcomers can easily be added. While allowing the individual Cosmos Daemon projects full reign to evolve their contribution to suite their own plans.
+The intent of this package structure is to be **chain agnostic**, with the end goal of making the choice of network and chain a tick box to which newcomers can easily be added. While allowing the individual Cosmos Daemon projects full reign to evolve their contribution to suite their own plans.
 
 ## Top Level Package
 
-For a fully working system to be set up for the chosen network, one package is required, the so called "Network Package". This contains the unique files for that network, such as the genesis and the bootstrap seed servers, but nothing else. For example:
+For a fully working system to be set up for the chosen network, one package is required, the so called "**Network Package**". This contains the unique files for that network, such as the genesis and the bootstrap seed servers, but nothing else. For example:
 
 ```bash
 [root@cudos ~]# rpm -ql cudos-network-public-testnet
@@ -67,11 +65,11 @@ The packages used to install the different networks are:
 NB The packs are mutually exclusive, they share the same filenames.
 Currently, any given host can only run a daemon on one network at any one time.
 
-The following examples are for Cudos Public Testnet.
-
 NB These commands must all be run as root.
-Just putting "sudo" before some of these commands does not work.
-If you run the command "sudo -i", assuming you have permissions to do so, you will get a root prompt.
+
+**Just putting "sudo" before some of these commands does not work.**
+
+If you run the command "**sudo -i**", assuming you have permissions to do so, you will get a root prompt.
 
 #### Red Hat family
 
@@ -129,25 +127,28 @@ echo 'deb [trusted=yes] http://jenkins.gcp.service.cudo.org/cudos/cudos-mainnet/
 apt update
 apt install cudos-network-mainnet
 ```
+### The software is now installed
+
+You now have all the necessary binary and configuration files to start and operate the Cosmos Node or to use the locally installed system to connect to a node elsewhere.
 
 ## Get it running
 
 ### Configure the daemon
 
-The underlying network (in the above example, Cudos public testnet) has already been configured
-by the Network Pack, all that's left is to set the node's role, configure the neighbour
-information and it can synchronize with the network.
+The underlying network (for example, Cudos Public Testnet) has already been configured
+by the Network Pack, all that's left is to set the node's role and configure the neighbour
+information, and it can then synchronize with the chosen network.
 
-If necessary, this can be done by setting individual parameters directly in the config.toml and
-app.toml files using the specific daemon configuration tool for the network. In the
+**If necessary**, this can be done by setting each individual parameter separately, directly in the config.toml and
+app.toml files, using the specific daemon configuration tool for the network. In the
 case of the Cudos network, this would be `cudos-noded-ctl`.
-Please see [cudos-noded-ctl](docs/cudos-noded-ctl.md)
+Please see [cudos-noded-ctl](docs/cudos-noded-ctl.md).
 
-However in the case of the Cudos network, there is an additional higher level tool
-that can set the configuration in one command, please see
-[cudos-init-node.sh](SOURCES/cudos-init-node.sh)
+**However** in the case of the Cudos network, there is an additional higher level tool
+that can set the node's configuration up in one go, please see
+[cudos-init-node.sh](SOURCES/cudos-init-node.sh) for a more detailed explanation.
 
-Before you start the daemon's service on a freshly installed node without any .toml
+**Before you start the daemon's service** on a freshly installed node without any .toml
 configuration files, the initialisation script must be run. In the case of the Cudos
 network for example this would be [cudos-init-node.sh](SOURCES/cudos-init-node.sh)
 
@@ -159,6 +160,8 @@ Node types available are:
 * `clustered-node`
 * `seed-node`
 * `sentry-node`
+
+See following for specific examples
 
 #### Full Nodes (Default)
 
@@ -208,13 +211,20 @@ cudos-init-node.sh seed-node
 cudos-init-node.sh sentry-node
 ```
 
+#### The node is now configured
+
+The node now has the right network setuo information, and is configured as the desired node type. All that is left is to enable and start the service.
+
 ### Systemd Service
 
-The Cosmovisor daemon is run by the systemd service file [cosmovisor@.service](SOURCES/cosmovisor@.service)
-This is a parameterised service. The parameter it takes is the project name:
+The different operating system services on most modern Linux systems are managed by systemd, and this is also the case for the Cosmos node. The service configuration envokes the "**cosmovisor**" utility to select the right version of the daemon and to stop and start it as appropriate.
+
+The Cosmovisor daemon service configuration can be found in the systemd service file [cosmovisor@.service](SOURCES/cosmovisor@.service)
+
+This is done using a so called "parameterised service" in that the same service configuration file can be used across different contexts with the use of a parameter. The parameter in this case, is the project name:
 - cudos
 - osmosis
-- more to follow
+- (more to follow)
 
 For example, so see the status of the Osmosis daemon
 
@@ -266,6 +276,8 @@ Using the version subdirectory selected by cosmovisor
 ```bash
 /var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11
 ```
+
+See below for examples of how to use the systemctl command to control the Cosmos daemon
 
 ### Managing the Service
 

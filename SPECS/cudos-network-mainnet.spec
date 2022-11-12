@@ -59,7 +59,7 @@ cp -v ${RPM_SOURCE_DIR}/unconditional-peers.config     ${RPM_BUILD_ROOT}/var/lib
 cp -v ${RPM_SOURCE_DIR}/private-peers.config           ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
 
 cd ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor
-ln -s /var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.0.1 genesis
+ln -s /var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.0 genesis
 cd -
 
 %clean

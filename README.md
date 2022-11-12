@@ -433,6 +433,8 @@ and sent to prometheus/Chronosphere front-ends using this package.
 offered purely as a "Proof of Concept" and a working demonstration of a possible alternative way
 of installing Cudos Nodes in the future.**
 
+2022-11-12 Update: However, it is entering the final stages of QA and testing and will be released soon.
+
 ## Notes
 
 The binary packages are produced by the scripting in this git repository, directly from

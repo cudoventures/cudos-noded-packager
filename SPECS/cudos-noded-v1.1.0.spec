@@ -15,8 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Runs the Cudos Node Daemon
-#
 
 Name:         cudos-noded-v1.1.0
 Version:      %{_versiontag}
@@ -56,13 +54,13 @@ make
 echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.1.0/bin/
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.1.0/lib/
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.1/bin/
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.1/lib/
 
 # Install the newly built binaries
-cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded                                           ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.1.0/bin/cudos-noded
-cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm*.so ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.1.0/lib/
-chmod 644                                                                           ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.1.0/lib/*.so
+cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded                                           ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.1/bin/cudos-noded
+cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm*.so ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.1/lib/
+chmod 644                                                                           ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.1/lib/*.so
 
 %clean
 rm -rf $RPM_BUILD_ROOT

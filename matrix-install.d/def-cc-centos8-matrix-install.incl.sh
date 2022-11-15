@@ -24,6 +24,8 @@ cc-centos8-matrix-install()
 	export NODE_TYPE="$2"
 
 	sudo dnf install -y yum-utils
+	
+	sudo rm -f /etc/yum.repos.d/cudos.repo
 	sudo yum-config-manager --add-repo http://jenkins.gcp.service.cudo.org/cudos/cudos.repo
 
     echo -ne "\n\n     Install a $NODE_TYPE on $CUDOS_NETWORK\n\n"
@@ -56,6 +58,17 @@ cc-centos8-matrix-install()
 	fi
 		
 	#
+	# Clean out any existing packages
+	#
+	if ! sudo dnf remove -y $( rpm -qa "*cudo*" "*osmo*" )
+	then
+		echo -ne "\nError: dnf install failed\n\n"
+		exit 1
+	fi
+    sudo userdel -r cudos
+    rm -rf /var/lib/cudos
+    			
+	#
 	# Install the packages
 	#
 	if ! sudo dnf install -y ${NETPACK}
@@ -73,7 +86,7 @@ cc-centos8-matrix-install()
 	#
 	# Initialise the node using the node type
 	#
-	if ! sudo -u cudos CUDOS_HOME="${CUDOS_HOME}" /usr/bin/cudos-init-node.sh --reinit $NODE_TYPE
+	if ! sudo -u cudos CUDOS_HOME="${CUDOS_HOME}" /usr/bin/cudos-init-node.sh $NODE_TYPE
 	then
 		echo -ne "\nError: cudos-init-node.sh returned an error\n\n"
 		exit 1

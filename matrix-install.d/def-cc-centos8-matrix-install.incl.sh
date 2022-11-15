@@ -121,7 +121,7 @@ cc-centos8-matrix-install()
 	# for the CI/CD job log, and to a logfile for export as an
 	# artifact
 	#
-	sudo journalctl -b -u cosmovisor@cudos | tee log-${CUDOS_NETWORK}_-_${NODE_TYPE}.txt
+	sudo journalctl --since=-3m -u cosmovisor@cudos | tee log-${CUDOS_NETWORK}_-_${NODE_TYPE}.txt
 	
 }
 

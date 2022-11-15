@@ -73,7 +73,7 @@ cc-centos8-matrix-install()
 	#
 	# Initialise the node using the node type
 	#
-	if ! sudo -u cudos CUDOS_HOME="${CUDOS_HOME}" /usr/bin/cudos-init-node.sh $NODE_TYPE
+	if ! sudo -u cudos CUDOS_HOME="${CUDOS_HOME}" /usr/bin/cudos-init-node.sh --reinit $NODE_TYPE
 	then
 		echo -ne "\nError: cudos-init-node.sh returned an error\n\n"
 		exit 1

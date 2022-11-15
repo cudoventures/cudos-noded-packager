@@ -28,6 +28,14 @@ cc-centos8-matrix-install()
 	sudo rm -f /etc/yum.repos.d/cudos.repo
 	sudo yum-config-manager --add-repo http://jenkins.gcp.service.cudo.org/cudos/cudos.repo
 
+	#
+	# Disable and Stop the cudos-noded service
+	#
+	if ! sudo systemctl disable --now cosmovisor@cudos
+	then
+		echo -ne "\nError: Service disable failed\n\n"
+	fi
+		
     echo -ne "\n\n     Install a $NODE_TYPE on $CUDOS_NETWORK\n\n"
 
 	#

@@ -99,6 +99,7 @@ if [ "$mountedDirVolume" != "$newDirVolume" ]; then
     newDirVolumefreeSpaceInKiB=$(df -P "$dataDir" | tail -1 | awk '{print $4}')
     if (($mountedDirSizeInKiB > $newDirVolumefreeSpaceInKiB)); then
         printf "$(date +"%Y-%m-%d**%H:%M:%S"): There is not enough space on the target volume. Current data dir size is ${mountedDirSizeInKiB} kB. The target volume's free space is ${newDirVolumefreeSpaceInKiB} kB  \n"
+        exit 0
     fi
 fi
 

@@ -73,10 +73,10 @@ done
 foundContainersCount=${#foundContainers[@]}
 if [[ $foundContainersCount -eq 0 ]]; then
     printf "$(date +"%Y-%m-%d**%H:%M:%S"): ERROR: No active containers producing blocks found\n\n"
-    exit 0
+    exit 1
 elif [[ $foundContainersCount -gt 1 ]]; then
     printf "$(date +"%Y-%m-%d**%H:%M:%S"): ERROR: More than 1 active containers producing blocks found\n\n"
-    exit 0
+    exit 1
 else
     printf "$(date +"%Y-%m-%d**%H:%M:%S"): Selected active container that is producing blocks: ${foundContainers[0]}\n\n"
 fi
@@ -99,6 +99,7 @@ if [ "$mountedDirVolume" != "$newDirVolume" ]; then
     newDirVolumefreeSpaceInKiB=$(df -P "$dataDir" | tail -1 | awk '{print $4}')
     if (($mountedDirSizeInKiB > $newDirVolumefreeSpaceInKiB)); then
         printf "$(date +"%Y-%m-%d**%H:%M:%S"): There is not enough space on the target volume. Current data dir size is ${mountedDirSizeInKiB} kB. The target volume's free space is ${newDirVolumefreeSpaceInKiB} kB  \n"
+        exit 1
     fi
 fi
 

@@ -49,6 +49,7 @@ echo -e "\n\n=== build section ===\n\n"
 export GOPATH="${RPM_BUILD_DIR}/go"
 cd CudosNode
 make
+make test
 
 %install
 echo -e "\n\n=== install section ===\n\n"

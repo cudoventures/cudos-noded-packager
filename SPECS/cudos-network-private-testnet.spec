@@ -33,6 +33,7 @@ Requires:     cudos-noded
 Requires:     cudos-noded-v0.8.0
 Requires:     cudos-noded-v0.9.0
 Requires:     cudos-noded-v1.0.1
+Requires:     cudos-noded-v1.1.0.1
 Requires:     cudos-p2p-scan
 Requires:     cudos-gex
 
@@ -54,6 +55,7 @@ mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.8
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.9
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.0
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.1
 
 # Install the cudos-data/config files
 cp -v ${RPM_SOURCE_DIR}/genesis.json                   ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/

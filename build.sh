@@ -221,6 +221,7 @@ run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosis-network-testnet
 run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd
 run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd-v11.0.0
 run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd-v12.1.0
+run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd-v13.0.0
 
 #
 # Feed the rpm binaries into "Alien" to be converted

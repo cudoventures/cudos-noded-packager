@@ -68,8 +68,8 @@ create_cudos_tarball()
       
     [0-9]\.[0-9]\.[0-9]\.[0-9])
       git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-node.git CudosNode
-      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-builders.git CudosBuilders
-      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
+      git clone --depth 1 --branch v1.0.0 https://github.com/CudoVentures/cudos-builders.git CudosBuilders
+      git clone --depth 1 --branch v1.0.0 https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
       ;;
       
     [0-9]\.[0-9]\.[0-9])
@@ -215,13 +215,14 @@ run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v0.8.0
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v0.9.0
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v1.0.0
 run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v1.0.1
+run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v1.1.0.1
 
 run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosis-network-mainnet
 run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosis-network-testnet
 run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd
 run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd-v11.0.0
 run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd-v12.1.0
-run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd-v13.0.0
+run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd-v13.0.0-rc3
 
 #
 # Feed the rpm binaries into "Alien" to be converted

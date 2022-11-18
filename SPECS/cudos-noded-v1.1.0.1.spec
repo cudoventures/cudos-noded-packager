@@ -16,14 +16,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-Name:         cudos-noded-v1.1.0
+Name:         cudos-noded-v1.1.0.1
 Version:      %{_versiontag}
 Release:      %{_releasetag}%{?dist}
-Summary:      Cudos Node v1.1.0 Binary Pack for System version %{version}
+Summary:      Cudos Node v1.1.0.1 Binary Pack for System version %{version}
 
 License:      GPL3
 URL:          https://github.com/CudoVentures/cudos-node           
-Source0:      cudos-noded-1.1.0.tar.gz
+Source0:      cudos-noded-1.1.0.1.tar.gz
 
 Requires:     cudos-noded
 Requires:     cosmovisor

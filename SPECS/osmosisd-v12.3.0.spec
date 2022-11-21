@@ -19,14 +19,16 @@
 #
 
 Version:      %{_versiontag}
-Name:         osmosisd-v12.1.0
+Name:         osmosisd-v12.3.0
 Release:      %{_releasetag}%{?dist}
-Summary:      Osmosis Node Binary Pack for v12.1.0
+Summary:      Osmosis Node Binary Pack for v12.3.0
 
 License:      GPL3
 URL:          https://github.com/osmosis-labs/osmosis
 
 Requires:     osmosisd
+Obsoletes:    osmosisd-v12.0.0
+Obsoletes:    osmosisd-v12.1.0
 
 %description
 Osmosis Node binary and library
@@ -47,7 +49,7 @@ export GOPATH="${RPM_BUILD_DIR}/go"
 rm -rf osmosis
 git clone https://github.com/osmosis-labs/osmosis
 cd osmosis
-git checkout v12.1.0
+git checkout v12.3.0
 echo -e "\n\n***** Build Osmosis Daemon *****\n\n"
 make build
 

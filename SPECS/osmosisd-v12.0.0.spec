@@ -50,8 +50,6 @@ cd osmosis
 git checkout v12.0.0
 echo -e "\n\n***** Build Osmosis Daemon *****\n\n"
 make build
-echo -e "\n\n***** Run Osmosis Daemon Self Test *****\n\n"
-make test
 
 %install
 echo -e "\n\n=== install section ===\n\n"

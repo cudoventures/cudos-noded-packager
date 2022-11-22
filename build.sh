@@ -235,6 +235,7 @@ for FNM in ../RPMS/*/*.rpm
 do
    echo -e "\n\nConverting rpm file $FNM to deb package\n\n"
    DEPS="$( rpm -q --requires $FNM | fgrep -v / | fgrep -v '(' | tr '\n' ',' | sed -e's/,$//' )"
+   OBSOLETES="$( rpm -q --obsoletes $FNM | fgrep -v / | fgrep -v '(' | tr '\n' ',' | sed -e's/,$//' )"
    DIRNAME="$( rpm -q --queryformat '%{NAME}-%{VERSION}' $FNM || true )"
 
    echo "Deps: $DEPS"
@@ -242,6 +243,7 @@ do
 
    sudo alien --generate --to-deb --keep-version --scripts $FNM
    sudo sed -i -e's/^Depends:.*/&'",${DEPS}/" ${DIRNAME}/debian/control
+   echo -ne "Replaces: ${OBSOLETES}\nConflicts: ${OBSOLETES}" | sudo tee -a ${DIRNAME}/debian/control
    cd $DIRNAME
    sudo debian/rules binary
    cd ..

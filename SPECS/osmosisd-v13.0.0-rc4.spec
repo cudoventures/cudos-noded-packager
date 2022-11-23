@@ -28,7 +28,7 @@ URL:          https://github.com/osmosis-labs/osmosis
 
 Requires:     osmosisd
 
-Obsoletes:    osmosisd-v13.0.0-rc4
+Obsoletes:    osmosisd-v13.0.0-rc3
 
 %description
 Osmosis Node binary and library

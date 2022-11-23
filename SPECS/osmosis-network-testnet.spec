@@ -31,8 +31,8 @@ Source0:      osmosis-network-testnet_config.tar.gz
 Requires:     cosmovisor
 Requires:     osmosisd
 Requires:     osmosisd-v11.0.0
-Requires:     osmosisd-v12.1.0
-Requires:     osmosisd-v13.0.0-rc3
+Requires:     osmosisd-v12.3.0
+Requires:     osmosisd-v13.0.0-rc4
 Requires:     cudos-p2p-scan
 Requires:     cudos-gex
 

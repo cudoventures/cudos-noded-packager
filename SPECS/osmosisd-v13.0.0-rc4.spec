@@ -19,15 +19,16 @@
 #
 
 Version:      %{_versiontag}
-Name:         osmosisd-v12.1.0
+Name:         osmosisd-v13.0.0-rc4
 Release:      %{_releasetag}%{?dist}
-Summary:      Osmosis Node Binary Pack for v12.1.0
+Summary:      Osmosis Node Binary Pack for v13.0.0-rc4
 
 License:      GPL3
 URL:          https://github.com/osmosis-labs/osmosis
 
 Requires:     osmosisd
-Obsoletes:    osmosisd-v12.0.0
+
+Obsoletes:    osmosisd-v13.0.0-rc4
 
 %description
 Osmosis Node binary and library
@@ -48,21 +49,23 @@ export GOPATH="${RPM_BUILD_DIR}/go"
 rm -rf osmosis
 git clone https://github.com/osmosis-labs/osmosis
 cd osmosis
-git checkout v12.1.0
+git checkout v13.0.0-rc4
 echo -e "\n\n***** Build Osmosis Daemon *****\n\n"
 make build
+echo -e "\n\n***** Run Osmosis Daemon Self Test *****\n\n"
+make test
 
 %install
 echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v12/bin
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v12/lib/
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v13/bin
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v13/lib/
 
 # Install the newly built binaries
-cp -v ${RPM_BUILD_DIR}/osmosis/build/osmosisd                                                    ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v12/bin/
-cp -v ${RPM_BUILD_DIR}'/go/pkg/mod/github.com/!cosm!wasm/wasmvm@v1.0.0/api/libwasmvm.x86_64.so'  ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v12/lib/
-chmod 644  ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v12/lib/*
+cp -v ${RPM_BUILD_DIR}/osmosis/build/osmosisd                                                    ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v13/bin/
+cp -v ${RPM_BUILD_DIR}'/go/pkg/mod/github.com/!cosm!wasm/wasmvm@v1.0.0/api/libwasmvm.x86_64.so'  ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v13/lib/
+chmod 644  ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v13/lib/*
 
 %files
 %defattr(-,osmosis,osmosis,-)

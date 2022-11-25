@@ -39,7 +39,7 @@ Summary:      %{project_title} Node %{daemon_version} Binary Pack for System ver
 License:      GPL3
 URL:          %{parent_url}/%{project_name}
 
-Requires:     %{project_name}
+Requires:     %{daemon_name}
 Requires:     cosmovisor
 
 Provides:     libwasmvm.so()(64bit)

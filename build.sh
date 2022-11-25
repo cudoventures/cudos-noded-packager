@@ -142,8 +142,8 @@ build_project_from_chain_data()
   CHAIN_NAME="$( cat $TMPFILE | jq .chain_name | tr -d '"' )"
   DAEMON_NAME="$( cat $TMPFILE | jq .daemon_name | tr -d '"' )"
   PRETTY_NAME="$( cat $TMPFILE | jq .pretty_name | tr -d '"' )"
-  SYSTEM_VER="$( cat $TMPFILE | jq .codebase.recommended_version | tr -d '"' )"
-  COMPATIBLE_VERSIONS="$( cat $TMPFILE | jq .codebase.compatible_versions | tr -d '"' | grep '[0-9]' )"
+  SYSTEM_VER="$( cat $TMPFILE | jq .codebase.recommended_version | tr -d '"v' )"
+  COMPATIBLE_VERSIONS="$( cat $TMPFILE | jq .codebase.compatible_versions | tr -d '"v' | grep '[0-9]' )"
 
   case "$CHAIN_NAME" in
     cudos)

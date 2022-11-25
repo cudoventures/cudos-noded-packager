@@ -90,13 +90,13 @@ make test || true
 echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{daemon_version}/bin/
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{daemon_version}/lib/
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/bin/
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/lib/
 
 # Install the newly built binaries
-cp -v ${RPM_BUILD_DIR}/go/bin/%{daemon_name}                                        ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{daemon_version}/bin/
-cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm*.so ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{daemon_version}/lib/
-chmod 644                                                                           ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{daemon_version}/lib/*.so
+cp -v ${RPM_BUILD_DIR}/go/bin/%{daemon_name}                                        ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/bin/
+cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm*.so ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/lib/
+chmod 644                                                                           ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/lib/*.so
 
 %clean
 rm -rf $RPM_BUILD_ROOT

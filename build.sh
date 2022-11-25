@@ -85,31 +85,6 @@ create_cudos_tarball()
     rm -rf Cudos*
 }
 
-# Define a utility function for rpmbuild
-run_rpmbuild()
-{
-  VER=$1
-  RLS=$2
-  SPEC_NAME=$3
-  
-  echo -ne "\n\n======= Building Package $SPEC_NAME =======\n\n"
-  
-  rpmbuild \
-     --define "_topdir $( pwd )" \
-     --define "_versiontag ${VER}" \
-     --define "_releasetag ${RLS}" \
-     -bs $( pwd )/SPECS/${SPEC_NAME}.spec
-  
-  sudo rm -rf buildtmp/BUILD buildtmp/BUILDROOT buildtmp/SOURCES buildtmp/SPECS
-
-  rpmbuild \
-     --define "_topdir $( pwd )/buildtmp" \
-     --define "_versiontag ${VER}" \
-     --define "_releasetag ${RLS}" \
-     --define "__brp_check_rpaths %{nil}" \
-     --rebuild $( pwd )/SRPMS/${SPEC_NAME}-${VER}-${RLS}.*src.rpm
-}
-
 # Define toml config tarball function
 create_toml_tarball()
 {
@@ -131,6 +106,64 @@ create_toml_tarball()
   rm -rf toml-tmp
 }
 
+
+# Define a utility function for rpmbuild
+run_rpmbuild()
+{
+  VER=$1
+  RLS=$2
+  SPEC_NAME=$3
+  
+  echo -ne "\n\n======= Building Package $SPEC_NAME =======\n\n"
+  
+  # Take the spec file and ONLY package it into a source
+  # rpm, do not actually build anything.
+  rpmbuild \
+     --define "_topdir $( pwd )" \
+     --define "_versiontag ${VER}" \
+     --define "_releasetag ${RLS}" \
+     -bs $( pwd )/SPECS/${SPEC_NAME}.spec
+  
+  # Building these applications pulls in git repositories, some
+  # of which have set file and directory permissions as read only
+  # so when you go to delete them, the build job fails.
+  if [[ -d buildtmp ]]
+  then
+  	chmod -R +rwx buildtmp
+  fi
+ 
+  # Clean out the build area just in case, for some
+  # reason, it didn't get cleaned last time
+  rm -rf buildtmp
+  
+  # Set the _topdir to the freshly cleaned out build area
+  # pull the source rpm that has just been built into
+  # the clean build area, unpack it, and build the contents.
+  #
+  # NB This might seem a "round the houses" way of doing it,
+  # but it firmly ensures that the payload of the src.rpm is complete
+  # ensuring that and end user can build the package with just
+  # the src.rpm
+  #
+  # The removal of __brp_check_rpaths is needed as there are some
+  # .. "non standard" uses of this feature in the packages
+  #
+  rpmbuild \
+     --define "_topdir $( pwd )/buildtmp" \
+     --define "_versiontag ${VER}" \
+     --define "_releasetag ${RLS}" \
+     --define "__brp_check_rpaths %{nil}" \
+     --rebuild $( pwd )/SRPMS/${SPEC_NAME}-${VER}-${RLS}.*src.rpm
+
+  # Synchronise the RPMS directory in the clean build area back to
+  # the master RPMS directory structure.
+  rsync -var buildtmp/RPMS/. RPMS/.
+
+  # Clean up
+  chmod -R +rwx buildtmp
+  rm -rf buildtmp
+}
+
 # define utility to loop through the rpm builds
 #
 # NB The chain data files sometimes use "v1.2.3" and sometime just "1.2.3"
@@ -148,14 +181,22 @@ build_project_from_chain_data()
   CHAIN_NAME="$1"
   TMPFILE=/tmp/build.sh.$$
 
+  # Grab the chain data
   curl -4 -s https://raw.githubusercontent.com/cosmos/chain-registry/master/${CHAIN_NAME}/chain.json -o "${TMPFILE}"
 
+  # Use the local copy to divine specific values for that chain
   CHAIN_NAME="$( cat $TMPFILE | jq .chain_name | tr -d '"' )"
   DAEMON_NAME="$( cat $TMPFILE | jq .daemon_name | tr -d '"' )"
   PRETTY_NAME="$( cat $TMPFILE | jq .pretty_name | tr -d '"' )"
   SYSTEM_VER="$( cat $TMPFILE | jq .codebase.recommended_version | tr -d '"v' )"
   COMPATIBLE_VERSIONS="$( cat $TMPFILE | jq .codebase.compatible_versions | tr -d '"v' | grep '[0-9]' )"
 
+  # Chain Data Workaround Kludges :-)
+  #
+  # Ideally the chain data would be absolutely accurate, complete and up to date.
+  # In case that is for some reason not the case .. or an update is to be tested in dev
+  # here's where the variances go
+  #
   case "$CHAIN_NAME" in
     cudos)
       DAEMON_NAME="cudos-noded"
@@ -168,9 +209,14 @@ build_project_from_chain_data()
       ;;
   esac
   
+  # Clean up
   rm -f "${TMPFILE}"
 
+  # Build the daemon framework package, named for the daemon_name at the recommended_version
   run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" ${DAEMON_NAME}
+  
+  # For every "compatible_version", build a binary package named for that version
+  # and the package version of "recommended_version"
   for BUILD_VERSION in ${COMPATIBLE_VERSIONS}
   do
     run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" ${DAEMON_NAME}-v${BUILD_VERSION}
@@ -231,16 +277,12 @@ create_toml_tarball "testnet.public"  "testnet"
 create_toml_tarball "mainnet"         "mainnet"
 
 #
-# Build the spec files
-#
-
-#
 # Build cosmovisor Project
 #
 export DAEMON_NAME="cosmovisor"
 export SYSTEM_VER="1.0.0"
 
-run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" "${DAEMON_NAME}"
+#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" "${DAEMON_NAME}"
 
 #
 # Build Cudos Project
@@ -256,16 +298,16 @@ run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-mainnet
 #
 # Build Osmosis Project
 #
-build_project_from_chain_data osmosis
+#build_project_from_chain_data osmosis
 
-run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-mainnet
-run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-testnet
-run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosisd
+#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-mainnet
+#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-testnet
+#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosisd
 
 #
 # Build Gaia/Cosmos Hub Project
 #
-build_project_from_chain_data cosmoshub
+#build_project_from_chain_data cosmoshub
 
 #
 # Feed the rpm binaries into "Alien" to be converted
@@ -276,7 +318,7 @@ build_project_from_chain_data cosmoshub
 #
 mkdir -p debian
 cd debian
-for FNM in ../buildtmp/RPMS/*/*.rpm
+for FNM in ../RPMS/*/*.rpm
 do
    echo -e "\n\nConverting rpm file $FNM to deb package\n\n"
    DEPS="$( rpm -q --requires $FNM | fgrep -v / | fgrep -v '(' | tr '\n' ',' | sed -e's/,$//' )"
@@ -303,7 +345,7 @@ cd ..
 # These are usesful to store alongside the packages themselves in artifact lists
 # So the content and info can easily be opened in the artifact list and viewed
 #
-for RPMFILE in buildtmp/RPMS/*/*.rpm
+for RPMFILE in RPMS/*/*.rpm
 do
 	rpm -qip $RPMFILE > ${RPMFILE}.txt
 	rpm -qlp $RPMFILE > ${RPMFILE}-lst.txt

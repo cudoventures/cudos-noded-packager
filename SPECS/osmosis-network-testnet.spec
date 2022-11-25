@@ -53,19 +53,19 @@ mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11.0.0
 
 # Install the .osmosisd/config files
-cp -v ${RPM_SOURCE_DIR}/osmosis-network-testnet_config/genesis.json                   ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
-cp -v ${RPM_SOURCE_DIR}/osmosis-network-testnet_config/persistent-peers.config        ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
-cp -v ${RPM_SOURCE_DIR}/osmosis-network-testnet_config/seeds.config                   ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
-cp -v ${RPM_SOURCE_DIR}/osmosis-network-testnet_config/state-sync-rpc-servers.config  ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
-cp -v ${RPM_SOURCE_DIR}/osmosis-network-testnet_config/unconditional-peers.config     ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
-cp -v ${RPM_SOURCE_DIR}/osmosis-network-testnet_config/private-peers.config           ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
+cp -v ${RPM_SOURCE_DIR}/genesis.json                   ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
+cp -v ${RPM_SOURCE_DIR}/persistent-peers.config        ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
+cp -v ${RPM_SOURCE_DIR}/seeds.config                   ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
+cp -v ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config  ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
+cp -v ${RPM_SOURCE_DIR}/unconditional-peers.config     ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
+cp -v ${RPM_SOURCE_DIR}/private-peers.config           ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
 
 cd ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor
 ln -s upgrades/v11.0.0 genesis
 cd -
 
 %clean
-# rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %pre
 getent group osmosis >/dev/null || groupadd -r osmosis || :

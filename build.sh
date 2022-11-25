@@ -18,22 +18,6 @@
 #
 
 #
-# The cudos_version variable needs to be set in the environment
-#
-# It is used to
-# - select the github tags to set when cloning the software
-# - tag the tarball
-# - set in the rpmbuild that creates the binaries
-# - Set as the "version" response in "cudos-noded"
-#
-
-if [ "$cudos_version" = "" ]
-then
-    echo "Error: 'cudos_version' variable unset"
-    exit 1
-fi
-
-#
 # As the correlation between the overall version tag and the tags within the repository
 # has varied over time, and to include the development branches in the build mechanism
 # this CASE is used to fetch the correct githun tags for the version indicated by the
@@ -116,8 +100,10 @@ run_rpmbuild()
      --define "_releasetag ${RLS}" \
      -bs $( pwd )/SPECS/${SPEC_NAME}.spec
   
+  sudo rm -rf buildtmp/BUILD buildtmp/BUILDROOT buildtmp/SOURCES buildtmp/SPECS
+
   rpmbuild \
-     --define "_topdir $( pwd )" \
+     --define "_topdir $( pwd )/buildtmp" \
      --define "_versiontag ${VER}" \
      --define "_releasetag ${RLS}" \
      --define "__brp_check_rpaths %{nil}" \
@@ -134,15 +120,50 @@ create_toml_tarball()
 
   mkdir -p toml-tmp
   cd toml-tmp
-  wget -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/genesis.${FILETAG}.json?raw=true"                  -O genesis.json
-  wget -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/persistent-peers.${FILETAG}.config?raw=true"       -O persistent-peers.config
-  wget -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/seeds.${FILETAG}.config?raw=true"                  -O seeds.config
-  wget -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/state-sync-rpc-servers.${FILETAG}.config?raw=true" -O state-sync-rpc-servers.config
+  wget -4 -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/genesis.${FILETAG}.json?raw=true"                  -O genesis.json
+  wget -4 -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/persistent-peers.${FILETAG}.config?raw=true"       -O persistent-peers.config
+  wget -4 -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/seeds.${FILETAG}.config?raw=true"                  -O seeds.config
+  wget -4 -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/state-sync-rpc-servers.${FILETAG}.config?raw=true" -O state-sync-rpc-servers.config
   touch unconditional-peers.config
   touch private-peers.config
   tar czvf ../SOURCES/toml-config-${NTWK}.tar.gz *
   cd ..
   rm -rf toml-tmp
+}
+
+# define utility to loop through the rpm builds
+build_project_from_chain_data()
+{
+  CHAIN_NAME="$1"
+  TMPFILE=/tmp/build.sh.$$
+
+  curl -4 -s https://raw.githubusercontent.com/cosmos/chain-registry/master/${CHAIN_NAME}/chain.json -o "${TMPFILE}"
+
+  CHAIN_NAME="$( cat $TMPFILE | jq .chain_name | tr -d '"' )"
+  DAEMON_NAME="$( cat $TMPFILE | jq .daemon_name | tr -d '"' )"
+  PRETTY_NAME="$( cat $TMPFILE | jq .pretty_name | tr -d '"' )"
+  SYSTEM_VER="$( cat $TMPFILE | jq .codebase.recommended_version | tr -d '"' )"
+  COMPATIBLE_VERSIONS="$( cat $TMPFILE | jq .codebase.compatible_versions | tr -d '"' | grep '[0-9]' )"
+
+  case "$CHAIN_NAME" in
+    cudos)
+      DAEMON_NAME="cudos-noded"
+      SYSTEM_VER="v1.0.1"
+      COMPATIBLE_VERSIONS="v0.8.0 v0.9.0 v1.0.1 v1.1.0.1"
+      ;;
+    osmosis)
+      SYSTEM_VER="12.3.0"
+      COMPATIBLE_VERSIONS="v11.0.0 v12.3.0 v13.0.0-rc4"
+      ;;
+  esac
+  
+  rm -f "${TMPFILE}"
+
+  run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" ${DAEMON_NAME}
+  for BUILD_VERSION in ${COMPATIBLE_VERSIONS}
+  do
+    run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" ${DAEMON_NAME}-${BUILD_VERSION}
+  done
 }
 
 #
@@ -159,7 +180,7 @@ cd ..
 #
 # Clear out the old RPM binary files and the old BUILDROOT
 #
-rm -rf RPMS BUILDROOT || true
+sudo rm -rf debian RPMS BUILDROOT || true
 
 #
 # BUILD_NUMBER can be inherited from the CI/CD environment and
@@ -183,7 +204,7 @@ cp -v README.md  SOURCES
 cp -v cudos.repo SOURCES
 
 #
-# Create the source tarballs
+# Create the cudos-noded source tarballs
 #
 create_cudos_tarball "0.8.0"
 create_cudos_tarball "0.9.0"
@@ -202,26 +223,38 @@ create_toml_tarball "mainnet"         "mainnet"
 # Build the spec files
 #
 
-COSMOVISOR_VER="1.0.0"
-run_rpmbuild "${COSMOVISOR_VER}" "${BUILD_NUMBER}" cosmovisor
+#
+# Build cosmovisor Project
+#
+export DAEMON_NAME="cosmovisor"
+export SYSTEM_VER="1.0.0"
 
-run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-release
-run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-private-testnet
-run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-public-testnet
-run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-network-mainnet
-run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded
-run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v0.8.0
-run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v0.9.0
-run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v1.0.1
-run_rpmbuild "${cudos_version}" "${BUILD_NUMBER}" cudos-noded-v1.1.0.1
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" "${DAEMON_NAME}"
 
-OSMOSIS_VER="12.3.0"
-run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosis-network-mainnet
-run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosis-network-testnet
-run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd
-run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd-v11.0.0
-run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd-v12.3.0
-run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd-v13.0.0-rc4
+#
+# Build Cudos Project
+#
+
+build_project_from_chain_data cudos
+
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-release
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-private-testnet
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-public-testnet
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-mainnet
+
+#
+# Build Osmosis Project
+#
+build_project_from_chain_data osmosis
+
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-mainnet
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-testnet
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosisd
+
+#
+# Build Gaia/Cosmos Hub Project
+#
+build_project_from_chain_data cosmoshub
 
 #
 # Feed the rpm binaries into "Alien" to be converted
@@ -232,7 +265,7 @@ run_rpmbuild "${OSMOSIS_VER}"   "${BUILD_NUMBER}" osmosisd-v13.0.0-rc4
 #
 mkdir -p debian
 cd debian
-for FNM in ../RPMS/*/*.rpm
+for FNM in ../buildtmp/RPMS/*/*.rpm
 do
    echo -e "\n\nConverting rpm file $FNM to deb package\n\n"
    DEPS="$( rpm -q --requires $FNM | fgrep -v / | fgrep -v '(' | tr '\n' ',' | sed -e's/,$//' )"
@@ -259,7 +292,7 @@ cd ..
 # These are usesful to store alongside the packages themselves in artifact lists
 # So the content and info can easily be opened in the artifact list and viewed
 #
-for RPMFILE in RPMS/*/*.rpm
+for RPMFILE in buildtmp/RPMS/*/*.rpm
 do
 	rpm -qip $RPMFILE > ${RPMFILE}.txt
 	rpm -qlp $RPMFILE > ${RPMFILE}-lst.txt

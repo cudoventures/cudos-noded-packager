@@ -15,45 +15,57 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Runs the Cosmos Node Daemon
-#
 
-Name:         gaiad
+%global       project_title  CosmosHub
+%global       project_url    https://github.com/cosmos/gaia
+%global       project_name   gaia
+
+%global       daemon_name    gaiad
+
+%global       username       gaia
+%global       data_directory .gaia
+
+#####################################################################
+# Do not edit below this line
+
+Name:         %{daemon_name}
 Version:      %{_versiontag}
 Release:      %{_releasetag}%{?dist}
-Summary:      Cosmos Node Common Files
+Summary:      %{project_title} Node Common Files
 
 License:      GPL3
-URL:          https://github.com/cosmos/gaia
-
-Source2:      etc_default_cosmovisor-gaia
+URL:          %{project_url}
 
 Requires:     cosmovisor
 
 %description
-Cosmovisor Node Common Files - gaia
-%pre
-if getent group gaia >/dev/null
-then
-  echo "  Group gaia OK"
-else
-  echo "  Create Group gaia"
-  groupadd -r gaia
-fi
-if getent passwd gaia >/dev/null
-then
-  echo "  User gaia OK"
-else
-  echo "  Create User gaia"
-  useradd -c "Cosmos User" -g gaia -s /bin/bash -r -m -d /var/lib/gaia gaia
-fi
+%{project_title} Node Common Files
+System Version: %{_versiontag}
 
-%package -n gaia-check_mk
-Summary: Cosmos Node Monitoring Agents
-Requires: bc jq
-%description -n gaia-check_mk
-CheckMK check_mk agents for Cosmos Nodes
-%pre -n gaia-check_mk
+project_title:  %{project_title}
+project_url:    %{project_url}
+project_name:   %{project_name}
+
+daemon_name:    %{daemon_name}
+
+username:       %{username}
+data_directory: %{data_directory}
+
+%pre
+if getent group %{username}>/dev/null
+then
+  echo "  Group %{username} OK"
+else
+  echo "  Create Group %{username}"
+  groupadd -r %{username}
+fi
+if getent passwd %{username}>/dev/null
+then
+  echo "  User %{username} OK"
+else
+  echo "  Create User %{username}"
+  useradd -c "Cosmos User" -g %{username} -s /bin/bash -r -m -d /var/lib/%{username} %{username}
+fi
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
@@ -67,18 +79,27 @@ export GOPATH="${RPM_BUILD_DIR}/go"
 echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/gaia/.gaia/config
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/gaia/.gaia/cosmovisor
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/config
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor
 mkdir -p ${RPM_BUILD_ROOT}/usr/bin
 mkdir -p ${RPM_BUILD_ROOT}/etc/default/
 mkdir -p ${RPM_BUILD_ROOT}/etc/profile.d/
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/systemd/system
 
-# Install environment setup files
-cp ${RPM_SOURCE_DIR}/etc_default_cosmovisor-gaia           ${RPM_BUILD_ROOT}/etc/default/cosmovisor
+# Create a daemon environment file from the macro settings
+cat <<EOF >${RPM_BUILD_ROOT}/etc/default/cosmovisor@%{username}
+DAEMON_NAME=%{daemon_name}
+DAEMON_HOME=/var/lib/%{username}/%{data_directory}
+DAEMON_RESTART_AFTER_UPGRADE="true"
+DAEMON_ALLOW_DOWNLOAD_BINARIES="false"
+DAEMON_LOG_BUFFER_SIZE="512"
+UNSAFE_SKIP_BACKUP="true"
+
+DAEMON_LOGLEVEL=info
+EOF
 
 %clean
-# rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %post
 if [ $1 = "1" ]
@@ -88,23 +109,22 @@ else
     echo "  Upgrade: Setting up links"
 fi
 echo "    Refreshing /usr/bin, /lib and /lib64 links"
-rm -f /usr/bin/gaiad /usr/lib/libwasmvm.x86_64.so /lib/libwasmvm.x86_64.so || true
+rm -f /usr/bin/%{daemon_name} /usr/lib/libwasmvm.x86_64.so /lib/libwasmvm.x86_64.so || true
 
-ln -s /var/lib/gaia/.gaia/cosmovisor/current/bin/gaiad /usr/bin/gaiad
-ln -s /var/lib/gaia/.gaia/cosmovisor/current/lib/libwasmvm.x86_64.so /usr/lib/libwasmvm.x86_64.so
-ln -s /var/lib/gaia/.gaia/cosmovisor/current/lib/libwasmvm.x86_64.so /lib/libwasmvm.x86_64.so
+ln -s /var/lib/%{username}/%{data_directory}/cosmovisor/current/bin/%{daemon_name} /usr/bin/%{daemon_name}
+ln -s /var/lib/%{username}/%{data_directory}/cosmovisor/current/lib/libwasmvm.x86_64.so /usr/lib/libwasmvm.x86_64.so
+ln -s /var/lib/%{username}/%{data_directory}/cosmovisor/current/lib/libwasmvm.x86_64.so /lib/libwasmvm.x86_64.so
 
-if [ -d /var/lib/gaia/.gaia/cosmovisor/current ]
+if [ -d /var/lib/%{username}/%{data_directory}/cosmovisor/current ]
 then
   echo "    Cosmovisor 'current' link in place already"
 else
   echo "    Setting Cosmovisor 'current' link to genesis"
-  mkdir -p /var/lib/gaia/.gaia/cosmovisor
-  ln -s /var/lib/gaia/.gaia/cosmovisor/genesis /var/lib/gaia/.gaia/cosmovisor/current
+  mkdir -p /var/lib/%{username}/%{data_directory}/cosmovisor
+  ln -s /var/lib/%{username}/%{data_directory}/cosmovisor/genesis /var/lib/%{username}/%{data_directory}/cosmovisor/current
 fi
 echo "    Chowning the home dir"
-chown -R gaia:gaia /var/lib/gaia
-# find /var/lib/gaia -ls
+chown -R %{username}:%{username} /var/lib/%{username}
 echo "    Reloading systemd config"
 systemctl daemon-reload 
 echo "    Done"
@@ -112,8 +132,8 @@ echo "    Done"
 %files
 %defattr(-,root,root,-)
 /etc/default/*
-%defattr(-,gaia,gaia,-)
-%dir /var/lib/gaia/.gaia/cosmovisor
+%defattr(-,%{username},%{username},-)
+%dir /var/lib/%{username}/%{data_directory}/cosmovisor
 %doc
 
 %changelog

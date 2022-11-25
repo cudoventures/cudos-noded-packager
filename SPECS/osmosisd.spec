@@ -91,7 +91,7 @@ cp ${RPM_SOURCE_DIR}/osmosis-is-node-ready.sh   ${RPM_BUILD_ROOT}/usr/bin/
 chmod 755                                       ${RPM_BUILD_ROOT}/usr/bin/*
 
 # Install environment setup files
-cp ${RPM_SOURCE_DIR}/etc_default_cosmovisor-osmosis           ${RPM_BUILD_ROOT}/etc/default/cosmovisor
+cp ${RPM_SOURCE_DIR}/etc_default_cosmovisor-osmosis           ${RPM_BUILD_ROOT}/etc/default/cosmovisor@osmosis
 
 # Install /usr/bin scripts
 cp ${RPM_SOURCE_DIR}/osmosisd-ctl.sh                ${RPM_BUILD_ROOT}/usr/bin/osmosisd-ctl
@@ -106,9 +106,6 @@ chmod 755                                                ${RPM_BUILD_ROOT}/usr/l
 
 # This script is only needed when there's a chain halt .. so make it 444 until needed
 chmod 444                                                ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/check_osmosis_consensus.sh
-
-%clean
-# rm -rf $RPM_BUILD_ROOT
 
 %post
 if [ $1 = "1" ]
@@ -138,6 +135,9 @@ chown -R osmosis:osmosis /var/lib/osmosis
 echo "    Reloading systemd config"
 systemctl daemon-reload 
 echo "    Done"
+
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)

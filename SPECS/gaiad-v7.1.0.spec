@@ -15,29 +15,59 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Runs the Cosmos Node Daemon
-#
+
+%global project_title  CosmosHub
+%global parent_url     https://github.com/cosmos
+%global project_name   gaia
+
+%global daemon_name    gaiad
+%global daemon_version v7.1.0
+%global upgrade_name   v7.1.0
+%global obsoletes      gaiad-v7.0.0
+
+%global username       gaia
+%global data_directory .gaia
+
+#####################################################################
+# Do not edit below this line
 
 Version:      %{_versiontag}
-Name:         gaiad-v7.1.0
+Name:         %{daemon_name}-%{daemon_version}
 Release:      %{_releasetag}%{?dist}
-Summary:      Cosmos Node Binary Pack for v7.1.0
+Summary:      %{project_title} Node Daemon - Version %{daemon_version}
 
 License:      GPL3
-URL:          https://github.com/cosmos/gaia
+URL:          %{parent_url}/%{project_name}
 
-Requires:     gaiad
+Requires:     %{daemon_name}
 
-Obsoletes:    gaiad-v7.0.0
+Obsoletes:    %{obsoletes}
 
 %description
-Cosmos Node binary and library
+System Version: %{_versiontag}
 
-Installed into the Cosmovisor directories
+project_title:  %{project_title}
+parent_url:     %{parent_url}
+project_name:   %{project_name}
+
+daemon_name:    %{daemon_name}
+daemon_version: %{daemon_version}
+upgrade_name:   %{upgrade_name}
+obsoletes:      %{obsoletes}
+
+username:       %{username}
+data_directory: %{data_directory}
+
+This package contains the files common
+to all versions of the %{project_name}
+node software
+
+NB This package does not contain any
+   genesis or node configuration information
 
 %pre
-getent group gaia >/dev/null || echo "  Create Group gaia" || groupadd -r gaia || :
-getent passwd gaia >/dev/null || echo "  Create User gaia"  useradd -c "Cosmos User" -g gaia -s /bin/bash -r -m -d /var/lib/gaia gaia 2> /dev/null || :
+getent group %{username} >/dev/null || echo "  Create Group %{username}" || groupadd -r %{username} || :
+getent passwd %{username} >/dev/null || echo "  Create User %{username}"  useradd -c "%{project_title} Daemon User" -g %{username} -s /bin/bash -r -m -d /var/lib/%{username} %{username} 2> /dev/null || :
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
@@ -46,30 +76,33 @@ echo -e "\n\n=== prep section ===\n\n"
 echo -e "\n\n=== build section ===\n\n"
 export GOPATH="${RPM_BUILD_DIR}/go"
 
-rm -rf gaia
-git clone https://github.com/cosmos/gaia
-cd gaia
-git checkout v7.1.0
-echo -e "\n\n***** Build Cosmos Daemon *****\n\n"
+rm -rf %{project_name}
+git clone -b %{daemon_version} %{parent_url}/%{project_name}
+cd %{project_name}
+echo -e "\n\n***** Build %{project_title} Daemon *****\n\n"
 make install
-echo -e "\n\n***** Run Cosmos Daemon Self Test *****\n\n"
+echo -e "\n\n***** Run %{project_title} Daemon Self Test *****\n\n"
 make test || true
 
 %install
 echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/gaia/.gaia/cosmovisor/upgrades/v7.1.0/bin
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/gaia/.gaia/cosmovisor/upgrades/v7.1.0/lib/
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/bin
+#mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/lib/
 
 # Install the newly built binaries
-cp -v ${RPM_BUILD_DIR}/gaia/build/gaiad                                                             ${RPM_BUILD_ROOT}/var/lib/gaia/.gaia/cosmovisor/upgrades/v7.1.0/bin/
-cp -v ${RPM_BUILD_DIR}'/go/pkg/mod/github.com/!cosm!wasm/wasmvm@'v*.*.*/internal/api/libwasmvm.x86_64.so  ${RPM_BUILD_ROOT}/var/lib/gaia/.gaia/cosmovisor/upgrades/v7.1.0/lib/
-chmod 644  ${RPM_BUILD_ROOT}/var/lib/gaia/.gaia/cosmovisor/upgrades/v7.1.0/lib/*
+cp -v ${RPM_BUILD_DIR}/go/bin/%{daemon_name} ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/bin/
+
+#cp -v ${RPM_BUILD_DIR}'/go/pkg/mod/github.com/!cosm!wasm/wasmvm@'v*.*.*/internal/api/libwasmvm.x86_64.so  ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/lib/
+#chmod 644  ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/lib/*
+
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,gaia,gaia,-)
-/var/lib/gaia/.gaia/cosmovisor/*
+%defattr(-,%{username},%{username},-)
+/var/lib/%{username}/%{data_directory}/cosmovisor/*
 %doc
 
 %changelog

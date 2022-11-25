@@ -54,6 +54,9 @@ cp ${RPM_SOURCE_DIR}/etc_profiled_cosmovisor.sh ${RPM_BUILD_ROOT}/etc/profile.d/
 # Install systemd service files
 cp ${RPM_SOURCE_DIR}/cosmovisor@.service                         ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
 
+%clean
+rm -rf $RPM_BUILD_ROOT
+
 %files
 %defattr(-,root,root,-)
 /etc/profile.d/cosmovisor.sh

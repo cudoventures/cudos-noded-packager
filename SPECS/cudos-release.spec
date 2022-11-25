@@ -51,6 +51,9 @@ cp ${RPM_SOURCE_DIR}/RPM-GPG-KEY-prtn-cudos    ${RPM_BUILD_ROOT}/etc/pki/rpm-gpg
 # Install Yum repo file
 cp ${RPM_SOURCE_DIR}/cudos.repo ${RPM_BUILD_ROOT}/etc/yum.repos.d
 
+%clean
+rm -rf $RPM_BUILD_ROOT
+
 %files
 %defattr(-,root,root,-)
 /etc/pki/rpm-gpg/*

@@ -49,6 +49,7 @@ Source51:     env.sh-tmpl
 Source52:     config.yml-tmpl
 Source53:     chronocollector-init.sh
 Source54:     chronocollector-linux-amd64.gz
+Source55:     cudos-chronocollector.service
 
 Requires:     cosmovisor
 
@@ -151,7 +152,7 @@ chmod 755                                              ${RPM_BUILD_ROOT}/usr/lib
 # NB The name change to a cosmovisor is deliberate
 #    It ensures only one of the client packages can be installed at any one time
 #
-cp ${RPM_SOURCE_DIR}/etc_default_cosmovisor-cudos      ${RPM_BUILD_ROOT}/etc/default/cosmovisor
+cp ${RPM_SOURCE_DIR}/etc_default_cosmovisor-cudos      ${RPM_BUILD_ROOT}/etc/default/cosmovisor@cudos
 
 cp ${RPM_SOURCE_DIR}/etc_default_cudos-noded           ${RPM_BUILD_ROOT}/etc/default/cudos-noded
 cp ${RPM_SOURCE_DIR}/etc_profiled_cudos-noded.sh       ${RPM_BUILD_ROOT}/etc/profile.d/cudos-noded.sh
@@ -188,7 +189,7 @@ chmod 755                                              ${RPM_BUILD_ROOT}/usr/lib
 chmod 444                                              ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/check_cudos_consensus.sh
 
 %clean
-# rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %post
 if [ $1 = "1" ]

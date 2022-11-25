@@ -132,6 +132,17 @@ create_toml_tarball()
 }
 
 # define utility to loop through the rpm builds
+#
+# NB The chain data files sometimes use "v1.2.3" and sometime just "1.2.3"
+# so this function needs to remove and then if needed re-add the v to make sure it is
+# consistent
+#
+# NB rpm packaging cannot have a "-" in the version so "-rc" versions cannot be done this way
+# although it is acceptable in a package name of course so the binary package names can be like
+#   cudos-noded-v1.2.3-rc4 
+# but not
+#   cudos-noded-v1.2.3-rc4 version 1.2.3-rc4
+#
 build_project_from_chain_data()
 {
   CHAIN_NAME="$1"
@@ -149,11 +160,11 @@ build_project_from_chain_data()
     cudos)
       DAEMON_NAME="cudos-noded"
       SYSTEM_VER="1.0.1"
-      COMPATIBLE_VERSIONS="v0.8.0 v0.9.0 v1.0.1 v1.1.0.1"
+      COMPATIBLE_VERSIONS="0.8.0 0.9.0 1.0.1 1.1.0.1"
       ;;
     osmosis)
       SYSTEM_VER="12.3.0"
-      COMPATIBLE_VERSIONS="v11.0.0 v12.3.0 v13.0.0-rc4"
+      COMPATIBLE_VERSIONS="11.0.0 12.3.0 13.0.0-rc4"
       ;;
   esac
   
@@ -162,7 +173,7 @@ build_project_from_chain_data()
   run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" ${DAEMON_NAME}
   for BUILD_VERSION in ${COMPATIBLE_VERSIONS}
   do
-    run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" ${DAEMON_NAME}-${BUILD_VERSION}
+    run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" ${DAEMON_NAME}-v${BUILD_VERSION}
   done
 }
 

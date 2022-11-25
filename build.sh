@@ -148,7 +148,7 @@ build_project_from_chain_data()
   case "$CHAIN_NAME" in
     cudos)
       DAEMON_NAME="cudos-noded"
-      SYSTEM_VER="v1.0.1"
+      SYSTEM_VER="1.0.1"
       COMPATIBLE_VERSIONS="v0.8.0 v0.9.0 v1.0.1 v1.1.0.1"
       ;;
     osmosis)

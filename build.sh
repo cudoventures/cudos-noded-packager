@@ -282,7 +282,7 @@ create_toml_tarball "mainnet"         "mainnet"
 export DAEMON_NAME="cosmovisor"
 export SYSTEM_VER="1.0.0"
 
-#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" "${DAEMON_NAME}"
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" "${DAEMON_NAME}"
 
 #
 # Build Cudos Project
@@ -298,16 +298,16 @@ run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-mainnet
 #
 # Build Osmosis Project
 #
-#build_project_from_chain_data osmosis
+build_project_from_chain_data osmosis
 
-#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-mainnet
-#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-testnet
-#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosisd
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-mainnet
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-testnet
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosisd
 
 #
 # Build Gaia/Cosmos Hub Project
 #
-#build_project_from_chain_data cosmoshub
+build_project_from_chain_data cosmoshub
 
 #
 # Feed the rpm binaries into "Alien" to be converted

@@ -70,7 +70,7 @@ ln -s /var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.8 genesis
 cd -
 
 %clean
-# rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %post
 if [ $1 = "1" ]

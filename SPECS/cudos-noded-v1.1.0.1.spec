@@ -16,58 +16,94 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-Name:         cudos-noded-v1.1.0.1
+%global project_title  Cudos
+%global parent_url     https://github.com/CudoVentures
+%global project_name   cudos-node
+
+%global daemon_name    cudos-noded
+%global daemon_version v1.1.0.1
+%global upgrade_name   v1.1
+%global obsoletes      cudos-noded-v1.1.0.0
+
+%global username       cudos
+%global data_directory cudos-data
+
+#####################################################################
+# Do not edit below this line
+
+Name:         %{daemon_name}-%{daemon_version}
 Version:      %{_versiontag}
 Release:      %{_releasetag}%{?dist}
-Summary:      Cudos Node v1.1.0.1 Binary Pack for System version %{version}
+Summary:      %{project_title} Node %{daemon_version} Binary Pack for System version %{version}
 
 License:      GPL3
-URL:          https://github.com/CudoVentures/cudos-node           
-Source0:      cudos-noded-1.1.0.1.tar.gz
+URL:          %{parent_url}/%{project_name}
 
-Requires:     cudos-noded
+Requires:     %{daemon_name}
 Requires:     cosmovisor
 
 Provides:     libwasmvm.so()(64bit)
 
-%description
-Cudos Node binary and library
-Installed into the Cosmovisor directories
+Obsoletes:    %{obsoletes}
 
+%description
+System Version: %{_versiontag}
+
+project_title:  %{project_title}
+parent_url:     %{parent_url}
+project_name:   %{project_name}
+
+daemon_name:    %{daemon_name}
+daemon_version: %{daemon_version}
+upgrade_name:   %{upgrade_name}
+obsoletes:      %{obsoletes}
+
+username:       %{username}
+data_directory: %{data_directory}
+
+This package contains the files common
+to all versions of the %{project_name}
+node software
+
+NB This package does not contain any
+   genesis or node configuration information
+   
 %pre
-getent group cudos >/dev/null || echo "  Create Group cudos" || groupadd -r cudos || :
-getent passwd cudos >/dev/null || echo "  Create User cudos" || useradd -c "Cudos User" -g cudos -s /bin/bash -r -m -d /var/lib/cudos cudos 2> /dev/null || :
+getent group %{username} >/dev/null || echo "  Create Group %{username}" || groupadd -r %{username} || :
+getent passwd %{username} >/dev/null || echo "  Create User %{username}" || useradd -c "%{project_title} User" -g %{username} -s /bin/bash -r -m -d /var/lib/%{username} %{username} 2> /dev/null || :
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
-# Unpack tarball
-rm -rf CudosNode CudosBuilders CudosGravityBridge
-tar xzf %{SOURCE0}
+rm -rf %{project_name}
+git clone -b %{daemon_version} %{parent_url}/%{project_name}
 
 %build
 echo -e "\n\n=== build section ===\n\n"
 export GOPATH="${RPM_BUILD_DIR}/go"
-cd CudosNode
-make
+cd %{project_name}
+echo -e "\n\n***** Build %{project_title} Daemon *****\n\n"
+make install
+echo -e "\n\n***** Run %{project_title} Daemon Self Test *****\n\n"
+make test || true
 
 %install
 echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.1/bin/
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.1/lib/
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/bin/
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/lib/
 
 # Install the newly built binaries
-cp -v ${RPM_BUILD_DIR}/go/bin/cudos-noded                                           ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.1/bin/cudos-noded
-cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm*.so ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.1/lib/
-chmod 644                                                                           ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v1.1/lib/*.so
+cp -v ${RPM_BUILD_DIR}/go/bin/%{daemon_name}                                        ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/bin/
+cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm*.so ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/lib/
+chmod 644                                                                           ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/lib/*.so
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,cudos,cudos,-)
-/var/lib/cudos/cudos-data/cosmovisor/*
+%defattr(-,%{username},%{username},-)
+/var/lib/%{username}/%{data_directory}/cosmovisor/*
 %doc
 
 %changelog

@@ -41,6 +41,9 @@ cd ibc-rs
 git checkout v%{version}
 cargo build --release --bin hermes
 
+%clean
+rm -rf $RPM_BUILD_ROOT
+
 %install
 echo -e "\n\n=== install section ===\n\n"
 

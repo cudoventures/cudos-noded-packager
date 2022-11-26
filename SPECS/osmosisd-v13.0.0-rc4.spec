@@ -26,8 +26,8 @@ Summary:      Osmosis Node Binary Pack for v13.0.0-rc4
 License:      GPL3
 URL:          https://github.com/osmosis-labs/osmosis
 
+Provides:     libwasmvm.x86_64.so()(64bit)
 Requires:     osmosisd
-
 Obsoletes:    osmosisd-v13.0.0-rc3
 
 %description
@@ -66,6 +66,9 @@ mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v13/lib
 cp -v ${RPM_BUILD_DIR}/osmosis/build/osmosisd                                                             ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v13/bin/
 cp -v ${RPM_BUILD_DIR}'/go/pkg/mod/github.com/!cosm!wasm/wasmvm@v1.1.1/internal/api/libwasmvm.x86_64.so'  ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v13/lib/
 chmod 644  ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v13/lib/*
+
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,osmosis,osmosis,-)

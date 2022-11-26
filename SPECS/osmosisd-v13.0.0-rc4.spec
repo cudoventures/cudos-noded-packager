@@ -26,8 +26,8 @@ Summary:      Osmosis Node Binary Pack for v13.0.0-rc4
 License:      GPL3
 URL:          https://github.com/osmosis-labs/osmosis
 
+Provides:     libwasmvm.so()(64bit)
 Requires:     osmosisd
-
 Obsoletes:    osmosisd-v13.0.0-rc3
 
 %description

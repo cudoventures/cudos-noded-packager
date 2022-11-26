@@ -69,7 +69,7 @@ EOF
 fi
 
 # Update the rpm repo files
-/usr/bin/createrepo --verbose --deltas .
+/usr/bin/createrepo --update --verbose --deltas .
 
 #
 # DEBS

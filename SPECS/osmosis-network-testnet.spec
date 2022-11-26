@@ -50,7 +50,7 @@ echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11.0.0
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11
 
 # Install the .osmosisd/config files
 cp -v ${RPM_SOURCE_DIR}/genesis.json                   ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
@@ -61,7 +61,7 @@ cp -v ${RPM_SOURCE_DIR}/unconditional-peers.config     ${RPM_BUILD_ROOT}/var/lib
 cp -v ${RPM_SOURCE_DIR}/private-peers.config           ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
 
 cd ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor
-ln -s upgrades/v11.0.0 genesis
+ln -s /var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11 genesis
 cd -
 
 %clean

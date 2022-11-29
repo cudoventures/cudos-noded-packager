@@ -94,7 +94,7 @@ mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgr
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/lib/
 
 # Additional symlink for v0.9.0
-ln -s /var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name} /var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/v0.9.0
+ln -s /var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name} ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/v0.9.0
 
 # Install the newly built binaries
 cp -v ${RPM_BUILD_DIR}/go/bin/%{daemon_name}                                        ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/bin/

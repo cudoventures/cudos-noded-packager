@@ -48,8 +48,10 @@ tar -C ${RPM_SOURCE_DIR} -xzf ${RPM_SOURCE_DIR}/osmosis-network-mainnet_config.t
 echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
+mkdir -p ${RPM_BUILD_ROOT}/etc/default
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v12
 
 # Install the .osmosisd/config files
 cp -v ${RPM_SOURCE_DIR}/genesis.json                   ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
@@ -59,9 +61,11 @@ cp -v ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config  ${RPM_BUILD_ROOT}/var/lib
 cp -v ${RPM_SOURCE_DIR}/unconditional-peers.config     ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
 cp -v ${RPM_SOURCE_DIR}/private-peers.config           ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/
 
-cd ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor
-ln -s /var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11 genesis
-cd -
+# Create genesis link to the chains genesis version
+ln -s /var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11 ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/genesis
+
+# Create /etc/default link for cosmovisor
+ln -s cosmovisor@osmosis ${RPM_BUILD_ROOT}/etc/default/cosmovisor 
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -71,6 +75,7 @@ getent group osmosis >/dev/null || groupadd -r osmosis || :
 getent passwd osmosis >/dev/null || useradd -c "Osmosis User" -g osmosis -s /bin/bash -r -m -d /var/lib/osmosis osmosis 2> /dev/null || :
 
 %files
+%attr(-, root, root) /etc/default/*
 %defattr(-,osmosis,osmosis,-)
 %dir /var/lib/osmosis/.osmosisd
 %dir /var/lib/osmosis/.osmosisd/config

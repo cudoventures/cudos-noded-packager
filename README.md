@@ -80,25 +80,25 @@ Known Working:
 For Private Testnet
 ```bash
 dnf install -y yum-utils
-dnf install http://jenkins.gcp.service.cudo.org/cudos/cudos-prtn/cudos-release.rpm
+dnf install -y http://jenkins.gcp.service.cudo.org/cudos/cudos-prtn/cudos-release.rpm
 yum-config-manager --enable cudos-prtn
-dnf install cudos-network-private-testnet
+dnf install -y cudos-network-private-testnet
 ```
 
 For Public Testnet
 ```bash
 dnf install -y yum-utils
-dnf install http://jenkins.gcp.service.cudo.org/cudos/cudos-testnet/cudos-release.rpm
+dnf install -y http://jenkins.gcp.service.cudo.org/cudos/cudos-testnet/cudos-release.rpm
 yum-config-manager --enable cudos-testnet
-dnf install cudos-network-public-testnet
+dnf install -y cudos-network-public-testnet
 ```
 
 For Mainnet
 ```bash
 dnf install -y yum-utils
-dnf install http://jenkins.gcp.service.cudo.org/cudos/cudos-mainnet/cudos-release.rpm
+dnf install -y http://jenkins.gcp.service.cudo.org/cudos/cudos-mainnet/cudos-release.rpm
 yum-config-manager --enable cudos-mainnet
-dnf install cudos-network-mainnet
+dnf install -y cudos-network-mainnet
 ```
 
 #### Debian Family

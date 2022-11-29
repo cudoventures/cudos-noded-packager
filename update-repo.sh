@@ -68,6 +68,11 @@ EOF
   rpmsign --addsign `cat ${RPMLISTFILE}`
 fi
 
+# Replace the "cudos-release" rpm link
+RLSFILE="$( find RPMS -name "cudos-release*rpm" | sort | tail -1 )"
+rm -f cudos-release.rpm
+ln -s "$RLSFILE" cudos-release.rpm
+
 # Update the rpm repo files
 /usr/bin/createrepo --update --verbose --deltas .
 

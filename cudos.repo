@@ -1,14 +1,16 @@
 [cudos-mainnet]
 name=Cudo Cudos Mainnet Packages
 baseurl=http://jenkins.gcp.service.cudo.org/cudos/cudos-mainnet
-gpgcheck=0
 enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-jenkins-cudos
 
 [cudos-testnet]
 name=Cudo Cudos Public Testnet Packages
 baseurl=http://jenkins.gcp.service.cudo.org/cudos/cudos-testnet
-gpgcheck=0
 enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-jenkins-cudos
 
 [cudos-prtn]
 name=Cudo Cudos Private Testnet Packages

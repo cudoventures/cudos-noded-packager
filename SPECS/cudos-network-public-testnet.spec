@@ -79,6 +79,7 @@ else
 fi
 
 %files
+%attr(-, root, root) /etc/default/*
 %defattr(-,cudos,cudos,-)
 %dir /var/lib/cudos/cudos-data
 %dir /var/lib/cudos/cudos-data/config

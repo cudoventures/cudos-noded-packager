@@ -75,6 +75,7 @@ getent group osmosis >/dev/null || groupadd -r osmosis || :
 getent passwd osmosis >/dev/null || useradd -c "Osmosis User" -g osmosis -s /bin/bash -r -m -d /var/lib/osmosis osmosis 2> /dev/null || :
 
 %files
+%attr(-, root, root) /etc/default/*
 %defattr(-,osmosis,osmosis,-)
 %dir /var/lib/osmosis/.osmosisd
 %dir /var/lib/osmosis/.osmosisd/config

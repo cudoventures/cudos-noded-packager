@@ -61,9 +61,11 @@ cp -v ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config  ${RPM_BUILD_ROOT}/var/lib
 cp -v ${RPM_SOURCE_DIR}/unconditional-peers.config     ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
 cp -v ${RPM_SOURCE_DIR}/private-peers.config           ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/config/
 
-cd ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor
-ln -s /var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.9 genesis
-cd -
+# Create genesis link to the chains genesis version
+ln -s /var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.8 ${RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/genesis
+
+# Create /etc/default link for cosmovisor
+ln -s cosmovisor@cudos ${RPM_BUILD_ROOT}/etc/default/cosmovisor 
 
 %clean
 rm -rf $RPM_BUILD_ROOT

@@ -96,6 +96,9 @@ mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgr
 # Additional symlink for v0.9.0
 ln -s /var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name} ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/v0.9.0
 
+# Allow both the "v0.9.0" and "v0.9" upgrades to use the same upgrade directory
+ln -s v0.9 {RPM_BUILD_ROOT}/var/lib/cudos/cudos-data/cosmovisor/upgrades/v0.9.0
+
 # Install the newly built binaries
 cp -v ${RPM_BUILD_DIR}/go/bin/%{daemon_name}                                        ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/bin/
 cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm*.so ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/lib/

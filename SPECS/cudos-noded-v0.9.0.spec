@@ -93,6 +93,9 @@ echo -e "\n\n=== install section ===\n\n"
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/bin/
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/lib/
 
+# Additional symlink for v0.9.0
+ln -s /var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name} /var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/v0.9.0
+
 # Install the newly built binaries
 cp -v ${RPM_BUILD_DIR}/go/bin/%{daemon_name}                                        ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/bin/
 cp -v ${RPM_BUILD_DIR}/go/pkg/mod/github.com/'!cosm!wasm'/wasmvm*/api/libwasmvm*.so ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/lib/

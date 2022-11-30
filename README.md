@@ -75,7 +75,7 @@ If you run the command "**sudo -i**", assuming you have permissions to do so, yo
 
 Known Working:
 - RHEL/CentOS/EL 7 & 8
-- Fedora 34 & 35
+- Fedora 34, 35 & 36
 
 For Private Testnet
 ```bash

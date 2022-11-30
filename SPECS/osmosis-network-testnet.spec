@@ -32,7 +32,7 @@ Requires:     cosmovisor
 Requires:     osmosisd
 Requires:     osmosisd-v11.0.0
 Requires:     osmosisd-v12.3.0
-Requires:     osmosisd-v13.0.0-rc4
+Requires:     osmosisd-v13.0.0-rc5
 Requires:     cudos-p2p-scan
 Requires:     cudos-gex
 
@@ -53,7 +53,7 @@ mkdir -p ${RPM_BUILD_ROOT}/etc/default
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v12
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v13
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v13_testnet_rc5
 
 # Install the .osmosisd/config files
 cp -v ${RPM_SOURCE_DIR}/genesis.json                   ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/

@@ -74,7 +74,7 @@ If you run the command "**sudo -i**", assuming you have permissions to do so, yo
 #### Red Hat family
 
 Known Working:
-- RHEL/CentOS/EL 8
+- RHEL/CentOS/EL 7 & 8
 - Fedora 34 & 35
 
 For Private Testnet
@@ -104,8 +104,8 @@ dnf install -y cudos-network-mainnet
 #### Debian Family
 
 Known Working:
-- Debian 10
-- Ubuntu 20.04
+- Debian 10 & 11
+- Ubuntu 20.04 & 22.04
 
 For Private Testnet
 ```bash

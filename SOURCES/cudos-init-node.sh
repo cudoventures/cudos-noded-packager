@@ -180,9 +180,13 @@ done
 #
 if [[ "$RUN_MODE" = "init" || "$RUN_MODE" = "reinit" ]]
 then
+    echo "Info: Stashing the genesis file"
     TMPFN="${CUDOS_HOME}/config/genesis.json-$$"
     mv -f "$CUDOS_HOME"/config/genesis.json "$TMPFN"
 
+    echo "Info: Clearing node database with 'cudos-noded unsafe-reset-all'"
+    cudos-noded unsafe-reset-all
+    
     echo "Info: Initialising node with 'cudos-noded init $HOSTNAME'"
     cudos-noded init "$HOSTNAME" 2>/tmp/genesis.$$.json
     if [[ $? -ne 0 ]]
@@ -193,6 +197,7 @@ then
         exit 1
     fi
 
+    echo "Info: Restoring the genesis file"
     mv -f "$TMPFN" "$CUDOS_HOME"/config/genesis.json
 fi
 

@@ -74,7 +74,7 @@ rm -f cudos-release.rpm
 ln -s "$RLSFILE" cudos-release.rpm
 
 # Update the rpm repo files
-/usr/bin/createrepo --update --verbose --deltas .
+/usr/bin/createrepo --update --verbose --deltas . || true
 
 #
 # DEBS

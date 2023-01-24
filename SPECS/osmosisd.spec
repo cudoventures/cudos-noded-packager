@@ -79,7 +79,6 @@ mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor
 mkdir -p ${RPM_BUILD_ROOT}/usr/bin
 mkdir -p ${RPM_BUILD_ROOT}/etc/default/
-mkdir -p ${RPM_BUILD_ROOT}/etc/profile.d/
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/systemd/system
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib64/nagios/plugins/
@@ -141,7 +140,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-/etc/default/*
+%config(noreplace) /etc/default/cosmovisor@osmosis
 /usr/bin/osmosisd-ctl
 /usr/bin/osmosis-init-node.sh
 %defattr(-,osmosis,osmosis,-)

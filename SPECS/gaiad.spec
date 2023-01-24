@@ -83,7 +83,6 @@ mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/config
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor
 mkdir -p ${RPM_BUILD_ROOT}/usr/bin
 mkdir -p ${RPM_BUILD_ROOT}/etc/default/
-mkdir -p ${RPM_BUILD_ROOT}/etc/profile.d/
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/systemd/system
 
 # Create a daemon environment file from the macro settings
@@ -131,7 +130,7 @@ echo "    Done"
 
 %files
 %defattr(-,root,root,-)
-/etc/default/*
+%config(noreplace) /etc/default/cosmovisor@%{username}
 %defattr(-,%{username},%{username},-)
 %dir /var/lib/%{username}/%{data_directory}/cosmovisor
 %doc

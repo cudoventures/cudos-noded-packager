@@ -80,7 +80,7 @@ else
 fi
 
 %files
-%attr(-, root, root) /etc/default/*
+%attr(-, root, root) %config(noreplace) /etc/default/cosmovisor
 %defattr(-,cudos,cudos,-)
 %dir /var/lib/cudos/cudos-data
 %dir /var/lib/cudos/cudos-data/config

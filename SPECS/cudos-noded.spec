@@ -228,8 +228,9 @@ echo "    Done"
 
 %files
 %defattr(-,root,root,-)
-/etc/default/*
-/etc/profile.d/*
+%config(noreplace) /etc/default/cosmovisor@cudos
+%config(noreplace) /etc/default/cudos-noded
+%config(noreplace) /etc/profile.d/cudos-noded.sh
 /usr/bin/cudos-noded-ctl
 /usr/bin/docker-migrate
 /usr/bin/cudos-init-node.sh

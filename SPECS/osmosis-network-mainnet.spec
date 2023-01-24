@@ -49,6 +49,7 @@ echo -e "\n\n=== install section ===\n\n"
 
 # Make the fixed directory structure
 mkdir -p ${RPM_BUILD_ROOT}/etc/default
+mkdir -p ${RPM_BUILD_ROOT}/etc/default/cosmovisor@osmosis
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v12
@@ -75,7 +76,7 @@ getent group osmosis >/dev/null || groupadd -r osmosis || :
 getent passwd osmosis >/dev/null || useradd -c "Osmosis User" -g osmosis -s /bin/bash -r -m -d /var/lib/osmosis osmosis 2> /dev/null || :
 
 %files
-%attr(-, root, root) /etc/default/*
+%attr(-, root, root) %config(noreplace) /etc/default/cosmovisor
 %defattr(-,osmosis,osmosis,-)
 %dir /var/lib/osmosis/.osmosisd
 %dir /var/lib/osmosis/.osmosisd/config

@@ -30,8 +30,8 @@ Source0:      osmosis-network-mainnet_config.tar.gz
 
 Requires:     cosmovisor
 Requires:     osmosisd
-Requires:     osmosisd-v11.0.0
 Requires:     osmosisd-v12.3.0
+Requires:     osmosisd-v14.0.0
 Requires:     cudos-p2p-scan
 Requires:     cudos-gex
 
@@ -51,8 +51,8 @@ echo -e "\n\n=== install section ===\n\n"
 mkdir -p ${RPM_BUILD_ROOT}/etc/default
 mkdir -p ${RPM_BUILD_ROOT}/etc/default/cosmovisor@osmosis
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config
-mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v11
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v12
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v14
 
 # Install the .osmosisd/config files
 cp -v ${RPM_SOURCE_DIR}/genesis.json                   ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config/

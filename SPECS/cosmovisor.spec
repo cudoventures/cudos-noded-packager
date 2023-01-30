@@ -19,7 +19,7 @@
 #
 
 Name:         cosmovisor
-Version:      1.0.0
+Version:      %{_versiontag}
 Release:      %{_releasetag}%{?dist}
 Summary:      Osmosis Node Common Files
 

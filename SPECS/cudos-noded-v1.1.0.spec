@@ -21,9 +21,9 @@
 %global project_name   cudos-node
 
 %global daemon_name    cudos-noded
-%global daemon_version v1.1.0.1
+%global daemon_version v1.1.0
 %global upgrade_name   v1.1
-%global obsoletes      cudos-noded-v1.1.0.0
+%global obsoletes      cudos-noded-v1.1.0.1
 
 %global username       cudos
 %global data_directory cudos-data

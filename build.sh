@@ -205,7 +205,7 @@ build_project_from_chain_data()
       ;;
     osmosis)
       SYSTEM_VER="12.3.0"
-      COMPATIBLE_VERSIONS="11.0.0 12.3.0 13.0.0-rc5 14.0.0"
+      COMPATIBLE_VERSIONS="11.0.0 12.3.0 13.0.0-rc5"
       ;;
   esac
   

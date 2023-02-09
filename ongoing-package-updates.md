@@ -60,7 +60,24 @@ dpkg -l "*cudo*" "*osmo*"
 which should look somethig like
 
 ```
-
+root@cudos-validator-node-02:~# dpkg -l "*cudo*" "*osmo*"
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                         Version       Architecture Description
++++-============================-=============-============-======================================================
+ii  cosmovisor                   1.0.0-104.el8 amd64        Osmosis Node Common Files
+ii  cudos-gex                    1.1.0-104.el8 amd64        Gex - Cosmos Node Monitor App
+ii  cudos-monitoring             1.1.0-104.el8 amd64        Cudos Node Monitoring Agents
+ii  cudos-network-public-testnet 1.1.0-104.el8 amd64        Cudos Public Testnet Network Definition Files
+ii  cudos-noded                  1.1.0-104.el8 amd64        Cosmovisor Node Client Files - cudos
+un  cudos-noded-v0.0.0           <none>        <none>       (no description available)
+ii  cudos-noded-v0.9.0           1.1.0-104.el8 amd64        Cudos Node v0.9.0 Binary Pack for System version 1.1.0
+un  cudos-noded-v1.0.0           <none>        <none>       (no description available)
+ii  cudos-noded-v1.0.1           1.1.0-104.el8 amd64        Cudos Node v1.0.1 Binary Pack for System version 1.1.0
+ii  cudos-noded-v1.1.0           1.1.0-104.el8 amd64        Cudos Node v1.1.0 Binary Pack for System version 1.1.0
+un  cudos-noded-v1.1.0.1         <none>        <none>       (no description available)
+ii  cudos-p2p-scan               1.1.0-104.el8 amd64        cudos-p2p-scan
 ```
 
 Note that the packages are all (in this case) package build number 104
@@ -74,7 +91,17 @@ rpm -qa "*cudo*" "*osmo*"
 which should look somethig like
 
 ```
-
+[root@validator ~]# rpm -qa "*cudo*" "*osmo*"
+cudos-noded-v1.1.0-1.1.0-104.el8.x86_64
+cudos-gex-1.1.0-104.el8.x86_64
+cudos-noded-1.1.0-104.el8.x86_64
+cudos-noded-v1.0.1-1.1.0-104.el8.x86_64
+cudos-release-1.1.0-104.el8.noarch
+cosmovisor-1.0.0-104.el8.x86_64
+cudos-noded-v0.9.0-1.1.0-104.el8.x86_64
+cudos-monitoring-1.1.0-104.el8.x86_64
+cudos-network-public-testnet-1.1.0-104.el8.x86_64
+cudos-p2p-scan-1.1.0-104.el8.x86_64
 ```
 
 Note that the packages are all (in this case) package build number 104

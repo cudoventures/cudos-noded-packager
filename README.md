@@ -427,15 +427,7 @@ for that node will become visible.
 The cudos-noded daemon produces a considerable number of strategic metrics, which can be harvested
 and sent to prometheus/Chronosphere front-ends using this package.
 
-# Status
-
-**Please be aware that none of the above is currently supported by Cudo Ventures in any way and is
-offered purely as a "Proof of Concept" and a working demonstration of a possible alternative way
-of installing Cudos Nodes in the future.**
-
-2022-11-12 Update: However, it is entering the final stages of QA and testing and will be released soon.
-
-## Notes
+# Notes
 
 The binary packages are produced by the scripting in this git repository, directly from
 the code in the original git repositories and published on a "Proof of Concept" basis
@@ -444,11 +436,6 @@ for public download from yum/apt repositories.
 The correct mix of package names and versions can be set up on a target machine by installing a `Cudos Network
 Pack`, which is another rpm/deb package that contains the relevant genesis
 and node address files for the given network, along with the relevant Cosmovisor config files.
-
-Every Cudos Node major version has its own yum/apt repository to maintain separation while
-still allowing security and utility upgrades to older versions, although with the adoption
-of the Cosmovisor tool this is going to change in the near future. In the future the different
-networks and versions will be handled by the "cudos-network-???" packages.
 
 In order to allow easier integration of the various components the directory locations
 for the daemon have been fixed and should remain at those locations. The `$CUDOS_HOME` variable
@@ -465,8 +452,5 @@ the software packages and operations involving systemctl. It is advised that all
 operations are performed as either user `cudos` or as another non-priviledged user and specifically *not* as `root`. Doing 
 so would leave files in the `$CUDOS_HOME` area that the user running the daemon (`cudos`)
 cannot update.
-
-Please be aware that this code and the repo service is being offered on a "Proof of Concept" basis,
-although it is now being considered as the production method for the future.
 
 Please see [License](LICENSE) for the license conditions under which this software is released. 

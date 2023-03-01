@@ -8,7 +8,7 @@ This document explains the change and lays out a simple process that can be used
 
 NB This change and this document only applies to the Cudos Public Testnet.
 
-NB This change does not apply to custom configurations, including clustered validators and their seeds and sentries.
+NB This change does affect custom configurations, including clustered validators and their seeds and sentries, however, they will need a custom update. If any assistance is required, please raise a Discord ticket.
 
 ## What is changing
 

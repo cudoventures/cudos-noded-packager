@@ -8,6 +8,8 @@ This document explains the change and lays out a simple process that can be used
 
 NB This change and this document only applies to the Cudos Public Testnet.
 
+NB This change does not apply to custom configurations, including clustered validators and their seeds and sentries.
+
 ## What is changing
 
 Since the earliest deays of the Cudos Public Testnet the public seeds have not changed. However, we are now rebuilding the infrastructure for this network on our own hardware. One of the consequences of this change is that the addresses used to connect a Cudos node to the 3 seed nodes have changed. This will require the config.toml file that is used to configure nodes on pulic testnet to have the new node addresses in the "seeds =" variable.

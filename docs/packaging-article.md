@@ -12,7 +12,7 @@ One of the key strategic reasons for using the Cosmos and WASM toolkits to build
 
 ## Why Packaging
 
-One of the key attractions of the Cosmos blockchain daemon family is that nodes can communicate with each other across different chains and pass tokens around seamlessly in encapsulations, and maybe switch them for other tokens through liquidity pools, with novel uses and new specialisations popping up all the time; while still allowing the different Cosmos based blockchains to focus on their own particular reason for being by crreating novel functions that can naturally integrate with everyone else.
+One of the key attractions of the Cosmos blockchain daemon family is that nodes can communicate with each other across different chains and pass tokens around seamlessly in encapsulations, and maybe switch them for other tokens through liquidity pools, with novel uses and new specialisations popping up all the time; while still allowing the different Cosmos based blockchains to focus on their own particular reason for being by creating novel functions that can naturally integrate with everyone else.
 
 However, in order for this to be realised on the ground, the various software components of this ecosystem must remain up and running, and up to date with chain upgrades and operating system software changes.
 
@@ -46,5 +46,5 @@ Another single command will create and set up the daemon's configuration files. 
 
 ## Binary Packages vs Build from Source
 
-There is a strong tradition among blockchain operators of building all blockchain nodes from scratch for every installation and upgrading by, again, building the new version from source. However, the Cudo packages are fully open, along with the scripts used to build the packages. If the operator likes the sound of this approach, but still wants to build their own, there is absolutley nothing form stopping them from building the package set themselves and serving it to their own machines using their own web server. Even the process of signing and indexing the packages is scripted and the script published in the GitHub repository along with the rest of the the packaging code.
+There is a strong tradition among blockchain operators of building all blockchain nodes from scratch for every installation and upgrading by, again, building the new version from source. However, the Cudo packages are fully open, along with the scripts used to build the packages. If the operator likes the sound of this approach, but still wants to build their own, there is absolutley nothing from stopping them from building the package set themselves and serving it to their own machines using their own web server. Even the process of signing and indexing the packages is scripted and the script published in the GitHub repository along with the rest of the the packaging code.
 

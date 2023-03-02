@@ -48,3 +48,30 @@ Another single command will create and set up the daemon's configuration files. 
 
 There is a strong tradition among blockchain operators of building all blockchain nodes from scratch for every installation and upgrading by, again, building the new version from source. However, the Cudo packages are fully open, along with the scripts used to build the packages. If the operator likes the sound of this approach, but still wants to build their own, there is absolutley nothing from stopping them from building the package set themselves and serving it to their own machines using their own web server. Even the process of signing and indexing the packages is scripted and the script published in the GitHub repository along with the rest of the the packaging code.
 
+## Going Forward
+
+The decision to fix down the locations of config files and directories in the node's operating system was not an end in itself, but was done to make it easier to write tools and utilities for the node. No longer will there need to be a suite of environment settings in place before the tools will work. It is p0lanned to write a number of utilities for node operators.
+
+Including
+
+### Node Switching Tool
+
+This tool has been requested by node operators and will hopefully be released soon. It is intended to be used to switch the personality of two nodes. This is of particular utility for validator operators, so they can move their active validator quickly to another host. The new host will need to have been a fully synced node on the same chain. The switch is intended to be quick enough to use on a live validator without losing more than one or two blocks.
+
+Once complete, tested and released, it will be included with the standard package set.
+
+### Enhanced node setup tool with Snapshot Download
+
+The cudos-init-node.sh tool has been around for a while and is the main utility used for setting up the node's configuration. It does not however include the provision to download and install a snapshot. This enhancement will fold in that functionality so in one command the node operator can:
+- Configure the node as a seed, sentry, full node or clustered node
+- Download the snapshot for that chain
+- Unpack the snapshot into place
+- Start the node
+
+Once complete, tested and released, it will be included with the standard package set.
+
+## Help and Features
+
+We hope this article has been of use and interest. If there are any node operator features you would like to see, do please contact us and we will most certqainly consider it.
+
+If you hit problems while using any of the processes described here, we are available on Discord for all of your support needs.

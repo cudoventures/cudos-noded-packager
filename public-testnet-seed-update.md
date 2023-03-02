@@ -12,7 +12,7 @@ NB This change does affect custom configurations, including clustered validators
 
 ## What is changing
 
-Since the earliest deays of the Cudos Public Testnet the public seeds have not changed. However, we are now rebuilding the infrastructure for this network on our own hardware. One of the consequences of this change is that the addresses used to connect a Cudos node to the 3 seed nodes have changed. This will require the config.toml file that is used to configure nodes on pulic testnet to have the new node addresses in the "seeds =" variable.
+Since the earliest days of the Cudos Public Testnet the public seeds have not changed. However, we are now rebuilding the infrastructure for this network on our own hardware. One of the consequences of this change is that the addresses used to connect a Cudos node to the 3 seed nodes have changed. This will require the config.toml file that is used to configure nodes on public testnet to have the new node addresses in the "seeds =" variable.
 
 ## How to make this change
 
@@ -57,9 +57,9 @@ Please also note that the addresses use fully qualified domain names, rather tha
 
 ## Check that all is well
 
-Once the packages have been updated, the config.toml updated and the node restarted, it is best to make sure tha tthe node is still running properly.
+Once the packages have been updated, the config.toml updated and the node restarted, it is best to make sure that the node is still running properly.
 
-The easiest way of doing this is to use the tool ```cudos-gex``` which will present a text console app frontend showing amongst other things, the current block. If yo usee the current advancing, it is likely that allk is well.
+The easiest way of doing this is to use the tool ```cudos-gex``` which will present a text console app frontend showing amongst other things, the current block. If you see the current advancing, it is likely that all is well.
 
 If you have any issues with any of the above, please open a ticket in the Cudos Discord support ticket system.
 

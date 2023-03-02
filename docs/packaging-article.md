@@ -24,3 +24,27 @@ In order for this to be realised, this whole stack of software needs to become a
 
 The intent of this package structure is to be **chain agnostic**, with the end goal of making the choice of network and chain a tick box to which newcomers can easily be added. While allowing the individual Cosmos Daemon projects full reign to evolve their contribution to suite their own plans.
 
+## Cosmovisor
+
+As part of the move to use native packages rather than the previous docker based approach, the Cudos daemon is now controlled by another daemon called "Cosmovisor". This is a very clever tool that sits above the Cosmos network daemon and has the ability to watch for software upgrade governance proposals on the chain. It does this itself, without reference to the Cosmos daemon that it controls. When the chain halt, which is part of the software upgrade process, actually happens, the Cosmos daemon will throw an error and exit. Cosmovisor will then pick out the "Upgrade Name" from the data attached to the governance proposal and use it to select the new version of the Cosmos daemon, which it then starts. The new daemon then does whatever upgrades are needed to the chain data, if any, and then gets back to normal operations. In recent software upgrades this has added a few 10s of seconds to the normal progression of new blocks. The v1.1 mainnet upgrade added just 25 seconds.
+
+## Installing a new node
+
+Getting a new node runnng using these packages is done in 3 stages.
+
+### Add the package repository
+
+All of the Debian and Redhat derived Linux distributions work is roughly the same way with respect to packages. The two systems differ in format and in the details of the commands, but are otherwise very similar. In both cases a single command is required to add the Cudo repository to the operating system.
+
+### Install the packages
+
+This is a single command for Redhat and two for the Debian derived platforms. They both start by refreshing the package index data and then installing the package set. This generally takes a few 10s of seconds.
+
+### Configure the daemon
+
+Another single command will create and set up the daemon's configuration files. All that is needed now is the start the daemon .. with one more command.
+
+## Binary Packages vs Build from Source
+
+There is a strong tradition among blockchain operators of building all blockchain nodes from scratch for every installation and upgrading by, again, building the new version from source. However, the Cudo packages are fully open, along with the scripts used to build the packages. If the operator likes the sound of this approach, but still wants to build their own, there is absolutley nothing form stopping them from building the package set themselves and serving it to their own machines using their own web server. Even the process of signing and indexing the packages is scripted and the script published in the GitHub repository along with the rest of the the packaging code.
+

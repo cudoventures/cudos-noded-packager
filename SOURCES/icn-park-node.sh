@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Copyright 2022 Andrew Meredith <andrew.meredith@cudoventures.com>
-# Copyright 2022 Cudo Ventures - All rights reserved.
+# Copyright 2023 Andrew Meredith <andrew.meredith@cudoventures.com>
+# Copyright 2023 Cudo Ventures - All rights reserved.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

@@ -18,7 +18,7 @@
 
 #
 # Usage: icn-switch-nodes <root ssh address of "L" node> <root ssh address of "R" node>
-#
+# 
 # Intended to be executed from the stand-off "controlling" workstation, but could as easily
 # be run from one of the two nodes in question, referring to itself in the ssh address.
 

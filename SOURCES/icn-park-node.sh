@@ -56,7 +56,7 @@ function check-live()
 		echo "  Error: Node is not running"
 		return 1
 	else
-		echo "  Info: Node is running"
+		echo -ne "  [running]"
 	fi
 
 	# If there is already a ${NODE_BASE_DIR}/config/Parked directory, error out
@@ -65,7 +65,7 @@ function check-live()
 		echo "  Error: This node is already parked"
 		return 1
 	else
-		echo "  Info: Node is not parked"
+		echo -ne " [not parked]"
 	fi
 
 	# If any of the identity and state files are missing, error out
@@ -74,7 +74,7 @@ function check-live()
 		echo "  Error: Genesis file missing"
 		return 1
 	else
-		echo "  Info: Genesis in place"
+		echo -ne " [genesis]"
 	fi
 
 	if [[ ! -f ${NODE_BASE_DIR}/config/node_key.json ]]
@@ -82,7 +82,7 @@ function check-live()
 		echo "  Error: Node key missing"
 		return 1
 	else
-		echo "  Info: Node key in place"
+		echo -ne "  [node key]"
 	fi
 
 	if [[ ! -f ${NODE_BASE_DIR}/config/priv_validator_key.json ]]
@@ -90,7 +90,7 @@ function check-live()
 		echo "  Error: Validator key missing"
 		return 1
 	else
-		echo "  Info: Validator key in place"
+		echo -ne "  [val key]"
 	fi
 
 	if [[ ! -f ${NODE_BASE_DIR}/data/priv_validator_state.json ]]
@@ -98,7 +98,7 @@ function check-live()
 		echo "  Error: Validator state file missing"
 		return 1
 	else
-		echo "  Info: Validator state file in place"
+		echo " [val state]\n"
 	fi
 
 	# Otherwise return True

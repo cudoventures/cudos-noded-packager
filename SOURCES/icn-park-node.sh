@@ -56,7 +56,7 @@ function check-live()
 		echo "  Error: Node is not running"
 		return 1
 	else
-		echo -ne "  [running]"
+		echo -ne " - [running]"
 	fi
 
 	# If there is already a ${NODE_BASE_DIR}/config/Parked directory, error out
@@ -65,7 +65,7 @@ function check-live()
 		echo "  Error: This node is already parked"
 		return 1
 	else
-		echo -ne " [not parked]"
+		echo -ne "[not parked]"
 	fi
 
 	# If any of the identity and state files are missing, error out
@@ -74,7 +74,7 @@ function check-live()
 		echo "  Error: Genesis file missing"
 		return 1
 	else
-		echo -ne " [genesis]"
+		echo -ne "[genesis]"
 	fi
 
 	if [[ ! -f ${NODE_BASE_DIR}/config/node_key.json ]]
@@ -82,7 +82,7 @@ function check-live()
 		echo "  Error: Node key missing"
 		return 1
 	else
-		echo -ne "  [node key]"
+		echo -ne "[node key]"
 	fi
 
 	if [[ ! -f ${NODE_BASE_DIR}/config/priv_validator_key.json ]]
@@ -90,7 +90,7 @@ function check-live()
 		echo "  Error: Validator key missing"
 		return 1
 	else
-		echo -ne "  [val key]"
+		echo -ne "[val key]"
 	fi
 
 	if [[ ! -f ${NODE_BASE_DIR}/data/priv_validator_state.json ]]
@@ -98,7 +98,7 @@ function check-live()
 		echo "  Error: Validator state file missing"
 		return 1
 	else
-		echo " [val state]\n"
+		echo -ne "[val state]\n"
 	fi
 
 	# Otherwise return True
@@ -137,6 +137,8 @@ function park()
 	#
 	# Clean up permissions
 	chown -R cudos:cudos ${NODE_BASE_DIR}
+
+	echo -ne "  Info: Parked\n\n"
 }
 
 function check-parked()
@@ -155,7 +157,7 @@ function check-parked()
 	# If there is already a ${NODE_BASE_DIR}/config/Parked directory, error out
 	if [[ -d ${NODE_BASE_DIR}/config/Parked ]]
 	then
-		echo "  Info: This node has parked data"
+		echo -ne "[parked dir]"
 	else
 		echo "  Error: Node has no Parked data"
 		return 1
@@ -164,7 +166,7 @@ function check-parked()
 	# If any of the identity and state files are missing, error out
 	if [[ ! -f ${NODE_BASE_DIR}/config/genesis.json ]]
 	then
-		echo "  Info: Genesis file cleared"
+		echo -ne "[genesis cleared]"
 	else
 		echo "  Error: Genesis still in place"
 		return 1
@@ -172,7 +174,7 @@ function check-parked()
 
 	if [[ -f ${NODE_BASE_DIR}/config/Parked/genesis.json ]]
 	then
-		echo "  Info: Genesis file parked"
+		echo -ne "[genesis parked]"
 	else
 		echo "  Error: Genesis file not parked"
 		return 1
@@ -180,7 +182,7 @@ function check-parked()
 
 	if [[ ! -f ${NODE_BASE_DIR}/config/node_key.json ]]
 	then
-		echo "  Info: Node key cleared"
+		echo -ne "[node key cleared]"
 	else
 		echo "  Error: Node key still in place"
 		return 1
@@ -188,7 +190,7 @@ function check-parked()
 
 	if [[ -f ${NODE_BASE_DIR}/config/Parked/node_key.json ]]
 	then
-		echo "  Info: Node key parked"
+		echo -ne "[node key parked]"
 	else
 		echo "  Error: Node key not parked"
 		return 1
@@ -196,7 +198,7 @@ function check-parked()
 
 	if [[ ! -f ${NODE_BASE_DIR}/config/priv_validator_key.json ]]
 	then
-		echo "  Info: Validator key cleared"
+		echo -ne "[val key cleared]"
 	else
 		echo "  Error: Validator key still in place"
 		return 1
@@ -204,7 +206,7 @@ function check-parked()
 
 	if [[ -f ${NODE_BASE_DIR}/config/Parked/priv_validator_key.json ]]
 	then
-		echo "  Info: Validator key parked"
+		echo -ne "[val key parked]"
 	else
 		echo "  Error: Validator key not parked"
 		return 1
@@ -212,7 +214,7 @@ function check-parked()
 
 	if [[ ! -f ${NODE_BASE_DIR}/data/priv_validator_state.json ]]
 	then
-		echo "  Info: Validator state file cleared"
+		echo -ne "[val state cleared]"
 	else
 		echo "  Error: Validator state file still in place"
 		return 1
@@ -220,9 +222,9 @@ function check-parked()
 
 	if [[ -f ${NODE_BASE_DIR}/config/Parked/priv_validator_state.json ]]
 	then
-		echo "  Info: Validator state park parked"
+		echo -ne "[val state parked]\n"
 	else
-		echo "  Error: Validator state park not parked"
+		echo "  Error: Validator state not parked"
 		return 1
 	fi
 
@@ -263,6 +265,8 @@ function un-park()
 	# Start up and enable the daemon
 	systemctl enable cosmovisor@cudos
 	systemctl start cosmovisor@cudos
+
+	echo -ne "  Info: Un-parked\n\n"
 }
 
 case $MODE in

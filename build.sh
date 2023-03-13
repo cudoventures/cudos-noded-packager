@@ -348,7 +348,6 @@ build_project_from_chain_data osmosis
 
 run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-mainnet
 run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-testnet
-run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosisd
 
 #
 # Build Gaia/Cosmos Hub Project

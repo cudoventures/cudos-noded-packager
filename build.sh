@@ -129,7 +129,7 @@ run_rpmbuild()
   # so when you go to delete them, the build job fails.
   if [[ -d buildtmp ]]
   then
-  	chmod -R +rwx buildtmp
+    chmod -R +rwx buildtmp
   fi
  
   # Clean out the build area just in case, for some
@@ -140,9 +140,9 @@ run_rpmbuild()
   if [[ "${GO_BIN_DIR}" != "" ]]
   then
     echo -ne "  Info: Selecting Go binary path: ${GO_BIN_DIR}\n"
-  	export PATH="${GO_BIN_DIR}:${PATH}"
+    export PATH="${GO_BIN_DIR}:${PATH}"
   fi
-  	
+ 
   # Set the _topdir to the freshly cleaned out build area
   # pull the source rpm that has just been built into
   # the clean build area, unpack it, and build the contents.
@@ -235,36 +235,38 @@ build_project_from_chain_data()
   #   - Add the Go bin directory to the  
   for BUILD_VERSION in ${COMPATIBLE_VERSIONS}
   do
-  	# Select specific Go versions by chain and version
-  	case $CHAIN_NAME in
+    # Select specific Go versions by chain and version
+    case $CHAIN_NAME in
       cudos)
-  		case ${BUILD_VERSION} in
-  		  v1.*)
-            export GO_VER="1.18.3"
-  			;;
-  		esac
-  		;;
+      case ${BUILD_VERSION} in
+        v1.*)
+          export GO_VER="1.18.3"
+          ;;
+      esac
+      ;;
 
-	  osmosis)
-  		case ${BUILD_VERSION} in
-	  	  "v1[4-9].*")
-  		    export GO_VER="1.19.6"
-	  		;;
+    osmosis)
+      case ${BUILD_VERSION} in
+        "v1[4-9].*")
+          export GO_VER="1.19.6"
+          ;;
 
-		  "v1[0-3].*")
-  			export GO_VER="1.18.3"
-	  		;;
-  		esac	
-  	esac
-	
-	if [[ "${GO_VER}" != "" ]]
-	then
-	  export GO_BIN_DIR="/usr/local/go-${GO_VER}/bin"
-	  echo -ne "  Info: GO_BIN_DIR = ${GO_BIN_DIR}\n"
-	else
-	  echo -ne "  Warning: GO_VER is not set\n"		
-	fi
-  		
+        "v1[0-3].*")
+          export GO_VER="1.18.3"
+          ;;
+      esac  
+    esac
+  
+    # Set GO_BIN_DIR off GO_VER
+    if [[ "${GO_VER}" != "" ]]
+    then
+      export GO_BIN_DIR="/usr/local/go-${GO_VER}/bin"
+      echo -ne "  Info: GO_BIN_DIR = ${GO_BIN_DIR}\n"
+    else
+      echo -ne "  Warning: GO_VER is not set\n"    
+    fi
+      
+    # Execute the build function above
     run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" ${DAEMON_NAME}-v${BUILD_VERSION}
   done
 }
@@ -297,7 +299,7 @@ sudo rm -rf debian RPMS BUILDROOT || true
 #
 if [ "$BUILD_NUMBER" = "" ]
 then
-	BUILD_NUMBER="$( hostname -s ).$( date '+%Y%m%d%H%M%S' )"
+  BUILD_NUMBER="$( hostname -s ).$( date '+%Y%m%d%H%M%S' )"
 fi
 
 #
@@ -392,6 +394,6 @@ cd ..
 #
 for RPMFILE in RPMS/*/*.rpm
 do
-	rpm -qip $RPMFILE > ${RPMFILE}.txt
-	rpm -qlp $RPMFILE > ${RPMFILE}-lst.txt
+  rpm -qip $RPMFILE > ${RPMFILE}.txt
+  rpm -qlp $RPMFILE > ${RPMFILE}-lst.txt
 done

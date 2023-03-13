@@ -239,7 +239,7 @@ build_project_from_chain_data()
     case $CHAIN_NAME in
       cudos)
       case ${BUILD_VERSION} in
-        v1.*)
+        "[01].*")
           export GO_VER="1.18.3"
           ;;
       esac
@@ -247,11 +247,11 @@ build_project_from_chain_data()
 
     osmosis)
       case ${BUILD_VERSION} in
-        "v1[4-9].*")
+        "1[4-9].*")
           export GO_VER="1.19.6"
           ;;
 
-        "v1[0-3].*")
+        "1[0-3].*")
           export GO_VER="1.18.3"
           ;;
       esac  

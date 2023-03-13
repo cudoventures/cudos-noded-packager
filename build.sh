@@ -139,8 +139,8 @@ run_rpmbuild()
   # If $GO_BIN_DIR is set, add it to the front of the $PATH
   if [[ "${GO_BIN_DIR}" != "" ]]
   then
-  	    echo -ne "  Info: Selecting Go binary path: ${GO_BIN_DIR}\n"
-  		export PATH="${GO_BIN_DIR}:${PATH}"
+    echo -ne "  Info: Selecting Go binary path: ${GO_BIN_DIR}\n"
+  	export PATH="${GO_BIN_DIR}:${PATH}"
   fi
   	
   # Set the _topdir to the freshly cleaned out build area
@@ -237,32 +237,32 @@ build_project_from_chain_data()
   do
   	# Select specific Go versions by chain and version
   	case $CHAIN_NAME in
-  		cudos)
-  			case ${BUILD_VERSION} in
-  				v1.*)
-  					export GO_VER="1.18.3"
-  					;;
-  			esac
+      cudos)
+  		case ${BUILD_VERSION} in
+  		  v1.*)
+            export GO_VER="1.18.3"
   			;;
+  		esac
+  		;;
 
-	  	osmosis)
-  			case ${BUILD_VERSION} in
-	  			"v1[4-9].*")
-  					export GO_VER="1.19.6"
-	  				;;
+	  osmosis)
+  		case ${BUILD_VERSION} in
+	  	  "v1[4-9].*")
+  		    export GO_VER="1.19.6"
+	  		;;
 
-		  		"v1[0-3].*")
-  					export GO_VER="1.18.3"
-	  				;;
-  			esac	
+		  "v1[0-3].*")
+  			export GO_VER="1.18.3"
+	  		;;
+  		esac	
   	esac
 	
 	if [[ "${GO_VER}" != "" ]]
 	then
-		export GO_BIN_DIR="/usr/local/go-${GO_VER}/bin"
-		echo -ne "  Info: GO_BIN_DIR = ${GO_BIN_DIR}\n"
+	  export GO_BIN_DIR="/usr/local/go-${GO_VER}/bin"
+	  echo -ne "  Info: GO_BIN_DIR = ${GO_BIN_DIR}\n"
 	else
-		echo -ne "  Warning: GO_VER is not set\n"		
+	  echo -ne "  Warning: GO_VER is not set\n"		
 	fi
   		
     run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" ${DAEMON_NAME}-v${BUILD_VERSION}

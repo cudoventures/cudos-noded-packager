@@ -136,13 +136,20 @@ run_rpmbuild()
   # reason, it didn't get cleaned last time
   rm -rf buildtmp
   
+  # If $GO_BIN_DIR is set, add it to the front of the $PATH
+  if [[ "${GO_BIN_DIR}" != "" ]]
+  then
+  	    echo -ne "  Info: Selecting Go binary path: ${GO_BIN_DIR}\n"
+  		export PATH="${GO_BIN_DIR}:${PATH}"
+  fi
+  	
   # Set the _topdir to the freshly cleaned out build area
   # pull the source rpm that has just been built into
   # the clean build area, unpack it, and build the contents.
   #
   # NB This might seem a "round the houses" way of doing it,
   # but it firmly ensures that the payload of the src.rpm is complete
-  # ensuring that and end user can build the package with just
+  # ensuring that an end user can build the package with just
   # the src.rpm
   #
   # The removal of __brp_check_rpaths is needed as there are some
@@ -217,8 +224,47 @@ build_project_from_chain_data()
   
   # For every "compatible_version", build a binary package named for that version
   # and the package version of "recommended_version"
+  #
+  # Unfortuneately, Go version is a tripwire as some versions of Cosmos daemons need specific Go versions
+  # and will cause binariaes to emit hash failures if a lower or higher Go version is used. There is no
+  # standard mechanism for handling multiple Go versions, so the following has been adopted for
+  # this build system.
+  #   - Unpack the go binary tarball to /usr/local
+  #   - Rename /usr/local/go to /usr/local/go-<go version>
+  #   - For best version separatoin do not provide a system default Go path
+  #   - Add the Go bin directory to the  
   for BUILD_VERSION in ${COMPATIBLE_VERSIONS}
   do
+  	# Select specific Go versions by chain and version
+  	case $CHAIN_NAME in
+  		cudos)
+  			case ${BUILD_VERSION} in
+  				v1.*)
+  					export GO_VER="1.18.3"
+  					;;
+  			esac
+  			;;
+
+	  	osmosis)
+  			case ${BUILD_VERSION} in
+	  			"v1[4-9].*")
+  					export GO_VER="1.19.6"
+	  				;;
+
+		  		"v1[0-3].*")
+  					export GO_VER="1.18.3"
+	  				;;
+  			esac	
+  	esac
+	
+	if [[ "${GO_VER}" != "" ]]
+	then
+		export GO_BIN_DIR="/usr/local/go-${GO_VER}/bin"
+		echo -ne "  Info: GO_BIN_DIR = ${GO_BIN_DIR}\n"
+	else
+		echo -ne "  Warning: GO_VER is not set\n"		
+	fi
+  		
     run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" ${DAEMON_NAME}-v${BUILD_VERSION}
   done
 }

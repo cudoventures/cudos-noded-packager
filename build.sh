@@ -255,6 +255,13 @@ build_project_from_chain_data()
           export GO_VER="1.18.3"
           ;;
       esac  
+
+    cosmoshub)
+      case ${BUILD_VERSION} in
+        .* )
+          export GO_VER="1.18.3"
+          ;;
+      esac  
     esac
   
     # Set GO_BIN_DIR off GO_VER

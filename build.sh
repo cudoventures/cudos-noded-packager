@@ -237,6 +237,7 @@ build_project_from_chain_data()
   do
     # Select specific Go versions by chain and version
     case $CHAIN_NAME in
+    	
       cudos)
       case ${BUILD_VERSION} in
         [01].* )
@@ -254,14 +255,17 @@ build_project_from_chain_data()
         1[0-3].* )
           export GO_VER="1.18.3"
           ;;
-      esac  
+      esac
+      ;;
 
     cosmoshub)
       case ${BUILD_VERSION} in
         .* )
           export GO_VER="1.18.3"
           ;;
-      esac  
+      esac
+      ;;
+      
     esac
   
     # Set GO_BIN_DIR off GO_VER

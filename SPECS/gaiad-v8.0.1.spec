@@ -23,7 +23,7 @@
 %global daemon_name    gaiad
 %global daemon_version v8.0.1
 %global upgrade_name   v8.0.1
-%global obsoletes      gaiad-v8.0.0
+%global obsoletes      gaiad-v0.0.0
 
 %global username       gaia
 %global data_directory .gaia

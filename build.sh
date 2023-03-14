@@ -211,8 +211,12 @@ build_project_from_chain_data()
       COMPATIBLE_VERSIONS="0.8.0 0.9.0 1.0.1 1.1.0"
       ;;
     osmosis)
-      SYSTEM_VER="12.3.0"
+      SYSTEM_VER="15.0.0"
       COMPATIBLE_VERSIONS="11.0.0 12.3.0 13.0.0-rc5 14.0.0 15.0.0"
+      ;;
+    cosmoshub)
+      SYSTEM_VER="9.0.1"
+      COMPATIBLE_VERSIONS="7.1.1 8.0.1 9.0.1"
       ;;
   esac
   
@@ -347,20 +351,20 @@ run_rpmbuild "1.0.0" "${BUILD_NUMBER}" "${DAEMON_NAME}"
 # Build Cudos Project
 #
 
-build_project_from_chain_data cudos
+#build_project_from_chain_data cudos
 
-run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-release
-run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-private-testnet
-run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-public-testnet
-run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-mainnet
+#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-release
+#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-private-testnet
+#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-public-testnet
+#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-mainnet
 
 #
 # Build Osmosis Project
 #
-build_project_from_chain_data osmosis
+#build_project_from_chain_data osmosis
 
-run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-mainnet
-run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-testnet
+#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-mainnet
+#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-testnet
 
 #
 # Build Gaia/Cosmos Hub Project

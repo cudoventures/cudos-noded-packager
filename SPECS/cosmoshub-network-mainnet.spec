@@ -16,20 +16,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-%global project_title  Cudos
-%global parent_url     https://github.com/CudoVentures
-%global project_name   cudos-node
+%global project_title   CosmosHUb
+%global parent_url      https://github.com/cosmos
+%global project_name    gaia
 
-%global daemon_name    cudos-noded
-%global daemon_version v1.1.0
-%global upgrade_name   v1.1
-%global obsoletes      cudos-noded-v1.1.0.1
+%global daemon_name     gaiad
+%global daemon_version  v9.0.0
+%global upgrade_name    v9-Lambda
+%global genesis_version v8.0.1
 
-%global username       cudos
-%global data_directory cudos-data
+%global username        gaia
+%global data_directory  .gaia
 
-%global network_name   cudos
-%global network_class  private-testnet
+%global network_name    cosmoshub
+%global network_class   mainnet
 
 ###########################################
 
@@ -45,10 +45,8 @@ Source0:      toml-config-%{network_name}-%{network_class}.tar.gz
 
 Requires:     cosmovisor
 Requires:     %{daemon_name}
-Requires:     %{daemon_name}-v0.8.0
-Requires:     %{daemon_name}-v0.9.0
-Requires:     %{daemon_name}-v1.0.1
-Requires:     %{daemon_name}-v1.1.0
+Requires:     %{daemon_name}-v8.0.1
+Requires:     %{daemon_name}-v9.0.0
 
 Requires:     cudos-p2p-scan
 Requires:     cudos-gex
@@ -79,7 +77,7 @@ cp -v ${RPM_SOURCE_DIR}/unconditional-peers.config     ${RPM_BUILD_ROOT}/var/lib
 cp -v ${RPM_SOURCE_DIR}/private-peers.config           ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/config/
 
 # Create genesis link to the chains genesis version
-ln -s /var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/v0.8 ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/genesis
+ln -s /var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{genesis_version} ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/genesis
 
 # Create /etc/default link for cosmovisor
 ln -s cosmovisor@%{username} ${RPM_BUILD_ROOT}/etc/default/cosmovisor 
@@ -100,6 +98,7 @@ fi
 %defattr(-,%{username},%{username},-)
 %dir /var/lib/%{username}/%{data_directory}
 %dir /var/lib/%{username}/%{data_directory}/config
+/var/lib/%{username}/%{data_directory}/cosmovisor
 %config(noreplace) /var/lib/%{username}/%{data_directory}/config/genesis.json
 %config(noreplace) /var/lib/%{username}/%{data_directory}/config/persistent-peers.config
 %config(noreplace) /var/lib/%{username}/%{data_directory}/config/private-peers.config

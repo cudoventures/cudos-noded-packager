@@ -348,28 +348,35 @@ export SYSTEM_VER="1.1.0"
 run_rpmbuild "1.0.0" "${BUILD_NUMBER}" "${DAEMON_NAME}"
 
 #
+# Build Release package
+#
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-release
+
+#
 # Build Cudos Project
 #
 
-#build_project_from_chain_data cudos
+build_project_from_chain_data cudos
 
-#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-release
-#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-private-testnet
-#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-public-testnet
-#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-mainnet
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-private-testnet
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-public-testnet
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cudos-network-mainnet
 
 #
 # Build Osmosis Project
 #
-#build_project_from_chain_data osmosis
+build_project_from_chain_data osmosis
 
-#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-mainnet
-#run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-testnet
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-mainnet
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" osmosis-network-testnet
 
 #
 # Build Gaia/Cosmos Hub Project
 #
 build_project_from_chain_data cosmoshub
+
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cosmoshub-network-mainnet
+run_rpmbuild "${SYSTEM_VER}" "${BUILD_NUMBER}" cosmoshub-network-testnet
 
 #
 # Feed the rpm binaries into "Alien" to be converted

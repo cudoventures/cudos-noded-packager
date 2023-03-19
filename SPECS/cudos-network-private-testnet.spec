@@ -85,6 +85,7 @@ echo -e "\n\n=== install section ===\n\n"
 # Make the fixed directory structure
 mkdir -p ${RPM_BUILD_ROOT}/etc/default
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/config
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor
 
 # Install the %{data_directory}/config files
 cp -v ${RPM_SOURCE_DIR}/genesis.json                   ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/config/

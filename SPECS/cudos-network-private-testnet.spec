@@ -16,24 +16,41 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-%global project_title  Cudos
-%global parent_url     https://github.com/CudoVentures
-%global project_name   cudos-node
+%global project_title   Cudos
+%global parent_url      https://github.com/CudoVentures
+%global project_name    cudos-node
 
-%global daemon_name    cudos-noded
-%global daemon_version v1.1.0
-%global upgrade_name   v1.1
-%global obsoletes      cudos-noded-v1.1.0.1
+%global daemon_name     cudos-noded
+%global daemon_version  v1.1.0
+%global upgrade_name    v1.1
+%global genesis_upgrade v0.8
 
-%global username       cudos
-%global data_directory cudos-data
+%global username        cudos
+%global data_directory  cudos-data
 
-%global network_name   cudos
-%global network_class  private-testnet
+%global network_name    cudos
+%global network_class   private-testnet
 
-###########################################
+%global config_file_tag testnet.private
 
 Name:         %{network_name}-network-%{network_class}
+
+Requires:     %{daemon_name}-v0.8.0
+Requires:     %{daemon_name}-v0.9.0
+Requires:     %{daemon_name}-v1.0.1
+Requires:     %{daemon_name}-v1.1.0
+
+############################################################
+######### Do not alter below this line #####################
+############################################################
+#
+# The rest of this spec is specific to:
+#   network_name:  cudos
+#   network_class: private-testnet
+#
+# The version dependant components should all be set using
+# global macros like %{daemon_name}
+#
 Version:      %{_versiontag}
 Release:      %{_releasetag}%{?dist}
 Summary:      %{project_title} %{network_class} Network Definition Files for System version %{version}
@@ -41,14 +58,8 @@ Summary:      %{project_title} %{network_class} Network Definition Files for Sys
 License:      GPL3
 URL:          %{parent_url}/%{project_name}
 
-Source0:      toml-config-%{network_name}-%{network_class}.tar.gz
-
 Requires:     cosmovisor
 Requires:     %{daemon_name}
-Requires:     %{daemon_name}-v0.8.0
-Requires:     %{daemon_name}-v0.9.0
-Requires:     %{daemon_name}-v1.0.1
-Requires:     %{daemon_name}-v1.1.0
 
 Requires:     cudos-p2p-scan
 Requires:     cudos-gex
@@ -58,7 +69,12 @@ Requires:     cudos-gex
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
-tar -C ${RPM_SOURCE_DIR} -xzf toml-config-%{network_name}-%{network_class}.tar.gz
+wget -4 -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/genesis.%{config_file_tag}.json?raw=true"                  -O genesis.json
+wget -4 -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/persistent-peers.%{config_file_tag}.config?raw=true"       -O persistent-peers.config
+wget -4 -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/seeds.%{config_file_tag}.config?raw=true"                  -O seeds.config
+wget -4 -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/state-sync-rpc-servers.%{config_file_tag}.config?raw=true" -O state-sync-rpc-servers.config
+touch unconditional-peers.config
+touch private-peers.config
 
 %build
 echo -e "\n\n=== build section ===\n\n"
@@ -79,7 +95,7 @@ cp -v ${RPM_SOURCE_DIR}/unconditional-peers.config     ${RPM_BUILD_ROOT}/var/lib
 cp -v ${RPM_SOURCE_DIR}/private-peers.config           ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/config/
 
 # Create genesis link to the chains genesis version
-ln -s /var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/v0.8 ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/genesis
+ln -s /var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{genesis_upgrade} ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/genesis
 
 # Create /etc/default link for cosmovisor
 ln -s cosmovisor@%{username} ${RPM_BUILD_ROOT}/etc/default/cosmovisor 

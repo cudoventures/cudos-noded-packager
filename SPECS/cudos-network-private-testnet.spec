@@ -69,12 +69,12 @@ Requires:     cudos-gex
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
-wget -4 -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/genesis.%{config_file_tag}.json?raw=true"                  -O genesis.json
-wget -4 -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/persistent-peers.%{config_file_tag}.config?raw=true"       -O persistent-peers.config
-wget -4 -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/seeds.%{config_file_tag}.config?raw=true"                  -O seeds.config
-wget -4 -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/state-sync-rpc-servers.%{config_file_tag}.config?raw=true" -O state-sync-rpc-servers.config
-touch unconditional-peers.config
-touch private-peers.config
+wget -4 -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/genesis.%{config_file_tag}.json?raw=true"                  -O ${RPM_SOURCE_DIR}/genesis.json
+wget -4 -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/persistent-peers.%{config_file_tag}.config?raw=true"       -O ${RPM_SOURCE_DIR}/persistent-peers.config
+wget -4 -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/seeds.%{config_file_tag}.config?raw=true"                  -O ${RPM_SOURCE_DIR}/seeds.config
+wget -4 -q "https://github.com/CudoVentures/cudos-builders/blob/cudos-master/docker/config/state-sync-rpc-servers.%{config_file_tag}.config?raw=true" -O ${RPM_SOURCE_DIR}/state-sync-rpc-servers.config
+touch ${RPM_SOURCE_DIR}/unconditional-peers.config
+touch ${RPM_SOURCE_DIR}/private-peers.config
 
 %build
 echo -e "\n\n=== build section ===\n\n"

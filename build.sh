@@ -28,62 +28,62 @@
 #
 
 #
-# Define tarball creation function
-create_cudos_tarball()
-{
-    VER="$1"
-
-    echo -e "\n\nCreating $VER Cudos tarball\n\n"
-
-    # Clear out any existing git checkouts
-    rm -rf Cudos*
-
-    # Silence the warning
-    git config --global advice.detachedHead false
-    
-    # Check out fresh copies of the current version
-    case $VER in
-
-    1.0.1)
-      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-node.git CudosNode
-      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-builders.git CudosBuilders
-      git clone --depth 1 --branch v1.0.0 https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
-      ;;
-      
-    [0-9]\.[0-9]\.[0-9]\.[0-9])
-      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-node.git CudosNode
-      git clone --depth 1 --branch v1.0.0 https://github.com/CudoVentures/cudos-builders.git CudosBuilders
-      git clone --depth 1 --branch v1.0.0 https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
-      ;;
-      
-    [0-9]\.[0-9]\.[0-9])
-      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-node.git CudosNode
-      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-builders.git CudosBuilders
-      git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
-      ;;
-      
-    1.0.master)
-      git clone --depth 1 --branch cudos-master https://github.com/CudoVentures/cudos-node.git CudosNode
-      git clone --depth 1 --branch cudos-master https://github.com/CudoVentures/cudos-builders.git CudosBuilders
-      git clone --depth 1 --branch cudos-master https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
-      ;;
-      
-    1.0.dev)
-      git clone --depth 1 --branch cudos-dev https://github.com/CudoVentures/cudos-node.git CudosNode
-      git clone --depth 1 --branch cudos-dev https://github.com/CudoVentures/cudos-builders.git CudosBuilders
-      git clone --depth 1 --branch cudos-dev https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
-      ;;
-      
-    *)
-      echo "Unknown Version '$VER'"
-      exit 1
-      ;;
-      
-    esac
-
-    tar czf SOURCES/cudos-noded-${VER}.tar.gz Cudos*
-    rm -rf Cudos*
-}
+# # Define tarball creation function
+# create_cudos_tarball()
+# {
+#     VER="$1"
+# 
+#     echo -e "\n\nCreating $VER Cudos tarball\n\n"
+# 
+#     # Clear out any existing git checkouts
+#     rm -rf Cudos*
+# 
+#     # Silence the warning
+#     git config --global advice.detachedHead false
+#     
+#     # Check out fresh copies of the current version
+#     case $VER in
+# 
+#     1.0.1)
+#       git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-node.git CudosNode
+#       git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-builders.git CudosBuilders
+#       git clone --depth 1 --branch v1.0.0 https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
+#       ;;
+#       
+#     [0-9]\.[0-9]\.[0-9]\.[0-9])
+#       git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-node.git CudosNode
+#       git clone --depth 1 --branch v1.0.0 https://github.com/CudoVentures/cudos-builders.git CudosBuilders
+#       git clone --depth 1 --branch v1.0.0 https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
+#       ;;
+#       
+#     [0-9]\.[0-9]\.[0-9])
+#       git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-node.git CudosNode
+#       git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cudos-builders.git CudosBuilders
+#       git clone --depth 1 --branch v$VER https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
+#       ;;
+#       
+#     1.0.master)
+#       git clone --depth 1 --branch cudos-master https://github.com/CudoVentures/cudos-node.git CudosNode
+#       git clone --depth 1 --branch cudos-master https://github.com/CudoVentures/cudos-builders.git CudosBuilders
+#       git clone --depth 1 --branch cudos-master https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
+#       ;;
+#       
+#     1.0.dev)
+#       git clone --depth 1 --branch cudos-dev https://github.com/CudoVentures/cudos-node.git CudosNode
+#       git clone --depth 1 --branch cudos-dev https://github.com/CudoVentures/cudos-builders.git CudosBuilders
+#       git clone --depth 1 --branch cudos-dev https://github.com/CudoVentures/cosmos-gravity-bridge.git CudosGravityBridge
+#       ;;
+#       
+#     *)
+#       echo "Unknown Version '$VER'"
+#       exit 1
+#       ;;
+#       
+#     esac
+# 
+#     tar czf SOURCES/cudos-noded-${VER}.tar.gz Cudos*
+#     rm -rf Cudos*
+# }
 
 # Define toml config tarball function
 create_toml_tarball()
@@ -278,7 +278,8 @@ build_project_from_chain_data()
       export GO_BIN_DIR="/usr/local/go-${GO_VER}/bin"
       echo -ne "  Info: GO_BIN_DIR = ${GO_BIN_DIR}\n"
     else
-      echo -ne "  Warning: GO_VER is not set\n"    
+      export GO_VER="1.18.3"
+      echo -ne "  Warning: GO_VER is not set, setting default (${GO_VER})\n"    
     fi
       
     # Execute the build function above
@@ -335,7 +336,7 @@ cp -v cudos.repo SOURCES
 #
 # Create the toml config tarballs
 #
-create_toml_tarball "testnet.private" "private-testnet"
+# create_toml_tarball "testnet.private" "private-testnet"
 create_toml_tarball "testnet.public"  "testnet"
 create_toml_tarball "mainnet"         "mainnet"
 

@@ -49,7 +49,7 @@ Requires:     %{daemon_name}-v1.1.0
 #   network_class: private-testnet
 #
 # The version dependant components should all be set using
-# global macros like %{daemon_name}
+# global macros like 'daemon_name'
 #
 Version:      %{_versiontag}
 Release:      %{_releasetag}%{?dist}

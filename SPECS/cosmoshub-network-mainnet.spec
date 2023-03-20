@@ -56,7 +56,7 @@ Requires:     cudos-gex
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
-tar -C ${RPM_SOURCE_DIR} -xzf %{network_name}-network-%{network_class}_config.tar.gz
+tar -C ${RPM_SOURCE_DIR} -xzvf ${RPM_SOURCE_DIR}/%{network_name}-network-%{network_class}_config.tar.gz
 
 %build
 echo -e "\n\n=== build section ===\n\n"

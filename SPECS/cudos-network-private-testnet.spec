@@ -117,7 +117,7 @@ fi
 %defattr(-,%{username},%{username},-)
 %dir /var/lib/%{username}/%{data_directory}
 %dir /var/lib/%{username}/%{data_directory}/config
-/var/lib/%{username}/%{data_directory}/cosmovisor
+/var/lib/%{username}/%{data_directory}/cosmovisor/genesis
 %config(noreplace) /var/lib/%{username}/%{data_directory}/config/genesis.json
 %config(noreplace) /var/lib/%{username}/%{data_directory}/config/persistent-peers.config
 %config(noreplace) /var/lib/%{username}/%{data_directory}/config/private-peers.config

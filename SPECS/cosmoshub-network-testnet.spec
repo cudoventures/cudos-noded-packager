@@ -41,7 +41,7 @@ Summary:      %{project_title} %{network_class} Network Definition Files for Sys
 License:      GPL3
 URL:          %{parent_url}/%{project_name}
 
-Source0:      toml-config-%{network_name}-%{network_class}.tar.gz
+Source0:      %{network_name}-network-%{network_class}_config.tar.gz
 
 Requires:     cosmovisor
 Requires:     %{daemon_name}
@@ -56,7 +56,7 @@ Requires:     cudos-gex
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
-tar -C ${RPM_SOURCE_DIR} -xzf toml-config-%{network_name}-%{network_class}.tar.gz
+tar -C ${RPM_SOURCE_DIR} -xzf %{network_name}-network-%{network_class}_config.tar.gz
 
 %build
 echo -e "\n\n=== build section ===\n\n"

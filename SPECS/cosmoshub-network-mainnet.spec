@@ -57,6 +57,10 @@ Requires:     cudos-gex
 %prep
 echo -e "\n\n=== prep section ===\n\n"
 tar -C ${RPM_SOURCE_DIR} -xzvf ${RPM_SOURCE_DIR}/%{network_name}-network-%{network_class}_config.tar.gz
+if [[ -f ${RPM_SOURCE_DIR}/genesis.json.gz ]]
+then
+  gunzip ${RPM_SOURCE_DIR}/genesis.json.gz
+fi
 
 %build
 echo -e "\n\n=== build section ===\n\n"

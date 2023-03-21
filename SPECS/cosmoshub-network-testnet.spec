@@ -56,7 +56,7 @@ Requires:     cudos-gex
 
 %prep
 echo -e "\n\n=== prep section ===\n\n"
-tar -C ${RPM_SOURCE_DIR} -xzf %{network_name}-network-%{network_class}_config.tar.gz
+tar -C ${RPM_SOURCE_DIR} -xvzf ${RPM_SOURCE_DIR}/%{network_name}-network-%{network_class}_config.tar.gz
 if [[ -f ${RPM_SOURCE_DIR}/genesis.json.gz ]]
 then
   gunzip ${RPM_SOURCE_DIR}/genesis.json.gz
@@ -71,6 +71,7 @@ echo -e "\n\n=== install section ===\n\n"
 # Make the fixed directory structure
 mkdir -p ${RPM_BUILD_ROOT}/etc/default
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/config
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor
 
 # Install the %{data_directory}/config files
 cp -v ${RPM_SOURCE_DIR}/genesis.json                   ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/config/
@@ -102,7 +103,7 @@ fi
 %defattr(-,%{username},%{username},-)
 %dir /var/lib/%{username}/%{data_directory}
 %dir /var/lib/%{username}/%{data_directory}/config
-/var/lib/%{username}/%{data_directory}/cosmovisor
+/var/lib/%{username}/%{data_directory}/cosmovisor/genesis
 %config(noreplace) /var/lib/%{username}/%{data_directory}/config/genesis.json
 %config(noreplace) /var/lib/%{username}/%{data_directory}/config/persistent-peers.config
 %config(noreplace) /var/lib/%{username}/%{data_directory}/config/private-peers.config

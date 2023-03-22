@@ -19,20 +19,38 @@
 #
 
 Name:         hermes
-Version:      1.0.0
+Version:      %{_versiontag}
 Release:      %{_releasetag}%{?dist}
 Summary:      Hermes Relayer
 
 License:      GPL3
 URL:          https://github.com/informalsystems/ibc-rs.git
 
+Source0:      hermes-config.toml
 Source1:      check-osmosis-relay.sh
 
 %description
 The Hermes rust based IBC relayer
-- hermes binary
-- systemd control script
-- check_mk probe script
+- Hermes version %{version} binary
+- Systemd control script
+- Simple example check_mk probe script
+- Privilege separation user (hermes)
+
+%pre
+if getent group hermes >/dev/null
+then
+  echo "  Group hermes OK"
+else
+  echo "  Create Group hermes"
+  groupadd -r hermes
+fi
+if getent passwd hermes >/dev/null
+then
+  echo "  User hermes OK"
+else
+  echo "  Create User hermes"
+  useradd -c "hermes User" -g hermes -s /bin/bash -r -m -d /var/lib/hermes hermes
+fi
 
 %build
 echo -e "\n\n=== Build Hermes ===\n\n"
@@ -51,6 +69,7 @@ echo -e "\n\n=== install section ===\n\n"
 mkdir -p ${RPM_BUILD_ROOT}/usr/bin
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/systemd/system
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/hermes/.hermes/keys
 
 # Install the binary
 cp -v ${RPM_BUILD_DIR}/ibc-rs/target/release/hermes  ${RPM_BUILD_ROOT}/usr/bin/
@@ -61,11 +80,27 @@ cp ${RPM_SOURCE_DIR}/hermes.service  ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
 # Install the check_mk probe
 cp ${RPM_SOURCE_DIR}/check-osmosis-relay.sh  ${RPM_BUILD_ROOT}/usr/lib/check_mk_agent/local/
 
+# Install the config file
+cp ${RPM_SOURCE_DIR}/hermes-config.toml  ${RPM_BUILD_ROOT}/var/lib/hermes/.hermes/config.toml
+
+%post
+if [ $1 = "1" ]
+then
+    echo "  Install:"
+else
+    echo "  Upgrade:"
+fi
+
+echo "  - Reloading systemd config"
+systemctl daemon-reload 
+
 %files
 %defattr(-,root,root,-)
 /usr/bin/hermes
 /usr/lib/systemd/system/hermes.service
 /usr/lib/check_mk_agent/local/check-osmosis-relay.sh
+%defattr(-,hermes,hermes,-)
+%config(noreplace) /var/lib/hermes/.hermes/config.toml
 %doc
 
 %changelog

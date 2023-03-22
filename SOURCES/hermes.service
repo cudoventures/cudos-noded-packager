@@ -3,6 +3,7 @@ Description=Hermes Relayer Daemon
 After=network-online.target
 
 [Service]
+User=hermes
 ExecStart=/usr/bin/hermes start
 Restart=always
 RestartSec=3

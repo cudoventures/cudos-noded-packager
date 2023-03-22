@@ -21,9 +21,9 @@
 %global project_name    gaia
 
 %global daemon_name     gaiad
-%global daemon_version  v9.0.0
+%global daemon_version  v9.0.1
 %global upgrade_name    v9-Lambda
-%global genesis_version v8.0.1
+%global genesis_upgrade v8.0.1
 
 %global username        gaia
 %global data_directory  .gaia
@@ -31,9 +31,21 @@
 %global network_name    cosmoshub
 %global network_class   testnet
 
-###########################################
-
 Name:         %{network_name}-network-%{network_class}
+Requires:     %{daemon_name}-v8.0.1
+Requires:     %{daemon_name}-v9.0.1
+
+############################################################
+######### Do not alter below this line #####################
+############################################################
+#
+# The rest of this spec is specific to:
+#   network_name:  cosmoshub
+#   network_class: testnet
+#
+# The version dependent components should all be set using
+# global macros like 'daemon_name'
+#
 Version:      %{_versiontag}
 Release:      %{_releasetag}%{?dist}
 Summary:      %{project_title} %{network_class} Network Definition Files for System version %{version}
@@ -45,8 +57,6 @@ Source0:      %{network_name}-network-%{network_class}_config.tar.gz
 
 Requires:     cosmovisor
 Requires:     %{daemon_name}
-Requires:     %{daemon_name}-v8.0.1
-Requires:     %{daemon_name}-v9.0.0
 
 Requires:     cudos-p2p-scan
 Requires:     cudos-gex
@@ -82,7 +92,7 @@ cp -v ${RPM_SOURCE_DIR}/unconditional-peers.config     ${RPM_BUILD_ROOT}/var/lib
 cp -v ${RPM_SOURCE_DIR}/private-peers.config           ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/config/
 
 # Create genesis link to the chains genesis version
-ln -s /var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{genesis_version} ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/genesis
+ln -s /var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{genesis_upgrade} ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/genesis
 
 # Create /etc/default link for cosmovisor
 ln -s cosmovisor@%{username} ${RPM_BUILD_ROOT}/etc/default/cosmovisor 

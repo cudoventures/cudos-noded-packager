@@ -30,11 +30,9 @@
 
 %global network_name    cudos
 %global network_class   private-testnet
-
 %global config_file_tag testnet.private
 
 Name:         %{network_name}-network-%{network_class}
-
 Requires:     %{daemon_name}-v0.8.0
 Requires:     %{daemon_name}-v0.9.0
 Requires:     %{daemon_name}-v1.0.1

@@ -73,21 +73,21 @@ getent group %{username} >/dev/null || echo "  Create Group %{username}" || grou
 getent passwd %{username} >/dev/null || echo "  Create User %{username}" || useradd -c "%{project_title} User" -g %{username} -s /bin/bash -r -m -d /var/lib/%{username} %{username} 2> /dev/null || :
 
 %prep
-echo -e "\n\n=== prep section ===\n\n"
+echo -e "\n\n=== Prep section %{project_title} version %{daemon_version} Daemon ===\n\n"
 rm -rf %{project_name}
 git clone -b %{daemon_version} %{parent_url}/%{project_name}
 
 %build
-echo -e "\n\n=== build section ===\n\n"
+echo -e "\n\n=== Build section %{project_title} version %{daemon_version} Daemon ===\n\n"
 export GOPATH="${RPM_BUILD_DIR}/go"
 cd %{project_name}
-echo -e "\n\n***** Build %{project_title} Daemon *****\n\n"
+echo -e "\n\n***** Build %{project_title} version %{daemon_version} Daemon *****\n\n"
 make install
-echo -e "\n\n***** Run %{project_title} Daemon Self Test *****\n\n"
+echo -e "\n\n***** Run %{project_title} version %{daemon_version} Daemon Self Test *****\n\n"
 make test || true
 
 %install
-echo -e "\n\n=== install section ===\n\n"
+echo -e "\n\n=== Install section %{project_title} version %{daemon_version} Daemon ===\n\n"
 
 # Make the fixed directory structure
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/%{username}/%{data_directory}/cosmovisor/upgrades/%{upgrade_name}/bin/

@@ -34,6 +34,7 @@ Requires:     osmosisd-v11.0.0
 Requires:     osmosisd-v12.3.0
 Requires:     osmosisd-v13.0.0-rc5
 Requires:     osmosisd-v14.0.0
+Requires:     osmosisd-v15.0.0
 Requires:     cudos-p2p-scan
 Requires:     cudos-gex
 

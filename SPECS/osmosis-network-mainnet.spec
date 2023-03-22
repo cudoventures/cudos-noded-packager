@@ -32,6 +32,7 @@ Requires:     cosmovisor
 Requires:     osmosisd
 Requires:     osmosisd-v12.3.0
 Requires:     osmosisd-v14.0.0
+Requires:     osmosisd-v15.0.0
 Requires:     cudos-p2p-scan
 Requires:     cudos-gex
 

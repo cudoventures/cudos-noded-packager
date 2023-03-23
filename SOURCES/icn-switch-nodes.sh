@@ -129,7 +129,7 @@ else
 	echo -ne "  Info: R mkdir done\n"
 fi
 
-scp -sr  ${LSSH}:${NODE_BASE_DIR}/config/Parked/. ${RSSH}:${NODE_BASE_DIR}/config/Parked-switch/.
+scp -3 -r  ${LSSH}:${NODE_BASE_DIR}/config/Parked/. ${RSSH}:${NODE_BASE_DIR}/config/Parked-switch/.
 RES=$?
 if [[ "$RES" != "0" ]]
 then

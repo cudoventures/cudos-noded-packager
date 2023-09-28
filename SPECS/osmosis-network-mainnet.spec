@@ -60,6 +60,7 @@ mkdir -p ${RPM_BUILD_ROOT}/etc/default
 mkdir -p ${RPM_BUILD_ROOT}/etc/default/cosmovisor@osmosis
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/config
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v12
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v14
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v15
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v16
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/osmosis/.osmosisd/cosmovisor/upgrades/v17

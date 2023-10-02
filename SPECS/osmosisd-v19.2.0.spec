@@ -29,6 +29,8 @@ URL:          https://github.com/osmosis-labs/osmosis
 Provides:     libwasmvm.x86_64.so()(64bit)
 Requires:     osmosisd
 
+Obsoletes:    osmosisd-v19.0.0
+
 %description
 Osmosis Node binary and library
 

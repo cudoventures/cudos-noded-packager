@@ -253,8 +253,8 @@ build_project_from_chain_data()
     osmosis)
       case ${BUILD_VERSION} in
         1[6-9].* )      
-	  export GO_VER="1.20.8"
-	  ;;
+          export GO_VER="1.20.8"
+          ;;
         1[4-5].* )
           export GO_VER="1.19.6"
           ;;

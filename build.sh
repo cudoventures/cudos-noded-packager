@@ -212,7 +212,7 @@ build_project_from_chain_data()
       ;;
     osmosis)
       SYSTEM_VER="19.2.0"
-      COMPATIBLE_VERSIONS="11.0.0 12.3.0 13.0.0-rc5 14.0.0 15.0.0 15.2.0 16.1.0 16.1.2 17.0.0 18.0.0 19.0.0 19.2.0"
+      COMPATIBLE_VERSIONS="11.0.0 12.3.0 13.0.0-rc5 14.0.0 15.2.0 16.1.2 17.0.0 18.0.0 19.2.0"
       ;;
     cosmoshub)
       SYSTEM_VER="9.0.1"

@@ -250,8 +250,8 @@ build_project_from_chain_data()
         1.[01].* )
           export GO_VER="1.18.3"
           ;;
-	1.[2].* )
-	  export GO_VER="1.19.6"
+        1.[2].* )
+          export GO_VER="1.19.6"
           ;;	
       esac
       ;;

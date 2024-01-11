@@ -32,7 +32,7 @@ Requires:     cosmovisor
 Requires:     cudos-noded
 Requires:     cudos-noded-v1.0.1
 Requires:     cudos-noded-v1.1.0
-Requires:     cudos-noded-v1.1.1
+Requires:     cudos-noded-v1.1.2
 Requires:     cudos-p2p-scan
 Requires:     cudos-gex
 

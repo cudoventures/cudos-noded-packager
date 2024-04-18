@@ -207,8 +207,8 @@ build_project_from_chain_data()
   case "$CHAIN_NAME" in
     cudos)
       DAEMON_NAME="cudos-noded"
-      SYSTEM_VER="1.1.5"
-      COMPATIBLE_VERSIONS="0.8.0 0.9.0 1.0.1 1.1.0 1.1.5"
+      SYSTEM_VER="1.2.0"
+      COMPATIBLE_VERSIONS="0.8.0 0.9.0 1.0.1 1.1.0 1.1.5 1.2.0"
       ;;
     osmosis)
       SYSTEM_VER="15.0.0"
@@ -245,7 +245,7 @@ build_project_from_chain_data()
       cudos)
       case ${BUILD_VERSION} in
         [01].* )
-          export GO_VER="1.18.3"
+          export GO_VER="1.19"
           ;;
       esac
       ;;
@@ -344,7 +344,7 @@ create_toml_tarball "mainnet"         "mainnet"
 # Build cosmovisor Project
 #
 export DAEMON_NAME="cosmovisor"
-export SYSTEM_VER="1.1.5"
+export SYSTEM_VER="1.2.0"
 
 run_rpmbuild "1.0.0" "${BUILD_NUMBER}" "${DAEMON_NAME}"
 

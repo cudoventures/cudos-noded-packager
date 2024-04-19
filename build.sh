@@ -265,7 +265,7 @@ build_project_from_chain_data()
     cosmoshub)
       case ${BUILD_VERSION} in
         * )
-          export GO_VER="1.18.3"
+          export GO_VER="1.19"
           ;;
       esac
       ;;

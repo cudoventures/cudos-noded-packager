@@ -346,7 +346,7 @@ create_toml_tarball "mainnet"         "mainnet"
 export DAEMON_NAME="cosmovisor"
 export SYSTEM_VER="1.2.0"
 
-run_rpmbuild "1.0.0" "${BUILD_NUMBER}" "${DAEMON_NAME}"
+run_rpmbuild "1.2.0" "${BUILD_NUMBER}" "${DAEMON_NAME}"
 
 #
 # Build Release package

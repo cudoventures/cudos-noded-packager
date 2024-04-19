@@ -265,7 +265,7 @@ build_project_from_chain_data()
     cosmoshub)
       case ${BUILD_VERSION} in
         * )
-          export GO_VER="1.19"
+          export GO_VER="1.18.3"
           ;;
       esac
       ;;
@@ -346,7 +346,7 @@ create_toml_tarball "mainnet"         "mainnet"
 export DAEMON_NAME="cosmovisor"
 export SYSTEM_VER="1.2.0"
 
-run_rpmbuild "1.2.0" "${BUILD_NUMBER}" "${DAEMON_NAME}"
+run_rpmbuild "1.0.0" "${BUILD_NUMBER}" "${DAEMON_NAME}"
 
 #
 # Build Release package

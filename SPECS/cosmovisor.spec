@@ -35,7 +35,7 @@ Cosmos Cosmovisor
 %build
 echo -e "\n\n=== Build and install cosmovisor ===\n\n"
 export GOPATH="${RPM_BUILD_DIR}/go"
-go install -v github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0
+go install -v github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.2.0
 
 %install
 echo -e "\n\n=== install section ===\n\n"

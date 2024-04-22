@@ -22,7 +22,7 @@
 
 %global daemon_name     cudos-noded
 %global daemon_version  v1.2.2
-%global upgrade_name    v1.2
+%global upgrade_name    v1.2.2
 %global genesis_upgrade v1.1
 
 %global username        cudos

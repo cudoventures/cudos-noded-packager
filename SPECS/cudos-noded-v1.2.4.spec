@@ -22,7 +22,7 @@
 
 %global daemon_name    cudos-noded
 %global daemon_version v1.2.4
-%global upgrade_name   v1.2.5
+%global upgrade_name   v1.2.4
 %global obsoletes      cudos-noded-v1.1.0.1
 %global obsoletes      cudos-noded-v1.1.2
 %global obsoletes      cudos-noded-v1.2.0

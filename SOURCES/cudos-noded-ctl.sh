@@ -92,7 +92,7 @@ set_config_seeds()
     else
         if [[ -f "$1" ]]
         then
-            FARG="` cat $1 `"
+            FARG="$(cat $1 | tr -d '\r')"
         else
             echo "Error: No such file '$FARG'"
             exit 1
@@ -110,7 +110,7 @@ set_config_persistent_peers()
     else
         if [[ -f "$1" ]]
         then
-            FARG="` cat $1 `"
+            FARG="$(cat $1 | tr -d '\r')"
         else
             echo "Error: No such file '$FARG'"
             exit 1

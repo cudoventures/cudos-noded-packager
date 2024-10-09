@@ -38,6 +38,7 @@ Requires:     cudos-noded-v1.1.0
 Requires:     cudos-noded-v1.2.2
 Requires:     cudos-noded-v1.2.3
 Requires:     cudos-noded-v1.2.4
+Requires:     cudos-noded-v9.1.1
 
 %description
 Cudos Public Testnet Network Definition Files

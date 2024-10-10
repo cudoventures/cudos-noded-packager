@@ -43,6 +43,7 @@ Requires:     %{daemon_name}-v1.2.3
 Requires:     %{daemon_name}-v1.2.4
 Requires:     %{daemon_name}-v1.2.5
 Requires:     %{daemon_name}-v1.9.9
+Requires:     %{daemon_name}-v9.1.1
 
 ############################################################
 ######### Do not alter below this line #####################

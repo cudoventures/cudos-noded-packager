@@ -21,8 +21,8 @@
 %global project_name    cudos-node
 
 %global daemon_name     cudos-noded
-%global daemon_version  v1.9.9
-%global upgrade_name    v1.9.9
+%global daemon_version  v9.1.1
+%global upgrade_name    v9.1.1
 %global genesis_upgrade v1.1
 
 %global username        cudos

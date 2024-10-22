@@ -21,8 +21,8 @@
 %global project_name    cudos-node
 
 %global daemon_name     cudos-noded
-%global daemon_version  v1.9.9
-%global upgrade_name    v1.9.9
+%global daemon_version  v9.9.9
+%global upgrade_name    v9.9.9
 %global genesis_upgrade v1.1
 
 %global username        cudos
@@ -43,6 +43,7 @@ Requires:     %{daemon_name}-v1.2.3
 Requires:     %{daemon_name}-v1.2.4
 Requires:     %{daemon_name}-v1.2.5
 Requires:     %{daemon_name}-v1.9.9
+Requires:     %{daemon_name}-v9.9.9
 
 ############################################################
 ######### Do not alter below this line #####################
